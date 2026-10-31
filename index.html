@@ -313,6 +313,47 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .wl .pay{margin-top:4px}
 footer .flinks a{color:inherit;text-decoration:none}
 footer .flinks a:hover{text-decoration:underline}
+/* marquee */
+.marquee{background:var(--volt);color:#000;overflow:hidden;padding:14px 0;border-block:1px solid #000}
+.mq-track{display:flex;width:max-content;animation:mq 32s linear infinite}
+.mq-track span{font-weight:800;font-size:clamp(17px,2.2vw,24px);letter-spacing:-.01em;white-space:pre}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mq-track{animation:none}}
+/* who picker */
+.who .wp{display:flex;flex-direction:column;align-items:flex-start;text-align:left;font:inherit;color:inherit;border:2px solid transparent;cursor:pointer;transition:border-color .15s,transform .15s}
+.who .wp:hover{transform:translateY(-2px)}
+.who .wp:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.who .wp[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--volt)}
+.who .wbtn{margin-top:auto;padding-top:18px;font-size:14px;font-weight:700;color:var(--ink)}
+.who .wbtn::after{content:" →"}
+.who .wp[aria-pressed="true"] .wbtn{color:#000;background:var(--volt);border-radius:999px;padding:6px 12px;margin-top:18px}
+.who .wp[aria-pressed="true"] .wbtn::after{content:" ✓"}
+.whopick{margin-top:16px;background:var(--black);color:var(--white);border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.whopick[hidden]{display:none}
+.who .whopick{margin-top:0}
+.whopick .k{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--volt)}
+.whopick h3{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.whopick p{color:#D2D2D7;max-width:640px}
+.whopick .acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:6px}
+.whopick .acts a{color:#D2D2D7;font-size:15px}
+/* class photo gallery */
+.gal{margin-top:16px}
+.gal-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:24px}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-track:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.gs{flex:0 0 84%;margin:0;scroll-snap-align:start;position:relative;border-radius:24px;overflow:hidden;background:#141416;aspect-ratio:4/3}
+@media (min-width:860px){.gs{flex-basis:calc(50% - 6px)}}
+.gs img{width:100%;height:100%;object-fit:cover;display:block}
+.gs::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 30%,rgba(0,0,0,0) 60%)}
+.gs figcaption{position:absolute;left:20px;right:20px;bottom:18px;z-index:1;display:flex;flex-direction:column;gap:2px}
+.gs figcaption b{font-size:18px;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.gs figcaption span{font-size:14px;color:#D2D2D7}
+.gal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px}
+.gal-b{width:40px;height:40px;border-radius:50%;border:1px solid #3A3A3C;background:transparent;color:#fff;font-size:22px;line-height:1;cursor:pointer}
+.gal-b:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.gal-dots{display:flex;gap:6px;align-items:center}
+.gal-dots i{width:8px;height:8px;border-radius:4px;background:#3A3A3C;transition:width .2s,background .2s}
+.gal-dots i.on{background:var(--volt);width:22px}
 </style>
 </head>
 <body>
@@ -351,6 +392,8 @@ footer .flinks a:hover{text-decoration:underline}
     </div>
   </div>
 </header>
+
+<div class="marquee" aria-hidden="true"><div class="mq-track"><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span></div></div>
 
 <section class="pain">
   <div class="wrap">
@@ -463,7 +506,15 @@ footer .flinks a:hover{text-decoration:underline}
       <div class="kpi"><p class="big grad">4 / 10</p><p class="l" data-en="students from class one came back for class two">peserta kelas pertama datang balik kelas kedua</p></div>
       <div class="kpi"><p class="big grad">25–50</p><p class="l" data-en="age range. Not just for athletes.">umur peserta. Bukan untuk atlet je.</p></div>
     </div>
-    <div class="classpics"><div class="classpic" role="img" aria-label="Coach Abang Dollah mengajar kelas fizikal SihatLab"><span data-en="In-person class, May 2026">Kelas fizikal, Mei 2026</span></div><div class="classpic b" role="img" aria-label="Peserta tengok dan pegang kasut lari sambil coach terangkan"><span data-en="Shoe class: see them up close">Kelas kasut: tengok dan pegang sendiri</span></div></div>
+    <div class="gal" aria-label="Gambar kelas / Class photos">
+      <div class="gal-track" id="galtrack" tabindex="0">
+      <figure class="gs"><img src="class.jpg" alt="Coach Aidy mengajar strength untuk pelari dalam kelas fizikal SihatLab" loading="lazy" style="object-position:center 58%"><figcaption><b data-en="Strength for runners">Strength untuk pelari</b><span data-en="Coach Aidy (NSCA) · in-person class, 24 May 2026">Coach Aidy (NSCA) · kelas fizikal, 24 Mei 2026</span></figcaption></figure>
+      <figure class="gs"><img src="class2.jpg" alt="Peserta tengok dan pegang kasut lari atas meja" loading="lazy" style="object-position:center 45%"><figcaption><b data-en="Shoe class">Kelas kasut</b><span data-en="See and hold them before you buy">Tengok dan pegang sendiri sebelum beli</span></figcaption></figure>
+      <figure class="gs"><img src="finish.jpg" alt="Coach Abang Dollah menulis pelan latihan atas papan" loading="lazy" style="object-position:center 20%"><figcaption><b data-en="On the board">Atas papan</b><span data-en="Coach Abang Dollah walking through the plan">Coach Abang Dollah terangkan pelan latihan</span></figcaption></figure>
+      <figure class="gs"><img src="group2.jpg" alt="Peserta kelas SihatLab bergambar bersama" loading="lazy" style="object-position:center 22%"><figcaption><b data-en="After class">Lepas kelas</b><span data-en="In-person students, May 2026">Peserta kelas fizikal, Mei 2026</span></figcaption></figure>
+      </div>
+      <div class="gal-nav"><button type="button" class="gal-b" data-gd="-1" aria-label="Sebelum / Previous">‹</button><div class="gal-dots" id="galdots"><i></i><i></i><i></i><i></i></div><button type="button" class="gal-b" data-gd="1" aria-label="Seterusnya / Next">›</button></div>
+    </div>
     <div class="quotes">
       <div class="q"><blockquote>“I got to know how I can improve my endurance using MAF. So that I can plan my training.”</blockquote><cite>Husna, 29</cite></div>
       <div class="q"><blockquote>“The knowledge and explanations! Very well explained.”</blockquote><cite data-en="Amira, 33 · came twice">Amira, 33 · datang dua kali</cite></div>
@@ -478,14 +529,16 @@ footer .flinks a:hover{text-decoration:underline}
 
 <section class="mist">
   <div class="wrap">
-    <p class="eyebrow" data-en="Who it’s for">Untuk siapa</p>
+    <p class="eyebrow" data-en="Which one are you?">Kau yang mana?</p>
     <h2 style="margin-top:12px" data-en="You don’t need to be an athlete.">Tak perlu jadi atlet.</h2>
+    <p class="lead" style="margin-top:16px" data-en="Tap the one that sounds most like you.">Tekan kad yang paling kena dengan kau.</p>
     <div class="who">
-      <div class="card"><p class="num">01</p><h3 data-en="Never run before">Tak pernah lari</h3><p data-en="Chapter 0 starts with brisk walking, then run-walk.">Bab 0 start dengan jalan laju, lepas tu lari-jalan.</p></div>
-      <div class="card"><p class="num">02</p><h3 data-en="Always getting injured">Selalu cedera</h3><p data-en="Knees, shins, ankles. We find the cause and fix it.">Lutut, shin, buku lali. Kita cari punca dan betulkan.</p></div>
-      <div class="card"><p class="num">03</p><h3 data-en="Want to lose weight">Nak turun berat</h3><p data-en="Run in low heart rate zones, consistently every week.">Lari zon heart rate rendah, konsisten tiap minggu.</p></div>
-      <div class="card"><p class="num">04</p><h3 data-en="Chasing your first 5K">Nak 5KM pertama</h3><p data-en="A 12-week plan with a test at the start and the end.">Pelan 12 minggu, ada ujian awal dan akhir.</p></div>
+      <button type="button" class="card wp" data-who="0" aria-pressed="false"><p class="num">01</p><h3 data-en="Never run before">Tak pernah lari</h3><p data-en="Chapter 0 starts with brisk walking, then run-walk.">Bab 0 start dengan jalan laju, lepas tu lari-jalan.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
+      <button type="button" class="card wp" data-who="1" aria-pressed="false"><p class="num">02</p><h3 data-en="Always getting injured">Selalu cedera</h3><p data-en="Knees, shins, ankles. We find the cause and fix it.">Lutut, shin, buku lali. Kita cari punca dan betulkan.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
+      <button type="button" class="card wp" data-who="2" aria-pressed="false"><p class="num">03</p><h3 data-en="Want to lose weight">Nak turun berat</h3><p data-en="Run in low heart rate zones, consistently every week.">Lari zon heart rate rendah, konsisten tiap minggu.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
+      <button type="button" class="card wp" data-who="3" aria-pressed="false"><p class="num">04</p><h3 data-en="Chasing your first 5K">Nak 5KM pertama</h3><p data-en="A 12-week plan with a test at the start and the end.">Pelan 12 minggu, ada ujian awal dan akhir.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
     </div>
+    <div class="whopick" id="whopick" hidden aria-live="polite"></div>
     <div class="band" style="margin-top:20px" role="img" aria-label="Peserta kelas SihatLab bergambar bersama coach">
       <div><h3 data-en="Track progress. Don’t guess.">Ukur progress, jangan teka.</h3><p data-en="Bundle students test in week 1 and again in week 12, long enough to see real change. Results go into your own tracker.">Peserta bundle buat ujian minggu 1 dan ulang minggu 12, cukup lama untuk nampak hasil betul. Result masuk dalam tracker korang sendiri.</p></div>
     </div>
@@ -682,6 +735,7 @@ footer .flinks a:hover{text-decoration:underline}
     T[L].babs.forEach(function(b,n){var o=document.createElement('option');o.value=n;o.textContent=T[L].bab(n,b);sel.appendChild(o);});
     sel.value=String(bab);
     render();
+    if(typeof renderWho==='function'&&pick)renderWho();
     try{localStorage.setItem('sihatlab-lang',L);}catch(e){}
   }
   document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
@@ -710,7 +764,7 @@ footer .flinks a:hover{text-decoration:underline}
     if(v)wsel.value=v;
   }
   function openWl(which){
-    wsel.value=which==='coach'?'coach':(k==='bundle'?'bundle':'bab'+bab);
+    wsel.value=/^(bab\d|bundle|coach)$/.test(which)?which:(k==='bundle'?'bundle':'bab'+bab);
     if(club&&k==='bundle')wf.kod.value=club;
     wbody.hidden=false; wdone.hidden=true; wmsg.textContent='';
     if(dlg.showModal)dlg.showModal(); else dlg.setAttribute('open','');
@@ -734,6 +788,46 @@ footer .flinks a:hover{text-decoration:underline}
     }).catch(function(){wmsg.textContent=W[L].fail;}).then(function(){btn.disabled=false;});
   });
 
+
+
+  // "Which one are you?" picker
+  var WHO={ms:[
+    ['Mula dengan Bab 0','Kelas pertama khas untuk yang tak pernah lari: saringan kesihatan, mitos, dan pelan dari jalan laju ke lari 30 minit. Cuba walk-in dulu (RM39, Ahad 22 Nov). Suka? Upgrade ke bundle, RM39 tu ditolak.','Simpan tempat Bab 0','bab0'],
+    ['Ambil bundle 8 kelas','Cedera selalunya datang dari naik jarak atau masa terlalu cepat. Bab 5 ajar susun minggu latihan, Bab 7 ajar kenal tanda awal injury dan strength asas. Dua-dua perlukan pelan, bukan satu kelas je.','Simpan tempat bundle','bundle'],
+    ['Ambil bundle 8 kelas','Bab 2 ajar lari dalam zon heart rate rendah, Bab 6 pasal makan untuk lari. Yang paling penting ialah konsisten setiap minggu, dan bundle bagi korang 8 kelas dengan group.','Simpan tempat bundle','bundle'],
+    ['Ambil bundle 8 kelas','Bab 0 sampai Bab 7, dengan ujian minggu 1 dan minggu 12 supaya korang nampak progress sendiri. Buat kerja tapi tak improve? Duit balik 100%.','Simpan tempat bundle','bundle']],
+   en:[
+    ['Start with Chapter 0','The first class is built for people who have never run: health screening, myths, and a plan from brisk walking to running 30 minutes. Try a walk-in first (RM39, Sunday 22 Nov). Like it? Upgrade to the bundle and your RM39 comes off.','Save my Chapter 0 spot','bab0'],
+    ['Take the 8-class bundle','Injuries usually come from adding distance or time too quickly. Chapter 5 shows you how to plan your training week, Chapter 7 covers early injury signs and basic strength. Both need a plan, not just one class.','Save my bundle spot','bundle'],
+    ['Take the 8-class bundle','Chapter 2 is about running in low heart rate zones, Chapter 6 is about eating for running. What matters most is showing up every week, and the bundle gives you 8 classes with a group.','Save my bundle spot','bundle'],
+    ['Take the 8-class bundle','Chapters 0 to 7, with tests in week 1 and week 12 so you can see your own progress. Do the work and don’t improve? 100% of your money back.','Save my bundle spot','bundle']]};
+  var who=-1, pick=document.getElementById('whopick');
+  function renderWho(){
+    if(who<0){pick.hidden=true;return;}
+    var d=WHO[L][who];
+    pick.innerHTML='<p class="k">'+(L==='en'?'For you':'Untuk korang')+'</p><h3></h3><p></p><div class="acts"><button type="button" class="btn btn-v" data-wl="'+d[3]+'"></button><a href="#harga">'+(L==='en'?'See prices':'Tengok harga')+'</a></div>';
+    pick.querySelector('h3').textContent=d[0]; pick.querySelector('p:not(.k)').textContent=d[1]; pick.querySelector('button').textContent=d[2];
+    pick.querySelector('[data-wl]').addEventListener('click',function(){openWl(d[3]);});
+    pick.hidden=false;
+  }
+  document.querySelectorAll('.who .wp').forEach(function(b){b.addEventListener('click',function(){
+    who=+b.dataset.who;
+    var grid=document.querySelector('.who');
+    if(window.matchMedia&&matchMedia('(max-width:480px)').matches)b.after(pick); else grid.after(pick);
+    document.querySelectorAll('.who .wp').forEach(function(x){x.setAttribute('aria-pressed',x===b);});
+    renderWho();
+    var r=pick.getBoundingClientRect();
+    if(r.bottom>innerHeight||r.top<0){var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;pick.scrollIntoView({behavior:rm?'auto':'smooth',block:'nearest'});}
+  });});
+
+  // class photo gallery
+  var gt=document.getElementById('galtrack'), gd=[].slice.call(document.querySelectorAll('#galdots i'));
+  function gStep(){var f=gt.querySelector('.gs');return f?f.getBoundingClientRect().width+12:1;}
+  function gSync(){var i=Math.round(gt.scrollLeft/gStep());gd.forEach(function(d,j){d.classList.toggle('on',j===Math.min(i,gd.length-1));});}
+  gt.addEventListener('scroll',function(){window.requestAnimationFrame(gSync);},{passive:true});
+  document.querySelectorAll('.gal-b').forEach(function(b){b.addEventListener('click',function(){gt.scrollBy({left:+b.dataset.gd*gStep(),behavior:'smooth'});});});
+  gt.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();gt.scrollBy({left:(e.key==='ArrowRight'?1:-1)*gStep(),behavior:'smooth'});}});
+  gSync();
 
   var start='ms';
   try{
