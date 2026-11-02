@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kalkulator lari · VDOT dan zon heart rate · SihatLab</title>
+<meta name="description" content="Kira VDOT, pace latihan, ramalan masa race dan zon heart rate kau. Percuma dari SihatLab.">
+<meta property="og:title" content="Kalkulator lari SihatLab: VDOT dan zon heart rate">
+<meta property="og:description" content="Masukkan result race untuk pace latihan, atau umur untuk zon heart rate.">
+<meta property="og:image" content="hero.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--black:#000;--ink:#1D1D1F;--grey:#6E6E73;--muted:#86868B;--line:#E5E5EA;--mist:#F5F5F7;--white:#fff;--soft:#A1A1A6;--volt:#C8F31D;--red:#FF3B30;--yellow:#FFD60A;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--mist);color:var(--ink);font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:920px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+nav img{height:24px;display:block}
+.navr{display:flex;align-items:center;gap:10px}
+.lang{display:inline-flex;background:var(--mist);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;font:600 13px Inter,sans-serif;color:var(--grey);padding:6px 11px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:12px 20px;font:600 15px Inter,sans-serif;text-decoration:none;border:0;cursor:pointer}
+.btn-v{background:var(--volt);color:#000}
+.btn-s{padding:8px 16px;font-size:14px}
+.hero{background:var(--black);color:#fff;padding:56px 0 40px}
+.hero h1{font-size:clamp(36px,7vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1.02}
+.hero p{color:var(--soft);margin-top:14px;max-width:560px;font-size:clamp(16px,2vw,19px)}
+.jump{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.jump a{color:#000;background:var(--volt);border-radius:999px;padding:9px 16px;font-weight:700;font-size:14px;text-decoration:none}
+.jump a.o{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px #3A3A3C}
+section{padding:40px 0 8px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+h2{font-size:clamp(28px,4.4vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin-top:8px}
+.lead{color:var(--grey);margin-top:10px;max-width:640px}
+.card{background:#fff;border-radius:24px;padding:22px;margin-top:18px}
+.lbl{font-weight:700;font-size:14px;margin:16px 0 6px}
+.lbl:first-child{margin-top:0}
+.note{font-size:13px;color:var(--grey);margin-top:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{flex:1 1 auto;padding:10px 12px;border-radius:12px;border:0;background:var(--mist);font:700 14px Inter,sans-serif;color:var(--ink);cursor:pointer;white-space:nowrap}
+.seg button.sel{background:var(--ink);color:var(--volt)}
+.seg button:focus-visible,input:focus-visible,select:focus-visible,.btn:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--grey)}
+input,select{width:100%;padding:12px 14px;border-radius:14px;border:1px solid #D2D2D7;background:#fff;color:var(--ink);font:500 18px Inter,sans-serif}
+select{appearance:none;-webkit-appearance:none;font-size:16px;padding-right:36px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236E6E73' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") right 14px center/12px no-repeat}
+.time{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:end;gap:6px}
+.time span{padding-bottom:12px;font-weight:700;color:var(--muted)}
+.big{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;background:#000;color:#fff;border-radius:18px;padding:16px 18px;margin:18px 0 6px}
+.big b{font-size:44px;line-height:1;font-weight:800;letter-spacing:-.03em;color:var(--volt)}
+.big span{color:var(--soft);font-size:14px}
+.row{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.tag{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.row .nm{display:block;font-weight:700}
+.row .ds{font-size:13px;color:var(--grey)}
+.row .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.row .v small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.t1{background:#E5E5EA}.t2{background:var(--volt)}.t3{background:var(--yellow)}.t4{background:#FF9F0A}.t5{background:var(--red);color:#fff}
+.row.hl{background:#F7FDE3;margin:0 -10px;padding:11px 10px;border-radius:12px;border-bottom:0}
+.preds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.preds div{background:var(--mist);border-radius:14px;padding:12px;text-align:center}
+.preds b{display:block;font-size:18px;font-variant-numeric:tabular-nums}
+.preds span{font-size:12px;color:var(--grey)}
+@media (max-width:520px){.preds{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.alert{background:#FFF1F0;color:#A0150C;border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:12px}
+.empty{color:var(--grey);font-size:14px;margin-top:16px}
+details{background:#fff;border-radius:20px;margin-top:10px}
+summary{list-style:none;cursor:pointer;padding:16px 18px;font-weight:700;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:22px;line-height:1;color:var(--muted)}
+details[open] summary::after{content:"−"}
+details .in{padding:0 18px 16px}
+details ol{padding-left:20px;margin:0 0 10px}details li{margin-bottom:6px}
+.cta{background:#000;color:#fff;border-radius:28px;padding:28px;margin:40px 0 0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.cta h3{font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15}
+.cta p{color:#D2D2D7}
+footer{color:var(--muted);font-size:13px;padding:32px 0 40px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a href="index.html" aria-label="SihatLab"><img src="logo-dark.png" alt="SihatLab"></a>
+  <div class="navr">
+    <div class="lang" role="group" aria-label="Bahasa / Language"><button type="button" data-l="ms" aria-pressed="true">BM</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+    <a class="btn btn-v btn-s" href="index.html#harga" id="navcta">Daftar</a>
+  </div>
+</div></nav>
+<main id="app"></main>
+<footer><div class="wrap"><a href="index.html">sihatlab.com.my</a><span>© 2026 SIHAT LAB SERVICE (TR0352367-D)</span></div></footer>
+
+<script>
+"use strict";
+(function () {
+  var KEY = "sihatlab-calc";
+  var S = { lang: "ms", d: "5000", h: "", m: "21", s: "00", hr: { age: "", rest: "", own: "", f: "220", adj: 0, wx: 0, m: "pct" } };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) { S = Object.assign(S, saved); S.hr = Object.assign({ age: "", rest: "", own: "", f: "220", adj: 0, wx: 0, m: "pct" }, saved.hr || {}); } } catch (e) {}
+  try { var q = new URLSearchParams(location.search).get("lang"); S.lang = q || localStorage.getItem("sihatlab-lang") || S.lang; } catch (e) {}
+  S.lang = S.lang === "en" ? "en" : "ms";
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem("sihatlab-lang", S.lang); } catch (e) {} }
+  var L = function (en, ms) { return S.lang === "en" ? en : ms; };
+  var esc = function (x) { return String(x == null ? "" : x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+
+  /* ---------- VDOT (Jack Daniels & Gilbert) ---------- */
+  function vo2(v) { return -4.6 + 0.182258 * v + 0.000104 * v * v; }                     // v in m/min
+  function pctMax(t) { return 0.8 + 0.1894393 * Math.exp(-0.012778 * t) + 0.2989558 * Math.exp(-0.1932605 * t); } // t in min
+  function vdotOf(d, t) { return vo2(d / t) / pctMax(t); }
+  function velAt(vo) { var c = vo + 4.6; return (-0.182258 + Math.sqrt(0.182258 * 0.182258 + 4 * 0.000104 * c)) / (2 * 0.000104); }
+  function predict(vdot, d) { var lo = 1, hi = 600; for (var i = 0; i < 60; i++) { var mid = (lo + hi) / 2; if (vdotOf(d, mid) > vdot) lo = mid; else hi = mid; } return (lo + hi) / 2; }
+  function paceKm(v) { var sec = Math.round(60000 / v); return Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0"); }
+  function fmtT(min) { var s = Math.round(min * 60), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = s % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(ss).padStart(2, "0"); }
+  function vdotNums() {
+    var d = +S.d, t = (+S.h || 0) * 60 + (+S.m || 0) + (+S.s || 0) / 60;
+    if (!d || !t) return null;
+    var v = vdotOf(d, t);
+    if (!(v >= 20 && v <= 85)) return { bad: true };
+    var pace = function (p) { return paceKm(velAt(p * v)); };
+    return { v: v, E: [pace(0.645), pace(0.70)], M: paceKm(42195 / predict(v, 42195)), T: pace(0.88), I: pace(0.975), R: pace(1.05),
+      pred: [[5000, "5K"], [10000, "10K"], [21097.5, L("Half", "Half")], [42195, L("Full", "Full")]].map(function (x) { return [x[1], fmtT(predict(v, x[0]))]; }) };
+  }
+  function vdotOut() {
+    var r = vdotNums();
+    if (!r) return '<p class="empty">' + L("Enter your distance and time and your paces appear.", "Isi jarak dan masa, pace keluar sendiri.") + "</p>";
+    if (r.bad) return '<p class="alert">' + L("That time looks off for this distance. Check the hours, minutes and seconds.", "Masa tu nampak pelik untuk jarak ni. Semak jam, minit dan saat.") + "</p>";
+    var rows = [
+      ["E", "t2", L("Easy", "Easy"), L("Most of your running. You can chat.", "Kebanyakan larian. Boleh berbual."), r.E[1] + "–" + r.E[0], true],
+      ["M", "t3", L("Marathon", "Marathon"), L("Steady long efforts, race pace for the full.", "Larian panjang stabil, pace full marathon."), r.M],
+      ["T", "t4", L("Threshold", "Threshold"), L("Comfortably hard, 20–40 min tempo.", "Selesa tapi susah, tempo 20–40 minit."), r.T],
+      ["I", "t5", L("Interval", "Interval"), L("Hard reps of 3–5 min, equal jog rest.", "Ulangan keras 3–5 minit, rehat jog sama lama."), r.I],
+      ["R", "t5", L("Repetition", "Repetition"), L("Short fast reps (200–400 m), full rest.", "Ulangan pendek laju (200–400 m), rehat penuh."), r.R]];
+    return '<div class="big"><span>VDOT</span><b>' + r.v.toFixed(1) + "</b><span>" + L("your current fitness", "fitness kau sekarang") + "</span></div>" +
+      '<p class="lbl">' + L("Training paces (per km)", "Pace latihan (per km)") + "</p>" +
+      rows.map(function (x) { return '<div class="row' + (x[5] ? " hl" : "") + '"><span class="tag ' + x[1] + '">' + x[0] + '</span><span><span class="nm">' + x[2] + '</span><span class="ds">' + x[3] + '</span></span><span class="v">' + x[4] + "<small>/km</small></span></div>"; }).join("") +
+      '<p class="lbl">' + L("Race predictions", "Ramalan masa race") + '</p><div class="preds">' + r.pred.map(function (p) { return "<div><b>" + p[1] + "</b><span>" + p[0] + "</span></div>"; }).join("") + "</div>" +
+      '<p class="note">' + L("Predictions assume you've trained for that distance. For half and full you also need the long runs.", "Ramalan ni anggap kau dah latih untuk jarak tu. Untuk half dan full, kena ada long run sekali.") + "</p>";
+  }
+  function vdotCard() {
+    var opts = [["1609", L("1 mile (1.6 km)", "1 batu (1.6 km)")], ["3000", "3 km"], ["5000", "5 km"], ["10000", "10 km"], ["21097.5", L("Half marathon (21.1 km)", "Half marathon (21.1 km)")], ["42195", L("Full marathon (42.2 km)", "Full marathon (42.2 km)")]];
+    return '<div class="card"><p class="lbl">' + L("Race or test distance", "Jarak race atau ujian") + '</p><select id="vd">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (S.d === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") + "</select>" +
+      '<p class="lbl">' + L("Your time", "Masa kau") + '</p><div class="time">' +
+      '<label style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:13px;color:var(--grey)">' + L("Hours", "Jam") + '</span><input id="vh" inputmode="numeric" placeholder="0" value="' + esc(S.h) + '"></label><span>:</span>' +
+      '<label style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:13px;color:var(--grey)">' + L("Min", "Minit") + '</span><input id="vm" inputmode="numeric" placeholder="21" value="' + esc(S.m) + '"></label><span>:</span>' +
+      '<label style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:13px;color:var(--grey)">' + L("Sec", "Saat") + '</span><input id="vs" inputmode="numeric" placeholder="00" value="' + esc(S.s) + '"></label></div>' +
+      '<p class="note">' + L("Use a race or an all-out time trial from the last 6 weeks.", "Guna result race atau time trial sekuat hati dalam 6 minggu terakhir.") + '</p><div id="vout">' + vdotOut() + "</div></div>";
+  }
+
+  /* ---------- Heart rate zones (same maths as the Mula Lari app) ---------- */
+  var HRZ = [["Recovery", "Can sing", "Boleh menyanyi"], ["Aerobic base", "Full sentences", "Ayat penuh"], ["Tempo", "Short sentences", "Ayat pendek"], ["Threshold", "2–3 words", "2–3 perkataan"], ["VO2max", "Can't talk", "Tak boleh cakap"]];
+  function hrNums() {
+    var h = S.hr, age = parseInt(h.age, 10), max = null, rest = null;
+    if (h.f === "own") { var m = parseInt(h.own, 10); if (m >= 120 && m <= 230) max = m; }
+    else if (age >= 10 && age <= 90) max = h.f === "tanaka" ? Math.round(208 - 0.7 * age) : 220 - age;
+    if (!max) return null;
+    if (h.m === "karv") { rest = parseInt(h.rest, 10); if (!(rest >= 30 && rest <= 110 && rest < max)) return { max: max, needRest: true }; }
+    var off = (+h.adj || 0) + (+h.wx || 0), P = [0.5, 0.6, 0.7, 0.8, 0.9, 1];
+    var at = function (p) { return Math.round(h.m === "karv" ? rest + p * (max - rest) : p * max) + off; };
+    return { max: max, rest: rest, off: off, zones: [0, 1, 2, 3, 4].map(function (i) { return [at(P[i]), at(P[i + 1])]; }) };
+  }
+  function seg(k, v, label) { return '<button type="button" data-hk="' + k + '" data-hv="' + v + '" class="' + (String(S.hr[k]) === String(v) ? "sel" : "") + '">' + label + "</button>"; }
+  function hrOut() {
+    var r = hrNums(), h = S.hr;
+    if (!r) return '<p class="empty">' + (h.f === "own" ? L("Enter your max HR (120–230) and your zones appear.", "Isi HR max kau (120–230), zon keluar sendiri.") : L("Enter your age and your zones appear.", "Isi umur, zon keluar sendiri.")) + "</p>";
+    if (r.needRest) return '<p class="empty">' + L("Karvonen needs your resting HR. See how to measure it below.", "Karvonen perlukan HR rehat. Cara ukur ada kat bawah.") + "</p>";
+    var sg = function (n) { return (n > 0 ? "+" : "−") + Math.abs(n); };
+    return '<div class="big"><span>HR max</span><b>' + r.max + "</b><span>bpm" + (r.rest ? " · " + L("resting", "rehat") + " " + r.rest : "") + (r.off ? " · " + L("zones", "zon") + " " + sg(r.off) : "") + "</span></div>" +
+      r.zones.map(function (z, i) { return '<div class="row' + (i === 1 ? " hl" : "") + '"><span class="tag t' + (i + 1) + '">Z' + (i + 1) + '</span><span><span class="nm">' + HRZ[i][0] + '</span><span class="ds">' + L(HRZ[i][1], HRZ[i][2]) + (i === 1 ? " · " + L("most of your runs", "kebanyakan larian") : "") + '</span></span><span class="v">' + z[0] + "–" + z[1] + "<small>bpm</small></span></div>"; }).join("") +
+      '<p class="note">' + L("Formulas can be off by ±10 bpm. If the number and the talk test disagree, trust the talk test.", "Formula boleh tersasar ±10 bpm. Kalau nombor dan talk test tak sama, ikut talk test.") + "</p>";
+  }
+  function hrCard() {
+    var h = S.hr;
+    return '<div class="card" id="hrcard"><p class="lbl">' + L("Method", "Kaedah") + '</p><div class="seg">' + seg("m", "pct", L("% of max HR", "% HR max")) + seg("m", "karv", "Karvonen") + "</div>" +
+      '<p class="note">' + (h.m === "karv" ? L("Karvonen uses your resting HR too: rest + % × (max − rest).", "Karvonen guna HR rehat sekali: rehat + % × (max − rehat).") : L("Each zone is a % of your max HR (50–100%).", "Setiap zon ialah % dari HR max (50–100%).")) + "</p>" +
+      '<p class="lbl">HR max</p><div class="seg">' + seg("f", "220", "220 − " + L("age", "umur")) + seg("f", "tanaka", "208 − 0.7 × " + L("age", "umur")) + seg("f", "own", L("I know mine", "Dah tahu")) + "</div>" +
+      '<p class="note">' + L("208 − 0.7 × age is more accurate (we use it in class). 220 − age is easier but can be off by ±10.", "208 − 0.7 × umur lebih tepat (ni yang kelas guna). 220 − umur senang kira, tapi boleh tersasar ±10.") + "</p>" +
+      '<div class="fields" style="margin-top:12px">' + (h.f !== "own" ? '<label>' + L("Age", "Umur") + '<input data-hf="age" inputmode="numeric" placeholder="30" value="' + esc(h.age) + '"></label>' : '<label>' + L("Max HR (bpm)", "HR max (bpm)") + '<input data-hf="own" inputmode="numeric" placeholder="187" value="' + esc(h.own) + '"></label>') +
+      (h.m === "karv" ? '<label>' + L("Resting HR (bpm)", "HR rehat (bpm)") + '<input data-hf="rest" inputmode="numeric" placeholder="65" value="' + esc(h.rest) + '"></label>' : "") + "</div>" +
+      '<p class="lbl">' + L("Adjust", "Pelarasan") + '</p><div class="seg">' + [-10, -5, 0, 5, 10].map(function (x) { return seg("adj", x, x ? (x > 0 ? "+" : "−") + Math.abs(x) : "0"); }).join("") + "</div>" +
+      '<p class="note">' + L("−5 if you're new, just back from injury or often sore. +5 if you've run consistently for 2+ years without injury.", "−5 kalau baru mula, baru sembuh injury atau kerap sakit. +5 kalau dah lari konsisten lebih 2 tahun tanpa injury.") + "</p>" +
+      '<p class="lbl">' + L("Weather", "Cuaca") + '</p><div class="seg">' + seg("wx", 0, L("Normal", "Biasa")) + seg("wx", -5, L("Hot −5", "Panas −5")) + seg("wx", 5, L("Cool +5", "Sejuk +5")) + "</div>" +
+      '<p class="note">' + L("On hot, humid days your body already works harder to cool down, so we lower the targets by 5. On a cool morning you can add 5.", "Hari panas dan lembap, badan dah kerja lebih untuk sejukkan diri, jadi sasaran diturunkan 5. Pagi yang sejuk boleh tambah 5.") + "</p>" +
+      '<div id="hrout">' + hrOut() + "</div></div>";
+  }
+  function guides() {
+    return '<details><summary>' + L("How to measure your resting HR", "Cara ukur HR rehat") + '</summary><div class="in"><ol>' +
+      "<li>" + L("In the morning, right after you wake up, before you get out of bed.", "Pagi, lepas bangun tidur, sebelum turun katil.") + "</li>" +
+      "<li>" + L("Put 2 fingers (not your thumb) on your wrist below the thumb, or on the side of your neck under the jaw.", "Letak 2 jari (bukan ibu jari) kat pergelangan tangan bawah ibu jari, atau tepi leher bawah rahang.") + "</li>" +
+      "<li>" + L("Count the beats for 60 seconds, or 30 seconds and double it.", "Kira denyutan 60 saat, atau 30 saat darab 2.") + "</li>" +
+      "<li>" + L("Do it 3 mornings in a row and take the average. Smartwatch? Look for “Resting heart rate”.", "Buat 3 pagi berturut-turut, ambil purata. Ada jam pintar? Tengok “Resting heart rate”.") + "</li></ol>" +
+      '<p class="note" style="margin:0">' + L("Resting HR 5–10 above your normal? Could be poor sleep, stress or a cold coming. Take an easy day.", "HR rehat naik 5–10 dari biasa? Mungkin kurang tidur, stres atau nak demam. Ambil hari ringan.") + "</p></div></details>" +
+      '<details><summary>' + L("How to find your max HR", "Cara cari HR max") + '</summary><div class="in">' +
+      "<p><b>" + L("New to running?", "Baru mula lari?") + "</b> " + L("Use the formula. No test needed.", "Guna formula je. Tak perlu test.") + "</p>" +
+      '<p style="margin-top:8px"><b>' + L("Want it more accurate?", "Nak lebih tepat?") + "</b> " + L("Only if you're used to running fast, healthy, and passed the health screening:", "Hanya kalau dah biasa lari laju, sihat, dan lulus saringan kesihatan:") + "</p><ol style=\"margin-top:8px\">" +
+      "<li>" + L("Warm up with 15 minutes of easy jogging.", "Panaskan badan 15 minit jog perlahan.") + "</li>" +
+      "<li>" + L("Run up a hill for 2–3 minutes as hard as you safely can, jog back down, 3 times. Or 3 × 800 m fast with 2–3 min jog between.", "Lari naik bukit 2–3 minit sekuat yang selamat, jog turun, 3 kali. Atau 3 × 800 m laju, rehat jog 2–3 minit.") + "</li>" +
+      "<li>" + L("The highest HR on the last rep is close to your max. A chest strap is more accurate. Bring a friend.", "HR paling tinggi pada ulangan terakhir hampir sama dengan HR max kau. Chest strap lagi tepat. Bawa kawan.") + "</li></ol>" +
+      '<p class="alert">' + L("Don't do the test if you have chest pain, a heart condition, uncontrolled high blood pressure, or BMI 30+. Stop straight away if you feel dizzy or get chest pain.", "Jangan buat test ni kalau ada sakit dada, masalah jantung, darah tinggi tak terkawal, atau BMI 30+. Berhenti terus kalau pening atau sakit dada.") + "</p></div></details>";
+  }
+
+  /* ---------- page ---------- */
+  function render() {
+    document.documentElement.lang = S.lang;
+    document.title = L("Running calculators · VDOT and heart rate zones · SihatLab", "Kalkulator lari · VDOT dan zon heart rate · SihatLab");
+    document.getElementById("navcta").textContent = L("Sign up", "Daftar");
+    document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.l === S.lang); });
+    document.getElementById("app").innerHTML =
+      '<header class="hero"><div class="wrap"><p class="eyebrow" style="color:var(--volt)">' + L("Free from SihatLab", "Percuma dari SihatLab") + "</p><h1>" + L("Running calculators", "Kalkulator lari") + "</h1><p>" +
+      L("Work out your VDOT, training paces and race predictions from one result. Or your heart rate zones from your age.", "Kira VDOT, pace latihan dan ramalan race dari satu result. Atau zon heart rate dari umur kau.") +
+      '</p><div class="jump"><a href="#vdot">VDOT</a><a href="#hr" class="o">' + L("Heart rate zones", "Zon heart rate") + "</a></div></div></header>" +
+      '<section id="vdot"><div class="wrap"><p class="eyebrow">' + L("Chapter 4 · Pace", "Bab 4 · Pace") + "</p><h2>" + L("VDOT and training paces", "VDOT dan pace latihan") + '</h2><p class="lead">' +
+      L("VDOT, from coach Jack Daniels, turns one race result into one number for your current fitness, then gives you a pace for each type of run. Train at your current fitness, not your dream pace.", "VDOT dari jurulatih Jack Daniels tukar satu result race jadi satu nombor untuk fitness kau sekarang, lepas tu bagi pace untuk setiap jenis larian. Latih ikut fitness sekarang, bukan pace impian.") +
+      '</p><p class="note">' + L("New to running? You don't need VDOT yet. The talk test and heart rate are enough.", "Baru mula lari? Belum perlu VDOT. Talk test dan heart rate dah cukup.") + "</p>" + vdotCard() + "</div></section>" +
+      '<section id="hr"><div class="wrap"><p class="eyebrow">' + L("Chapter 2 · Heart rate", "Bab 2 · Heart rate") + "</p><h2>" + L("Heart rate zones", "Zon heart rate") + '</h2><p class="lead">' +
+      L("Five zones, each with a job. Most of your running should sit in Zone 2, where you can still talk in full sentences.", "Lima zon, setiap satu ada tugas. Kebanyakan larian patut dalam Zon 2, masih boleh bercakap ayat penuh.") + "</p>" + hrCard() + guides() + "</div></section>" +
+      '<section><div class="wrap"><div class="cta"><h3>' + L("Want to know how to use these numbers?", "Nak tahu cara guna nombor ni?") + "</h3><p>" +
+      L("Chapter 2 covers heart rate, Chapter 4 covers pace and VDOT. Live every Sunday at 9pm, starting 22 Nov.", "Bab 2 pasal heart rate, Bab 4 pasal pace dan VDOT. Live setiap Ahad 9 malam, mula 22 Nov.") +
+      '</p><a class="btn btn-v" href="index.html#harga">' + L("See the classes", "Tengok kelas") + "</a></div></div></section>";
+  }
+
+  document.addEventListener("click", function (e) {
+    var lb = e.target.closest(".lang button");
+    if (lb) { S.lang = lb.dataset.l === "en" ? "en" : "ms"; save(); var y = window.scrollY; render(); window.scrollTo(0, y); return; }
+    var sb = e.target.closest("[data-hk]");
+    if (sb) { var k = sb.dataset.hk; S.hr[k] = (k === "adj" || k === "wx") ? +sb.dataset.hv : sb.dataset.hv; save(); document.getElementById("hrcard").outerHTML = hrCard(); }
+  });
+  document.addEventListener("input", function (e) {
+    var t = e.target;
+    if (t.dataset.hf) { S.hr[t.dataset.hf] = t.value.trim(); save(); document.getElementById("hrout").innerHTML = hrOut(); return; }
+    if (t.id === "vh" || t.id === "vm" || t.id === "vs") { S[t.id.slice(1)] = t.value.trim(); save(); document.getElementById("vout").innerHTML = vdotOut(); }
+  });
+  document.addEventListener("change", function (e) { if (e.target.id === "vd") { S.d = e.target.value; save(); document.getElementById("vout").innerHTML = vdotOut(); } });
+  render();
+})();
+</script>
+</body>
+</html>
