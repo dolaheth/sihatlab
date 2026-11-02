@@ -354,6 +354,15 @@ footer .flinks a:hover{text-decoration:underline}
 .gal-dots{display:flex;gap:6px;align-items:center}
 .gal-dots i{width:8px;height:8px;border-radius:4px;background:#3A3A3C;transition:width .2s,background .2s}
 .gal-dots i.on{background:var(--volt);width:22px}
+.calcbtn{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--mist);color:var(--ink);flex:none}
+.calcbtn:hover{background:var(--volt)}
+.calcbtn:focus-visible,.calcpromo:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.calcpromo{display:flex;align-items:center;gap:16px;margin-top:16px;background:#000;color:#fff;border-radius:24px;padding:20px 22px;text-decoration:none}
+.calcpromo .ci{flex:none;width:52px;height:52px;border-radius:16px;background:var(--volt);color:#000;display:flex;align-items:center;justify-content:center}
+.calcpromo b{display:block;font-size:18px;letter-spacing:-.01em}
+.calcpromo span span,.calcpromo b+span{display:block;color:#D2D2D7;font-size:15px;margin-top:2px}
+.calcpromo .go{margin-left:auto;font-size:24px;color:var(--volt)}
+@media (max-width:420px){.navr{gap:8px}.lang button{padding:6px 9px}}
 </style>
 </head>
 <body>
@@ -365,6 +374,7 @@ footer .flinks a:hover{text-decoration:underline}
     <a href="#" aria-label="SihatLab"><img class="logo" src="logo-dark.png" alt="SihatLab"></a>
     <div class="links"><a href="#belajar" data-en="Classes">Kelas</a><a href="#coach">Coach</a><a href="#bukti" data-en="Reviews">Kata peserta</a><a href="#harga" data-en="Pricing">Harga</a><a href="#soalan" data-en="FAQ">Soalan</a><a href="kalkulator.html" data-en="Calculators">Kalkulator</a></div>
     <div class="navr">
+      <a class="calcbtn" href="kalkulator.html" aria-label="Kalkulator VDOT dan heart rate / VDOT and heart rate calculators" title="Kalkulator"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg></a>
       <div class="lang" role="group" aria-label="Bahasa / Language">
         <button type="button" data-l="ms" aria-pressed="true" lang="ms">BM</button>
         <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
@@ -468,6 +478,7 @@ footer .flinks a:hover{text-decoration:underline}
       <div class="card mist"><p class="when" data-en="SUN 10 JAN">AHAD 10 JAN</p><p class="bab" data-en="CHAPTER 6 · EATING FOR RUNNING">BAB 6 · MAKAN UNTUK LARI</p><h3 data-en="What should I eat before and after a run?">Nak makan apa sebelum dan lepas lari?</h3><p data-en="Energy basics, hydration, and eating to recover. No extreme diets.">Asas tenaga, air, dan makan untuk recover. Takde diet ekstrem.</p></div>
       <div class="card mist"><p class="when" data-en="SUN 17 JAN">AHAD 17 JAN</p><p class="bab" data-en="CHAPTER 7 · INJURIES AND RACE DAY">BAB 7 · INJURY DAN RACE</p><h3 data-en="Sore knee. Rest or keep going?">Lutut sakit. Rehat ke teruskan?</h3><p data-en="Spot the early signs of injury, basic strength work, and race-day prep.">Kenal tanda awal injury, strength asas, dan persediaan hari race.</p></div>
     </div>
+    <a class="calcpromo" href="kalkulator.html"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg></span><span><b data-en="Free calculators: VDOT and heart rate zones">Kalkulator percuma: VDOT dan zon heart rate</b><span data-en="Get your training paces from one race, or your HR zones from your age.">Dapat pace latihan dari satu race, atau zon heart rate dari umur kau.</span></span><span class="go" aria-hidden="true">→</span></a>
   </div>
 </section>
 
