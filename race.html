@@ -40,7 +40,20 @@ header nav .staff i{font-style:normal;background:var(--volt);color:#111;padding:
 .chip{border:1px solid var(--ink);background:transparent;padding:9px 12px;font-family:var(--mono);font-size:12px;text-transform:uppercase;border-radius:2px;min-height:44px}
 .chip.on{background:var(--ink);color:var(--volt)}
 .chip.add{background:var(--volt);font-weight:700}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 470px;height:calc(100vh - 56px - 69px - 30px);min-height:520px}
+.intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px 40px;padding:28px 20px 24px;border-bottom:1px solid var(--ink);align-items:end}
+.intro .eb{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--grey)}
+.intro h1{font-size:clamp(34px,5vw,64px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.92;margin-top:8px}
+.intro h1 em{font-style:italic;background:var(--volt);padding:0 .08em}
+.intro p.lede{margin-top:12px;color:#333;max-width:520px}
+.intro .stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
+.intro .stats div{padding:10px 8px 0 0}
+.intro .stats b{display:block;font:700 30px/1 var(--mono);letter-spacing:-.03em}
+.intro .stats span{font:500 11px var(--mono);text-transform:uppercase;color:var(--grey)}
+.intro .ctas{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.intro .ctas button{border:1px solid #111;background:#fff;padding:12px 14px;font-family:var(--mono);font-size:12px;text-transform:uppercase;min-height:44px}
+.intro .ctas .v{background:var(--volt);font-weight:700}
+@media (max-width:860px){.intro{grid-template-columns:1fr;padding:20px 16px}.intro .stats b{font-size:24px}}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 470px;height:calc(100vh - 140px);min-height:520px}
 #map{height:100%;border-right:1px solid var(--ink)}
 .side{overflow-y:auto}
 @media (max-width:860px){.layout{grid-template-columns:1fr;height:auto}#map{height:42vh;border-right:0;border-bottom:1px solid var(--ink)}.side{overflow:visible}header nav .lbl{display:none}}
@@ -183,6 +196,17 @@ fieldset input,.ck input{min-height:0}
   <button class="staff" id="staffbtn" hidden>Semakan <i id="qn">0</i></button>
   <button id="acct"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl" id="acctl">Log masuk</span></button>
 </nav></header>
+<section class="intro" aria-labelledby="ih">
+  <div>
+    <p class="eb">Kalendar race Malaysia · by SihatLab</p>
+    <h1 id="ih">Sebelum daftar, <em>baca rating pelari.</em></h1>
+    <p class="lede">Race akan datang dengan countdown dan kira pace. Race yang dah lepas dengan rating jujur dari pelari yang betul-betul join: organisasi, laluan, water station, medal dan harga.</p>
+  </div>
+  <div>
+    <div class="stats"><div><b id="s-up">–</b><span>Akan datang</span></div><div><b id="s-past">–</b><span>Dah lepas</span></div><div><b id="s-rv">–</b><span>Ulasan</span></div></div>
+    <div class="ctas"><button class="v" type="button" id="go-rate">★ Rate race kau</button><button type="button" data-add="1">+ Tambah race</button></div>
+  </div>
+</section>
 <div class="bar">
   <input id="q" placeholder="Cari race atau tempat…" aria-label="Cari race atau tempat">
   <div class="seg" role="group" aria-label="Masa"><button data-w="up" class="on">Akan datang</button><button data-w="past">Dah lepas</button></div>
@@ -469,7 +493,7 @@ async function render(){
   else s.innerHTML=listView();
   drawPins();
 }
-async function load(){try{RACES=await api.races();}catch(e){toast("Tak dapat muat race. Cuba refresh.");RACES=[];}render();}
+async function load(){try{RACES=await api.races();}catch(e){toast("Tak dapat muat race. Cuba refresh.");RACES=[];}render();var up=RACES.filter(function(r){return!isPast(r);}).length;document.getElementById("s-up").textContent=up;document.getElementById("s-past").textContent=RACES.length-up;document.getElementById("s-rv").textContent=RACES.reduce(function(a,r){return a+(r.sum?r.sum.n:0);},0);}
 function openRace(id){sel=id;sortBy="new";var r=RACES.find(function(x){return x.id===id;});if(!r)return;if(isPast(r)!==(when==="past")){when=isPast(r)?"past":"up";segOn("w",when);}render();history.replaceState(null,"","#"+id);if(r.lat!=null)map.flyTo([r.lat,r.lng],Math.max(map.getZoom(),10),{duration:.6});document.getElementById("side").scrollTop=0;if(innerWidth<=860)document.getElementById("side").scrollIntoView({behavior:"smooth"});}
 function segOn(attr,val){document.querySelectorAll("[data-"+attr+"]").forEach(function(b){b.classList.toggle("on",b.dataset[attr]===val);});}
 function showErr(id,m){var e=document.getElementById(id);e.textContent=m;e.hidden=!m;}
@@ -530,6 +554,7 @@ document.addEventListener("click",function(e){
   if(e.target.closest("#acct")){if(api.user())openAcct();else needLogin(function(){});return;}
   if(e.target.closest("#staffbtn")){openStaff();return;}
   if(e.target.id==="logout"){api.logout().then(function(){document.getElementById("dacct").close();refreshHeader();render();toast("Dah log keluar");});return;}
+  if(e.target.closest("#go-rate")){when="past";segOn("w","past");sel=null;history.replaceState(null,"",location.pathname);render();document.querySelector(".bar").scrollIntoView({behavior:"smooth"});toast("Pilih race yang kau dah join");return;}
   if(e.target.closest("[data-guide]")){dlg("dguide");return;}
   var rpb=e.target.closest("[data-report]");if(rpb){reportId=rpb.dataset.report;document.getElementById("rf").reset();showErr("rerr","");dlg("drep");return;}
   var orb=e.target.closest("[data-orgreply]");if(orb){orgId=orb.dataset.orgreply;var cur=curReviews.find(function(x){return x.id===orgId;});document.getElementById("of").msg.value=(cur&&cur.org)||"";showErr("oerr","");dlg("dorg");return;}

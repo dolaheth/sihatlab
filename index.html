@@ -408,6 +408,22 @@ nav .btn{min-height:44px}
 .tz-dots i{width:8px;height:8px;border-radius:4px;background:#D2D2D7;transition:width .2s,background .2s}
 .tz-dots i.on{background:var(--ink);width:22px}
 @media (max-width:480px){.tz-end{aspect-ratio:auto;min-height:180px}}
+.raceblk{margin-top:16px;border:1px solid #111;background:#fff}
+.rb-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid #111}
+.rb-head h3{font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;margin:0}
+.rb-head a{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12px;text-transform:uppercase;color:#111}
+.rb-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 18px;border-bottom:1px solid #1111111f;color:#111;text-decoration:none}
+.rb-row:last-child{border-bottom:0}
+.rb-row:hover{background:#F4F4F1}
+.rb-row .d{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;text-align:center;border:1px solid #111;line-height:1.1;padding:5px 0;font-size:10px;text-transform:uppercase}
+.rb-row .d b{display:block;font-size:19px}
+.rb-row .n{font-weight:800;line-height:1.25}
+.rb-row .n small{display:block;font-weight:400;color:#5E5E63;font-size:13px}
+.rb-row .c{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-weight:700;text-align:right;white-space:nowrap}
+.rb-row .c small{display:block;font-size:10px;font-weight:500;color:#5E5E63;text-transform:uppercase}
+.rb-row.past .c{background:#C8F31D;padding:4px 8px;font-size:12px;text-transform:uppercase}
+.rb-empty{padding:16px 18px;color:#5E5E63;margin:0}
+
 /* ===== EDITORIAL LOOK (Nov 2026): sharp edges, hairlines, mono numbers. Remove this block to go back. ===== */
 :root{--paper:#F4F4F1;--mist:#F4F4F1;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
 body{background:var(--paper)}
@@ -602,6 +618,10 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
       <div class="tz-nav"><button type="button" class="tz-b" data-td="-1" aria-label="Sebelum / Previous">‹</button><div class="tz-dots" id="tzdots"><i></i><i></i><i></i><i></i><i></i><i></i></div><button type="button" class="tz-b" data-td="1" aria-label="Seterusnya / Next">›</button></div>
     </div>
     <a class="calcpromo" href="kalkulator.html"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg></span><span><b data-en="Free calculators: VDOT and heart rate zones">Kalkulator percuma: VDOT dan zon heart rate</b><span data-en="Get your training paces from one race, or your HR zones from your age.">Dapat pace latihan dari satu race, atau zon heart rate dari umur kau.</span></span><span class="go" aria-hidden="true">→</span></a>
+    <div class="raceblk" aria-labelledby="rbh">
+      <div class="rb-head"><h3 id="rbh" data-en="Upcoming races">Race akan datang</h3><a href="race.html" data-en="Full calendar + runner ratings →">Kalendar penuh + rating pelari →</a></div>
+      <div class="rb-rows" id="rbRows"><p class="rb-empty" data-en="Loading races…">Memuatkan race…</p></div>
+    </div>
   </div>
 </section>
 
@@ -1007,6 +1027,31 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
     });
     [hero,price,closeSec].forEach(function(el){io.observe(el);});
   }
+})();
+</script>
+<script>
+/* Homepage race block: next 3 races + the latest past race, read-only from Supabase (public anon key). */
+(function(){
+  var URL="https://ipzdgezezjgveuyihxdu.supabase.co/rest/v1/races?select=id,name,date_start,date_end,place,cats&status=eq.approved&order=date_start";
+  var KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8";
+  var box=document.getElementById("rbRows");if(!box)return;
+  var MS=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"],EN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var races=null;
+  function esc(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function draw(){
+    if(!races)return;var en=document.documentElement.lang==="en",M=en?EN:MS,t=today();
+    var up=races.filter(function(r){return(r.date_end||r.date_start)>=t;}).slice(0,3);
+    var past=races.filter(function(r){return(r.date_end||r.date_start)<t;}).slice(-1);
+    function row(r,isPast){var p=r.date_start.split("-"),days=Math.round((new Date(r.date_start)-new Date(t))/864e5);
+      var right=isPast?(en?"Rate it":"Rate")+" →":(days<=0?(en?"Today":"Hari ni"):days+"<small>"+(en?(days===1?"day to go":"days to go"):"hari lagi")+"</small>");
+      return'<a class="rb-row'+(isPast?" past":"")+'" href="race.html#'+encodeURIComponent(r.id)+'"><span class="d"><b>'+(+p[2])+"</b>"+M[+p[1]-1]+'</span><span class="n">'+esc(r.name)+"<small>"+(isPast?(en?"Just finished · ":"Baru lepas · "):"")+esc(r.place)+" · "+esc((r.cats||[]).join("/"))+'</small></span><span class="c">'+right+"</span></a>";}
+    var h=up.map(function(r){return row(r,false);}).join("")+past.map(function(r){return row(r,true);}).join("");
+    box.innerHTML=h||'<p class="rb-empty">'+(en?"No races listed yet.":"Belum ada race.")+"</p>";
+  }
+  fetch(URL,{headers:{apikey:KEY,Authorization:"Bearer "+KEY}}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){races=d;draw();})
+    .catch(function(){box.innerHTML='<p class="rb-empty"><a href="race.html">'+(document.documentElement.lang==="en"?"Open the race calendar →":"Buka kalendar race →")+"</a></p>";});
+  document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setTimeout(draw,0);});});
 })();
 </script>
 </body>
