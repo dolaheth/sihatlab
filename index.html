@@ -455,7 +455,7 @@ nav .links a{font-family:var(--mono);font-size:12px;text-transform:uppercase;let
 .lang button{font-family:var(--mono)!important;font-size:12px!important}
 .lang button[aria-pressed="true"]{background:#111!important;color:var(--volt)!important}
 nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:uppercase;letter-spacing:.04em}
-@media (max-width:440px){.navr{gap:6px}.calcbtn{padding:0 8px}nav .btn{display:none!important}nav .wrap{gap:8px}nav .logo{height:22px}}
+@media (max-width:440px){.navr{gap:6px}.calcbtn{padding:0 8px}.racebtn{width:44px!important;padding:0!important;justify-content:center}.racebtn .cl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}nav .btn{display:none!important}nav .wrap{gap:8px}nav .logo{height:22px}}
 
 /* hero */
 .hero{border-bottom:1px solid #111}
@@ -490,6 +490,8 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
 .hero .door-o:hover{border-color:var(--volt)}
 @media (max-width:860px){.who{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media (max-width:480px){.who{grid-template-columns:1fr!important}.hero .door{width:100%}}
+@media (max-width:400px){nav .wrap{padding-left:14px!important;padding-right:14px!important}nav .logo{height:19px!important}.navr{gap:4px!important}}
+@media (max-width:370px){.calcbtn:not(.racebtn){width:44px!important;padding:0!important;justify-content:center}.calcbtn:not(.racebtn) .cl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 </style>
 </head>
 <body>
@@ -502,6 +504,7 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
     <div class="links"><a href="#belajar" data-en="Classes">Kelas</a><a href="#coach">Coach</a><a href="#bukti" data-en="Reviews">Kata peserta</a><a href="#harga" data-en="Pricing">Harga</a><a href="#soalan" data-en="FAQ">Soalan</a><a href="kalkulator.html" data-en="Calculators">Kalkulator</a><a href="race.html" data-en="Races">Race</a></div>
     <div class="navr">
       <a class="calcbtn" href="kalkulator.html" aria-label="Kalkulator VDOT dan heart rate / VDOT and heart rate calculators" title="Kalkulator"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg><span class="cl" data-en="Calculator">Kalkulator</span></a>
+      <a class="calcbtn racebtn" href="race.html" aria-label="Kalendar race dan rating pelari / Race calendar and runner ratings" title="Race"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg><span class="cl">Race</span></a>
       <div class="lang" role="group" aria-label="Bahasa / Language">
         <button type="button" data-l="ms" aria-pressed="true" lang="ms">BM</button>
         <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
