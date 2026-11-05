@@ -194,11 +194,11 @@ fieldset input,.ck input{min-height:0}
 <!-- login -->
 <dialog id="dlogin"><form id="lf" novalidate>
   <h3>Log masuk</h3>
-  <p class="note">Takde password. Masukkan emel, kami hantar link log masuk. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
+  <p class="note">Takde password. Masukkan emel, kami hantar kod 6 digit ke emel kau. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
   <label>Emel<input name="email" type="email" required autocomplete="email" inputmode="email"></label>
   <label id="codel" hidden>Kod 6 digit dari emel<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"></label>
   <p class="err" id="lerr" hidden></p><p class="ok" id="lok" hidden></p>
-  <button class="sub" type="submit" id="lbtn">Hantar link</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" id="lbtn">Hantar kod</button><button class="cancel" type="button" data-close>Batal</button>
 </form></dialog>
 
 <!-- account -->
@@ -305,7 +305,7 @@ fieldset input,.ck input{min-height:0}
 /* ===== CONFIG: paste from Supabase > Project Settings > API. Empty = demo mode. ===== */
 var SUPABASE_URL = "https://ipzdgezezjgveuyihxdu.supabase.co";
 // true once custom SMTP (Resend) is set and the Magic Link template shows {{ .Token }}
-var LOGIN_CODE = false;
+var LOGIN_CODE = true;
 var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8"; // public anon key, safe with RLS
 /* ================================================================================ */
 
