@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Kelas Lari SihatLab (Run 30) · Lari 30 minit, tanpa injury</title>
-<meta name="description" content="Kelas lari online untuk beginner. 8 kelas live setiap Ahad 9 malam, dari jalan laju ke lari 30 minit non-stop. Coach bertauliah World Athletics Level 1.">
+<title>Kelas Lari SihatLab (Run 30) · Lari lebih bijak, tanpa injury</title>
+<meta name="description" content="Kelas lari online untuk semua tahap, dari 30 minit pertama sampai full marathon. 8 kelas live setiap Ahad 9 malam: zon heart rate, MAF, VDOT, susun latihan, injury dan race. Coach World Athletics Level 1.">
 <meta property="og:title" content="Kelas Lari SihatLab (Run 30)">
-<meta property="og:description" content="Dari jalan laju ke lari 30 minit non-stop, tanpa injury. 8 kelas live online, setiap Ahad 9 malam.">
+<meta property="og:description" content="Lari lebih bijak, tanpa injury. Dari 30 minit pertama sampai full marathon. 8 kelas live online, setiap Ahad 9 malam.">
 <meta property="og:image" content="https://sihatlab.com.my/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Lari 30 minit. Tanpa injury. Kelas lari online SihatLab">
+<meta property="og:image:alt" content="Lari lebih bijak. Tanpa injury. Kelas lari online SihatLab">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:url" content="https://sihatlab.com.my/">
@@ -129,7 +129,7 @@ nav .btn{padding:8px 16px;font-size:14px}
 @media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* audience */
-.who{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:48px}
+.who{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:48px}
 .who .card{padding:28px}
 .who h3{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-top:28px}
 .who p{color:var(--grey);font-size:15px;margin-top:6px}
@@ -467,6 +467,13 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
 .learn h3{grid-column:2;font-size:22px!important;font-weight:800!important}
 .learn .card > p:not(.when):not(.bab){grid-column:2}
 @media (max-width:720px){.learn .card{grid-template-columns:40px minmax(0,1fr);column-gap:12px}.learn .card::before{font-size:22px}.learn .when{grid-column:2;grid-row:auto;justify-self:start;font-size:13px!important}}
+/* hero doors */
+.hero .door{flex-direction:column;align-items:flex-start;gap:2px;padding:14px 20px}
+.hero .door small{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;opacity:.8}
+.hero .door-o{background:transparent;color:#fff;border:1px solid #ffffff66}
+.hero .door-o:hover{border-color:var(--volt)}
+@media (max-width:860px){.who{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media (max-width:480px){.who{grid-template-columns:1fr!important}.hero .door{width:100%}}
 </style>
 </head>
 <body>
@@ -492,11 +499,11 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
   <div class="photo" role="img" aria-label="Coach Dollah berlari dalam half marathon"></div>
   <div class="wrap">
     <span class="pill" data-en="Run 30 · Cohort 01 · Online · Sun 9pm · 22.11 → 17.01">Run 30 · Cohort 01 · Online · Ahad 9 malam · 22.11 → 17.01</span>
-    <h1 data-en="Run<br>30 minutes.<br><em>No<br>injuries.</em>">Lari<br>30 minit.<br><em>Tanpa<br>injury.</em></h1>
-    <p class="sub" data-en="You don’t need to be an athlete to start running. You don’t need an expensive watch. From walking to running your first 5K non-stop!">Tak perlu jadi athlete untuk start berlari. Tak perlu jam yang mahal. Dari berjalan ke first 5KM lari non stop!</p>
+    <h1 data-en="Run<br>smarter.<br><em>No<br>injuries.</em>">Lari<br>lebih bijak.<br><em>Tanpa<br>injury.</em></h1>
+    <p class="sub" data-en="Just starting out or already finished a full marathon, learn to run by a plan, not by feel. From your first 30 minutes to 42K.">Baru nak mula atau dah habis full marathon, belajar lari ikut pelan, bukan ikut rasa. Dari 30 minit pertama sampai 42KM.</p>
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-      <a class="btn btn-w" href="#harga" data-en="Let’s start">Jom start</a>
-      <span style="color:var(--soft);font-size:15px" data-en="First class just RM19 · a free guideline with every ticket">Kelas pertama RM19 je · semua dapat guideline free</span>
+      <a class="btn btn-w door" href="#harga"><span data-en="New to running">Baru nak mula</span><small data-en="Chapter 0 · RM19">Bab 0 · RM19</small></a>
+      <a class="btn door door-o" href="#belajar"><span data-en="Already running">Dah lari, nak lebih bijak</span><small data-en="Chapters 1–7 · 5K to full">Bab 1–7 · 5K sampai full</small></a>
     </div>
     <div class="creds stats">
       <span><b>4.6/5</b><i data-en="from 19 students">dari 19 peserta</i></span>
@@ -507,7 +514,7 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
   </div>
 </header>
 
-<div class="marquee" aria-hidden="true"><div class="mq-track"><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN 30 MINUTES ✱ NO INJURIES ✱ RUN 30 ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI 30 MINIT ✱ TANPA INJURY ✱ RUN 30 ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq-track"><span data-en="RUN SMARTER ✱ NO INJURIES ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI LEBIH BIJAK ✱ TANPA INJURY ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN SMARTER ✱ NO INJURIES ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI LEBIH BIJAK ✱ TANPA INJURY ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN SMARTER ✱ NO INJURIES ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI LEBIH BIJAK ✱ TANPA INJURY ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span><span data-en="RUN SMARTER ✱ NO INJURIES ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SUNDAYS 9PM ✱ STARTS 22 NOV ✱ ">LARI LEBIH BIJAK ✱ TANPA INJURY ✱ 5K ✱ 10K ✱ HALF ✱ FULL ✱ SETIAP AHAD 9 MALAM ✱ MULA 22 NOV ✱ </span></div></div>
 
 <section class="pain">
   <div class="wrap">
@@ -657,13 +664,15 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
 <section class="mist">
   <div class="wrap">
     <p class="eyebrow" data-en="Which one are you?">Kau yang mana?</p>
-    <h2 style="margin-top:12px" data-en="You don’t need to be an athlete.">Tak perlu jadi atlet.</h2>
+    <h2 style="margin-top:12px" data-en="From zero to 42K.">Dari kosong sampai 42KM.</h2>
     <p class="lead" style="margin-top:16px" data-en="Tap the one that sounds most like you.">Tekan kad yang paling kena dengan kau.</p>
     <div class="who">
       <button type="button" class="card wp" data-who="0" aria-pressed="false"><p class="num">01</p><h3 data-en="Never run before">Tak pernah lari</h3><p data-en="Chapter 0 starts with brisk walking, then run-walk.">Bab 0 start dengan jalan laju, lepas tu lari-jalan.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
       <button type="button" class="card wp" data-who="1" aria-pressed="false"><p class="num">02</p><h3 data-en="Always getting injured">Selalu cedera</h3><p data-en="Knees, shins, ankles. We find the cause and fix it.">Lutut, shin, buku lali. Kita cari punca dan betulkan.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
       <button type="button" class="card wp" data-who="2" aria-pressed="false"><p class="num">03</p><h3 data-en="Want to lose weight">Nak turun berat</h3><p data-en="Run in low heart rate zones, consistently every week.">Lari zon heart rate rendah, konsisten tiap minggu.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
       <button type="button" class="card wp" data-who="3" aria-pressed="false"><p class="num">04</p><h3 data-en="Chasing your first 5K">Nak 5KM pertama</h3><p data-en="A 12-week plan with a test at the start and the end.">Pelan 12 minggu, ada ujian awal dan akhir.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
+      <button type="button" class="card wp" data-who="4" aria-pressed="false"><p class="num">05</p><h3 data-en="Running 10K or a half, but stuck">Dah lari 10K atau half, tapi stuck</h3><p data-en="Pace won’t improve, HR always high. We plan it by zones and VDOT.">Pace tak naik, HR selalu tinggi. Kita susun ikut zon dan VDOT.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
+      <button type="button" class="card wp" data-who="5" aria-pressed="false"><p class="num">06</p><h3 data-en="Getting ready for a full marathon">Nak persediaan full marathon</h3><p data-en="Build the week, the long runs, the fuel and race day.">Susun minggu latihan, long run, makan dan hari race.</p><span class="wbtn" data-en="That’s me">Ni aku</span></button>
     </div>
     <div class="whopick" id="whopick" hidden aria-live="polite"></div>
     <div class="band" style="margin-top:20px" role="img" aria-label="Peserta kelas SihatLab bergambar bersama coach">
@@ -926,12 +935,16 @@ nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:upperca
     ['Mula dengan Bab 0','Kelas pertama khas untuk yang tak pernah lari: saringan kesihatan, mitos, dan pelan dari jalan laju ke lari 30 minit. Cuba kelas pertama dulu, promo RM19 je (Ahad 22 Nov). Suka? Upgrade ke bundle, RM19 tu ditolak.','Simpan tempat Bab 0','bab0'],
     ['Ambil bundle 8 kelas','Cedera selalunya datang dari naik jarak atau masa terlalu cepat. Bab 5 ajar susun minggu latihan, Bab 7 ajar kenal tanda awal injury dan strength asas. Dua-dua perlukan pelan, bukan satu kelas je.','Simpan tempat bundle','bundle'],
     ['Ambil bundle 8 kelas','Bab 2 ajar lari dalam zon heart rate rendah, Bab 6 pasal makan untuk lari. Yang paling penting ialah konsisten setiap minggu, dan bundle bagi korang 8 kelas dengan group.','Simpan tempat bundle','bundle'],
-    ['Ambil bundle 8 kelas','Bab 0 sampai Bab 7, dengan ujian minggu 1 dan minggu 12 supaya korang nampak progress sendiri. Buat kerja tapi tak improve? Duit balik 100%.','Simpan tempat bundle','bundle']],
+    ['Ambil bundle 8 kelas','Bab 0 sampai Bab 7, dengan ujian minggu 1 dan minggu 12 supaya korang nampak progress sendiri. Buat kerja tapi tak improve? Duit balik 100%.','Simpan tempat bundle','bundle'],
+    ['Ambil bundle 8 kelas','Bab 2 (zon heart rate), Bab 3 (MAF) dan Bab 4 (pace dan VDOT) terus jawab kenapa pace tak naik. Kau dapat pace latihan sendiri dari result race, dan ujian minggu 1 vs 12 untuk tengok progress. Bab 0 ada rakaman, skip je kalau tak perlu.','Simpan tempat bundle','bundle'],
+    ['Ambil bundle 8 kelas','Bab 5 susun minggu latihan dan long run, Bab 6 makan dan air untuk larian jauh, Bab 7 taper dan persediaan hari race. Nak ambil Bab tertentu je? Walk-in RM39 setiap satu.','Simpan tempat bundle','bundle']],
    en:[
     ['Start with Chapter 0','The first class is built for people who have never run: health screening, myths, and a plan from brisk walking to running 30 minutes. Try the first class first, just RM19 on promo (Sunday 22 Nov). Like it? Upgrade to the bundle and your RM19 comes off.','Save my Chapter 0 spot','bab0'],
     ['Take the 8-class bundle','Injuries usually come from adding distance or time too quickly. Chapter 5 shows you how to plan your training week, Chapter 7 covers early injury signs and basic strength. Both need a plan, not just one class.','Save my bundle spot','bundle'],
     ['Take the 8-class bundle','Chapter 2 is about running in low heart rate zones, Chapter 6 is about eating for running. What matters most is showing up every week, and the bundle gives you 8 classes with a group.','Save my bundle spot','bundle'],
-    ['Take the 8-class bundle','Chapters 0 to 7, with tests in week 1 and week 12 so you can see your own progress. Do the work and don’t improve? 100% of your money back.','Save my bundle spot','bundle']]};
+    ['Take the 8-class bundle','Chapters 0 to 7, with tests in week 1 and week 12 so you can see your own progress. Do the work and don’t improve? 100% of your money back.','Save my bundle spot','bundle'],
+    ['Take the 8-class bundle','Chapter 2 (heart rate zones), Chapter 3 (MAF) and Chapter 4 (pace and VDOT) answer exactly why your pace is stuck. You get your own training paces from a race result, and tests in week 1 vs week 12 to see progress. Chapter 0 has a replay, skip it if you don’t need it.','Save my bundle spot','bundle'],
+    ['Take the 8-class bundle','Chapter 5 builds your training week and long runs, Chapter 6 covers fuel and water for long runs, Chapter 7 covers the taper and race-day prep. Only need certain chapters? Walk in for RM39 each.','Save my bundle spot','bundle']]};
   var who=-1, pick=document.getElementById('whopick');
   function renderWho(){
     if(who<0){pick.hidden=true;return;}
