@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Race Malaysia · SihatLab</title>
+<meta name="description" content="Kalendar race lari Malaysia dan ulasan dari pelari yang dah join.">
+<meta property="og:title" content="Race Malaysia: kalendar dan ulasan pelari · SihatLab">
+<meta property="og:description" content="Race akan datang, countdown, kira pace race, dan rating dari pelari yang dah join.">
+<meta property="og:image" content="https://sihatlab.com.my/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://sihatlab.com.my/race.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--paper:#F4F4F1;--ink:#111;--grey:#5E5E63;--line:#1111111f;--volt:#C8F31D;--red:#C4281C;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;font-size:12px}
+button{font:inherit;cursor:pointer;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid #0071E3;outline-offset:2px}
+.demo{background:#111;color:var(--volt);text-align:center;padding:6px 12px}
+header{display:flex;align-items:stretch;justify-content:space-between;gap:12px;padding-left:20px;height:56px;border-bottom:1px solid var(--ink)}
+header b{font-weight:900;text-transform:uppercase;letter-spacing:-.03em;font-size:18px;align-self:center}
+header nav{display:flex}
+header nav button,header nav a{display:flex;align-items:center;gap:6px;padding:0 14px;border:0;border-left:1px solid var(--ink);background:none;font-family:var(--mono);font-size:12px;text-transform:uppercase;text-decoration:none;min-width:44px;justify-content:center}
+header nav .staff{background:#111;color:var(--volt)}
+header nav .staff i{font-style:normal;background:var(--volt);color:#111;padding:0 5px}
+.bar{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--ink);flex-wrap:wrap;align-items:center}
+.bar input{flex:1 1 200px;min-width:0;padding:11px 14px;border:1px solid var(--ink);background:#fff;font:inherit;border-radius:2px;min-height:44px}
+.seg{display:flex;border:1px solid var(--ink)}
+.seg button{border:0;border-right:1px solid var(--ink);background:none;padding:0 12px;font-family:var(--mono);font-size:12px;text-transform:uppercase;min-height:42px}
+.seg button:last-child{border-right:0}
+.seg button.on{background:#111;color:var(--volt)}
+.chip{border:1px solid var(--ink);background:transparent;padding:9px 12px;font-family:var(--mono);font-size:12px;text-transform:uppercase;border-radius:2px;min-height:44px}
+.chip.on{background:var(--ink);color:var(--volt)}
+.chip.add{background:var(--volt);font-weight:700}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 470px;height:calc(100vh - 56px - 69px - 30px);min-height:520px}
+#map{height:100%;border-right:1px solid var(--ink)}
+.side{overflow-y:auto}
+@media (max-width:860px){.layout{grid-template-columns:1fr;height:auto}#map{height:42vh;border-right:0;border-bottom:1px solid var(--ink)}.side{overflow:visible}header nav .lbl{display:none}}
+.pin{background:#fff;color:#111;border:2px solid #111;font:700 12px var(--mono);padding:3px 6px;white-space:nowrap;transform:translate(-50%,-100%);position:relative;text-transform:uppercase}
+.pin::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-6px;border:6px solid transparent;border-top-color:#111;border-bottom:0}
+.pin.hi{background:var(--volt)}
+.pin.sel{background:#111;color:var(--volt)}
+/* list */
+.month{padding:18px 20px 6px;font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--grey);border-bottom:1px solid var(--ink)}
+.item{display:grid;grid-template-columns:54px 1fr auto;gap:2px 14px;padding:14px 20px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;align-items:start}
+.item:hover{background:#fff}
+.item .dt{font-family:var(--mono);text-align:center;border:1px solid #111;line-height:1.1;padding:5px 0}
+.item .dt b{display:block;font-size:20px}
+.item .dt span{font-size:10px;text-transform:uppercase}
+.item h3{font-size:16px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.item .m{color:var(--grey);font-size:13px;display:block;margin-top:2px}
+.item .r{font:700 15px var(--mono);text-align:right;white-space:nowrap}
+.item .r small{display:block;font-size:10px;font-weight:500;color:var(--grey)}
+.item .r.soon{font-size:11px;background:var(--volt);padding:2px 6px}
+.stars{letter-spacing:1px;font-size:14px}
+.stars .off{color:#C9C9C4}
+.empty{padding:20px;color:var(--grey)}
+.addrow{display:block;width:100%;padding:16px 20px;border:0;background:none;text-align:left;font-family:var(--mono);font-size:12px;text-transform:uppercase;border-bottom:1px solid var(--line);min-height:44px}
+.addrow b{background:var(--volt);padding:2px 6px}
+.mine{padding:12px 20px;background:#fff;border-bottom:1px solid var(--line);font-size:14px}
+.badge{font:500 10px var(--mono);text-transform:uppercase;border:1px solid #111;padding:1px 5px;margin-left:6px;white-space:nowrap;vertical-align:2px}
+/* race view */
+.place{padding:20px}
+.back{border:0;background:none;padding:0 0 12px;font-family:var(--mono);font-size:12px;text-transform:uppercase;min-height:44px}
+.place h2{font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.95}
+.place .meta{color:var(--grey);margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tags span{border:1px solid var(--ink);padding:2px 8px;font-family:var(--mono);font-size:11px}
+.place .note{margin-top:12px;font-size:15px;color:#333}
+.acts{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);margin-top:16px}
+.acts a,.acts button,.acts span{border:0;border-right:1px solid var(--ink);background:#fff;padding:10px 6px;text-align:center;text-decoration:none;color:#111;font-family:var(--mono);font-size:11px;text-transform:uppercase;min-height:44px;display:flex;align-items:center;justify-content:center}
+.acts>*:last-child{border-right:0}
+.acts .w{background:var(--volt);font-weight:700}
+.acts .off{color:var(--grey);background:#EDEDE8}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #111;border-top:0;background:#111;color:#fff}
+.cd div{padding:12px 4px;text-align:center;border-right:1px solid #333}
+.cd div:last-child{border-right:0}
+.cd b{display:block;font:700 26px/1 var(--mono);color:var(--volt)}
+.cd span{font:500 10px var(--mono);text-transform:uppercase;color:#bbb}
+.h{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin:24px 0 8px}
+.pace{border:1px solid #111;background:#fff;padding:14px;display:grid;gap:10px}
+.pace .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pace label{display:grid;gap:4px;font-size:12px;color:var(--grey)}
+.pace select,.pace input{border:1px solid #111;padding:9px 10px;font:inherit;background:#fff;min-height:44px;min-width:0}
+.pace .out{font-family:var(--mono);font-size:13px;border-top:1px solid var(--line);padding-top:10px}
+.pace .out b{font-size:22px;background:var(--volt);padding:0 6px}
+.tips{display:grid;gap:8px;font-size:15px}
+.tips div{display:grid;grid-template-columns:26px 1fr;gap:6px}
+.tips i{font:700 13px var(--mono);font-style:normal}
+.sum{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--ink);border-top:1px solid var(--ink);margin-top:20px}
+.sum .avg{text-align:center}
+.sum .avg b{display:block;font:700 52px/1 var(--mono);letter-spacing:-.04em}
+.sum .avg span{color:var(--grey);font-size:13px}
+.hist div{display:grid;grid-template-columns:14px 1fr 30px;gap:8px;align-items:center;font:500 12px var(--mono)}
+.hist i{display:block;height:8px;background:#E2E2DD}
+.hist i b{display:block;height:100%;background:#111}
+.crit{padding:16px 0;border-bottom:1px solid var(--ink);display:grid;gap:8px}
+.crit div{display:grid;grid-template-columns:130px 1fr 34px;gap:10px;align-items:center;font-size:14px}
+.crit i{display:block;height:6px;background:#E2E2DD}
+.crit i b{display:block;height:100%;background:var(--volt);border-right:1px solid #111}
+.crit em{font:700 13px var(--mono);font-style:normal;text-align:right}
+.again{padding:12px 0;border-bottom:1px solid var(--ink);font-size:14px}
+.again b{font-family:var(--mono)}
+.rv-head{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;gap:8px;flex-wrap:wrap}
+.rv-head h3{font-size:18px;font-weight:900;text-transform:uppercase}
+.sort{display:flex;border:1px solid var(--ink)}
+.sort button{border:0;border-right:1px solid var(--ink);background:none;padding:8px 10px;font-family:var(--mono);font-size:11px;text-transform:uppercase;min-height:40px}
+.sort button:last-child{border-right:0}
+.sort button.on{background:#111;color:var(--volt)}
+.rv{padding:16px 0;border-bottom:1px solid var(--line)}
+.rv .who{display:flex;gap:10px;align-items:center}
+.av{width:36px;height:36px;border-radius:50%;background:#111;color:var(--volt);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.rv .who b{display:block;font-size:15px}
+.rv .who span{color:var(--grey);font-size:12px;font-family:var(--mono)}
+.rv .line{margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rv p{margin-top:6px;font-size:15px;white-space:pre-line}
+.yes{font:500 11px var(--mono);text-transform:uppercase;background:var(--volt);padding:1px 6px}
+.pend{font:500 11px var(--mono);text-transform:uppercase;border:1px solid #111;padding:0 6px}
+.reply{margin-top:10px;border-left:3px solid var(--volt);padding:6px 0 6px 12px;font-size:14px;color:var(--grey)}
+.reply b{color:#111;font-size:12px;font-family:var(--mono);text-transform:uppercase;display:block}
+.src{margin-top:24px;font-size:12px;color:var(--grey)}
+/* dialogs */
+dialog{border:1px solid #111;padding:0;width:min(500px,calc(100vw - 24px));max-height:calc(100vh - 24px);background:var(--paper)}
+dialog.wide{width:min(760px,calc(100vw - 24px))}
+dialog::backdrop{background:#000a}
+dialog form,dialog .in{padding:20px;display:grid;gap:12px}
+dialog h3{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em}
+dialog label{display:grid;gap:4px;font-size:13px;color:var(--grey)}
+dialog input,dialog select,dialog textarea{border:1px solid #111;background:#fff;padding:10px 12px;font:inherit;color:#111;border-radius:2px;min-width:0;min-height:44px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rate{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:8px;font-size:14px}
+.st{display:flex}
+.st button{border:0;background:none;font-size:26px;line-height:1;padding:4px 3px;color:#C9C9C4;min-width:36px;min-height:40px}
+.st button.on{color:#111}
+fieldset{border:1px solid #111;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+legend{font-size:13px;color:var(--grey);padding:0 4px}
+fieldset label,.ck{display:flex!important;flex-direction:row;align-items:center;gap:6px;color:#111!important;font-size:14px!important}
+fieldset input,.ck input{min-height:0}
+.note{font-size:12px;color:var(--grey)}
+.err{font:500 12px var(--mono);color:var(--red)}
+.ok{font:500 12px var(--mono);color:#2E6B00}
+.sub{background:var(--volt);border:0;padding:14px;font-weight:800;min-height:44px}
+.cancel{background:none;border:1px solid #111;padding:12px;min-height:44px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#111;color:var(--volt);padding:12px 16px;font-family:var(--mono);font-size:12px;text-transform:uppercase;z-index:2000;max-width:calc(100vw - 32px)}
+/* staff panel */
+.q{border-top:1px solid #111}
+.qi{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.qi .t{font-weight:800}
+.qi .m{font-size:13px;color:var(--grey);font-family:var(--mono)}
+.qi .b{display:flex;gap:6px;flex-wrap:wrap}
+.qi .b button{border:1px solid #111;background:#fff;padding:8px 12px;font-family:var(--mono);font-size:11px;text-transform:uppercase;min-height:40px}
+.qi .b .y{background:var(--volt)}
+.qi .b .n{color:var(--red)}
+.qi .ll{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.qi input,.qi textarea{border:1px solid #111;padding:8px 10px;font:inherit;font-size:14px;min-width:0}
+.rp{border:0;background:none;padding:6px 0;margin-top:6px;font:500 11px var(--mono);text-transform:uppercase;color:var(--grey);text-decoration:underline;min-height:32px;margin-right:14px}
+.reply.org{border-left-color:#111}
+.orgline{margin-top:10px;font:500 11px var(--mono);text-transform:uppercase;display:inline-block;border:1px solid #111;padding:2px 8px;background:#fff}
+.disc{margin-top:16px;font-size:13px;color:var(--grey);border-top:1px solid var(--line);padding-top:12px}
+.linkbtn{border:0;background:none;padding:0;text-decoration:underline;font:inherit;color:#111;cursor:pointer}
+.claim{display:block;margin-top:16px;border:1px dashed #111;background:none;padding:12px;width:100%;text-align:left;font-size:14px;min-height:44px}
+.claim b{font-family:var(--mono);font-size:11px;text-transform:uppercase;background:var(--volt);padding:1px 5px;margin-left:4px}
+.guide h4{font-size:14px;font-weight:800;text-transform:uppercase;margin-top:6px}
+.guide ul{margin:4px 0 0 18px;padding:0;font-size:14px;display:grid;gap:3px}
+.radios{display:grid;gap:6px}
+.radios label{display:flex!important;flex-direction:row;gap:8px;align-items:center;color:#111!important;font-size:14px!important}
+.radios input{min-height:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="demo mono" id="demo" hidden>Mod demo · data disimpan dalam browser ni je · race "Contoh" dan ulasannya rekaan</div>
+<header><b><a href="index.html" style="text-decoration:none">SihatLab</a> · Race</b><nav>
+  <a href="kalkulator.html" class="lbl">Kalkulator</a>
+  <button class="staff" id="staffbtn" hidden>Semakan <i id="qn">0</i></button>
+  <button id="acct"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl" id="acctl">Log masuk</span></button>
+</nav></header>
+<div class="bar">
+  <input id="q" placeholder="Cari race atau tempat…" aria-label="Cari race atau tempat">
+  <div class="seg" role="group" aria-label="Masa"><button data-w="up" class="on">Akan datang</button><button data-w="past">Dah lepas</button></div>
+  <div class="seg" role="group" aria-label="Kategori"><button data-c="all" class="on">Semua</button><button data-c="5K">5K</button><button data-c="10K">10K</button><button data-c="Half">Half</button><button data-c="Full">Full</button></div>
+  <button class="chip add" id="addrace" type="button">+ Tambah race</button>
+</div>
+<div class="layout"><div id="map" aria-label="Peta race"></div><div class="side" id="side" aria-live="polite"></div></div>
+
+<!-- login -->
+<dialog id="dlogin"><form id="lf" novalidate>
+  <h3>Log masuk</h3>
+  <p class="note">Takde password. Masukkan emel, kami hantar link log masuk. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
+  <label>Emel<input name="email" type="email" required autocomplete="email" inputmode="email"></label>
+  <label id="codel" hidden>Kod 6 digit dari emel<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"></label>
+  <p class="err" id="lerr" hidden></p><p class="ok" id="lok" hidden></p>
+  <button class="sub" type="submit" id="lbtn">Hantar link</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- account -->
+<dialog id="dacct"><div class="in">
+  <h3>Akaun kau</h3><p id="aemail" class="mono"></p>
+  <div id="amine"></div>
+  <button class="cancel" type="button" id="logout">Log keluar</button><button class="cancel" type="button" data-close>Tutup</button>
+</div></dialog>
+
+<!-- write review -->
+<dialog id="dlg"><form id="wf" novalidate>
+  <h3 id="wt">Tulis ulasan</h3>
+  <div class="rate"><span>Keseluruhan</span><div class="st" data-k="all"></div></div>
+  <div class="rate"><span>Organisasi</span><div class="st" data-k="org"></div></div>
+  <div class="rate"><span>Laluan</span><div class="st" data-k="route"></div></div>
+  <div class="rate"><span>Water station</span><div class="st" data-k="water"></div></div>
+  <div class="rate"><span>Medal / jersey</span><div class="st" data-k="medal"></div></div>
+  <div class="rate"><span>Nilai harga</span><div class="st" data-k="value"></div></div>
+  <div class="row2"><label>Kategori kau lari<select name="cat" id="wcat"></select></label>
+  <label>Nak join lagi?<select name="again"><option value="1">Ya</option><option value="0">Tak</option></select></label></div>
+  <label>Cerita pengalaman kau<textarea name="body" rows="3" maxlength="600" placeholder="Laluan, water station, apa yang best, apa yang kurang…"></textarea></label>
+  <label>Nama yang dipaparkan<input name="name" maxlength="40" required></label>
+  <label>Link Strava atau IG (pilihan, bukti kau lari)<input name="proof" maxlength="200" placeholder="https://"></label>
+  <label class="ck"><input type="checkbox" name="agree"> Aku dah join race ni, dan ulasan aku ikut <button type="button" class="linkbtn" data-guide>garis panduan</button>.</label>
+  <p class="note">Ulasan disemak dulu sebelum keluar.</p>
+  <p class="err" id="werr" hidden></p>
+  <button class="sub" type="submit">Hantar ulasan</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- add race -->
+<dialog id="dadd"><form id="af" novalidate>
+  <h3>Tambah race</h3>
+  <p class="note">Race takde dalam senarai? Hantar sini. Kami semak tarikh dan link rasmi dulu, lepas tu masukkan ke kalendar.</p>
+  <label>Nama race<input name="name" required maxlength="100" placeholder="Contoh: KLHalf 2026"></label>
+  <div class="row2"><label>Tarikh<input name="date" type="date" required></label><label>Masa flag off (kalau tahu)<input name="flagoff" type="time"></label></div>
+  <div class="row2"><label>Negeri<select name="state" required><option value="">Pilih</option><option>Johor</option><option>Kedah</option><option>Kelantan</option><option>Melaka</option><option>Negeri Sembilan</option><option>Pahang</option><option>Perak</option><option>Perlis</option><option>Pulau Pinang</option><option>Sabah</option><option>Sarawak</option><option>Selangor</option><option>Terengganu</option><option>WP Kuala Lumpur</option><option>WP Putrajaya</option><option>WP Labuan</option></select></label>
+  <label>Tempat start<input name="place" required maxlength="120" placeholder="Dataran Merdeka"></label></div>
+  <fieldset><legend>Kategori</legend><label><input type="checkbox" name="c" value="5K">5K</label><label><input type="checkbox" name="c" value="10K">10K</label><label><input type="checkbox" name="c" value="Half">Half</label><label><input type="checkbox" name="c" value="Full">Full</label><label><input type="checkbox" name="c" value="Trail">Trail</label></fieldset>
+  <label>Link rasmi atau pendaftaran<input name="url" type="url" maxlength="200" placeholder="https://"></label>
+  <p class="err" id="aerr" hidden></p>
+  <button class="sub" type="submit">Hantar permintaan</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- guidelines -->
+<dialog id="dguide"><div class="in guide">
+  <h3>Garis panduan ulasan</h3>
+  <h4>Boleh</h4><ul><li>Cerita pengalaman kau sendiri: laluan, water station, organisasi, medal, harga.</li><li>Kritik yang spesifik. Contoh: "water station KM15 habis cawan masa aku sampai".</li><li>Letak link Strava atau gambar sebagai bukti kau lari.</li></ul>
+  <h4>Tak boleh</h4><ul><li>Tuduh penipuan atau jenayah tanpa bukti.</li><li>Serang individu (staff, marshal, sukarelawan) atau guna bahasa kesat.</li><li>Dedah maklumat peribadi orang lain.</li><li>Ulasan palsu, atau rate race yang kau tak join.</li><li>Promosi dan spam.</li></ul>
+  <h4>Penganjur</h4><ul><li>Penganjur boleh urus page race dan balas ulasan lepas kami sahkan.</li><li>Ulasan negatif yang ikut garis panduan tak dibuang atas permintaan penganjur.</li><li>SihatLab tak jual rating dan tak terima bayaran untuk ubah ulasan.</li></ul>
+  <h4>Aduan</h4><ul><li>Tekan "Lapor" pada ulasan, atau emel hai@sihatlab.com.my. Kami semak dalam 3 hari bekerja. Ulasan boleh disembunyikan sementara semakan.</li></ul>
+  <button class="cancel" type="button" data-close>Tutup</button>
+</div></dialog>
+
+<!-- report a review -->
+<dialog id="drep"><form id="rf" novalidate>
+  <h3>Lapor ulasan</h3>
+  <p class="note">Laporan kau sampai kepada pasukan SihatLab je. Tak perlu log masuk.</p>
+  <div class="radios">
+    <label><input type="radio" name="reason" value="fitnah"> Tuduhan tanpa bukti</label>
+    <label><input type="radio" name="reason" value="serang"> Serang individu atau bahasa kesat</label>
+    <label><input type="radio" name="reason" value="peribadi"> Ada maklumat peribadi</label>
+    <label><input type="radio" name="reason" value="palsu"> Ulasan palsu atau tak join race</label>
+    <label><input type="radio" name="reason" value="spam"> Spam atau promosi</label>
+    <label><input type="radio" name="reason" value="lain"> Lain-lain</label>
+  </div>
+  <label>Terangkan sikit (pilihan)<textarea name="note" rows="2" maxlength="300"></textarea></label>
+  <p class="err" id="rerr" hidden></p>
+  <button class="sub" type="submit">Hantar laporan</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- organizer claim -->
+<dialog id="dclaim"><form id="cf2" novalidate>
+  <h3 id="ct">Urus page race</h3>
+  <p class="note">Untuk penganjur rasmi. Lepas kami sahkan, kau boleh balas ulasan sebagai penganjur dan nama penganjur keluar di page race.</p>
+  <label>Nama syarikat atau kelab penganjur<input name="org" maxlength="80" required></label>
+  <div class="row2"><label>Jawatan kau<input name="role" maxlength="60" required placeholder="Race director"></label>
+  <label>Emel atau telefon rasmi<input name="contact" maxlength="80" required></label></div>
+  <label>Link bukti (laman rasmi atau page FB yang sebut nama kau / syarikat)<input name="proof" maxlength="200" placeholder="https://"></label>
+  <p class="err" id="cerr" hidden></p>
+  <button class="sub" type="submit">Hantar untuk pengesahan</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- organizer reply -->
+<dialog id="dorg"><form id="of" novalidate>
+  <h3>Balas sebagai penganjur</h3>
+  <p class="note">Balasan keluar terus di bawah ulasan. Jawab dengan tenang dan terangkan apa yang akan diperbaiki.</p>
+  <label>Balasan<textarea name="msg" rows="4" maxlength="400"></textarea></label>
+  <p class="err" id="oerr" hidden></p>
+  <button class="sub" type="submit">Hantar balasan</button><button class="cancel" type="button" data-close>Batal</button>
+</form></dialog>
+
+<!-- staff -->
+<dialog id="dstaff" class="wide"><div class="in">
+  <h3>Semakan</h3>
+  <p class="note">Race baru: semak tarikh dengan laman rasmi, isi koordinat (Google Maps: tekan lama pada tempat, salin nombor), lepas tu lulus. Ulasan: lulus kalau cerita pengalaman, tolak kalau serang orang atau spam.</p>
+  <div id="squeue"></div>
+  <button class="cancel" type="button" data-close>Tutup</button>
+</div></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+"use strict";
+/* ===== CONFIG: paste from Supabase > Project Settings > API. Empty = demo mode. ===== */
+var SUPABASE_URL = "https://ipzdgezezjgveuyihxdu.supabase.co";
+// true once custom SMTP (Resend) is set and the Magic Link template shows {{ .Token }}
+var LOGIN_CODE = false;
+var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8"; // public anon key, safe with RLS
+/* ================================================================================ */
+
+var MON=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+var KEYS=[["org","Organisasi"],["route","Laluan"],["water","Water station"],["medal","Medal / jersey"],["value","Nilai harga"]];
+var DIST={"5K":5,"10K":10,"Half":21.0975,"Full":42.195};
+var esc=function(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dParts(s){var p=s.split("-");return{y:+p[0],m:+p[1]-1,d:+p[2]};}
+function fmtDate(r){var a=dParts(r.date_start);if(r.date_end&&r.date_end!==r.date_start){var b=dParts(r.date_end);return(a.m===b.m?a.d+"–"+b.d:a.d+" "+MON[a.m]+"–"+b.d)+" "+MON[b.m]+" "+b.y;}return a.d+" "+MON[a.m]+" "+a.y;}
+function isPast(r){return(r.date_end||r.date_start)<today();}
+function started(r){return r.date_start<=today();}
+function stars(n){var f=Math.round(n||0),h="";for(var i=1;i<=5;i++)h+=i<=f?"★":'<span class="off">★</span>';return '<span class="stars" aria-label="'+(n||0).toFixed(1)+' bintang">'+h+"</span>";}
+function toast(t){var d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},3600);}
+function rvView(x){return{id:x.id,race_id:x.race_id,n:x.display_name,c:x.cat,d:x.created_at,s:{all:x.s_all,org:x.s_org,route:x.s_route,water:x.s_water,medal:x.s_medal,value:x.s_value},a:x.again,t:x.body,rep:x.reply,org:x.org_reply,status:x.status,proof:x.proof,user_id:x.user_id};}
+function ago(iso){var d=new Date(iso);return d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();}
+
+/* ---------- data layer: same functions for live (Supabase) and demo (localStorage) ---------- */
+var api=(function(){
+  if(SUPABASE_URL&&SUPABASE_ANON_KEY&&window.supabase&&!/[?&]demo=1/.test(location.search)){
+    var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    var user=null,staff=false;
+    function chk(r){if(r.error)throw r.error;return r.data;}
+    return{
+      mode:"live",
+      init:async function(cb){var s=await sb.auth.getSession();user=s.data.session?s.data.session.user:null;try{staff=user?!!chk(await sb.rpc("is_staff")):false;}catch(e){staff=false;console.warn("is_staff",e);}sb.auth.onAuthStateChange(function(ev,ss){var u=ss?ss.user:null;if((u&&u.id)!==(user&&user.id)){user=u;staff=false;// supabase-js: never await inside this callback (it can lock auth), so defer the staff check
+setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}catch(e){staff=false;}cb();},0);}});},
+      user:function(){return user;},isStaff:function(){return staff;},
+      login:async function(email){chk(await sb.auth.signInWithOtp({email:email,options:{emailRedirectTo:location.href.split("#")[0]}}));return"sent";},
+      verify:async function(email,code){var r=await sb.auth.verifyOtp({email:email,token:code,type:"email"});if(r.error)throw r.error;user=r.data.user;try{staff=!!chk(await sb.rpc("is_staff"));}catch(e){staff=false;}return user;},
+      logout:async function(){await sb.auth.signOut();user=null;staff=false;},
+      races:async function(){var r=chk(await sb.from("races").select("*").eq("status","approved").order("date_start"));var s=chk(await sb.from("race_summary").select("*"));var m={};s.forEach(function(x){m[x.race_id]=x;});r.forEach(function(x){x.sum=m[x.id]||null;});return r;},
+      reviews:async function(id){return chk(await sb.from("reviews").select("*").eq("race_id",id).order("created_at",{ascending:false})).map(rvView);},
+      myReviews:async function(){if(!user)return[];return chk(await sb.from("reviews").select("*,races(name)").eq("user_id",user.id).order("created_at",{ascending:false})).map(function(x){var v=rvView(x);v.race=x.races&&x.races.name;return v;});},
+      myRequests:async function(){if(!user)return[];return chk(await sb.from("races").select("*").eq("created_by",user.id).neq("status","approved"));},
+      addReview:async function(o){chk(await sb.from("reviews").insert(o));},
+      requestRace:async function(o){chk(await sb.from("races").insert(o));},
+      queue:async function(){return{races:chk(await sb.from("races").select("*").eq("status","pending").order("created_at")),reviews:chk(await sb.from("reviews").select("*,races(name)").eq("status","pending").order("created_at")).map(function(x){var v=rvView(x);v.race=x.races&&x.races.name;return v;}),
+        claims:chk(await sb.from("race_claims").select("*,races(name)").eq("status","pending").order("created_at")).map(function(c){c.race=c.races&&c.races.name;return c;}),
+        reports:chk(await sb.from("reports").select("*,reviews(id,display_name,body,status,races(name))").eq("status","open").order("created_at")).map(function(x){var v=x.reviews||{};return{id:x.id,reason:x.reason,note:x.note,review_id:x.review_id,n:v.display_name,t:v.body,rstatus:v.status,race:v.races&&v.races.name};})};},
+      report:async function(o){chk(await sb.from("reports").insert(o));},
+      claim:async function(o){chk(await sb.from("race_claims").insert(o));},
+      myClaims:async function(){if(!user)return[];return chk(await sb.from("race_claims").select("*,races(name)").eq("user_id",user.id)).map(function(c){c.race=c.races&&c.races.name;return c;});},
+      orgReply:async function(id,msg){chk(await sb.rpc("org_reply",{rid:id,msg:msg}));},
+      updateClaim:async function(id,o){chk(await sb.from("race_claims").update(o).eq("id",id));},
+      updateReport:async function(id,o){chk(await sb.from("reports").update(o).eq("id",id));},
+      updateRace:async function(id,o){chk(await sb.from("races").update(o).eq("id",id));},
+      updateReview:async function(id,o){chk(await sb.from("reviews").update(o).eq("id",id));}
+    };
+  }
+  // DEMO: real races (same as schema.sql seed) + one fictional "Contoh" race so the review UI has something to show.
+  var KEY="sl-race-demo-v1";
+  var SEED={races:[
+    {id:"klscm-2026",name:"Standard Chartered KL Marathon 2026",date_start:"2026-10-03",date_end:"2026-10-04",flagoff:"03:30",place:"Dataran Merdeka, Kuala Lumpur",state:"WP Kuala Lumpur",lat:3.1478,lng:101.6936,cats:["5K","10K","Half","Full"],url:"https://www.kl-marathon.com",note:"Satu-satunya road race World Athletics Elite Label di Malaysia. Full start 3:30 pagi, half 4:45 pagi pada 4 Okt.",status:"approved"},
+    {id:"brjhm-2026",name:"Bank Rakyat Johor Half Marathon 2026",date_start:"2026-11-07",flagoff:"03:45",place:"Dataran Mahkota, Iskandar Puteri",state:"Johor",lat:1.4245,lng:103.6311,cats:["5K","10K","Half"],url:null,note:"Sasaran 5,000 pelari. Half marathon kompetitif dengan chip dan jersey finisher.",status:"approved"},
+    {id:"lihm-2026",name:"Langkawi International Half Marathon 2026",date_start:"2026-12-12",flagoff:"05:00",place:"MIEC, Langkawi",state:"Kedah",lat:6.3405,lng:99.7363,cats:["Half"],url:"https://www.langkawibook.my/blogs/langkawi-international-half-marathon-2026",note:"Tahun ni half marathon sahaja, had 7,000 pelari. Ambil race pack 10 hingga 11 Dis di Lagenda Beach.",status:"approved"},
+    {id:"pbim-2026",name:"Penang Bridge International Marathon 2026",date_start:"2026-12-13",flagoff:null,place:"Aspen Vision City, Batu Kawan",state:"Pulau Pinang",lat:5.2387,lng:100.4428,cats:["10K","Half","Full"],url:"https://penangmarathon.gov.my",note:"Lari atas Jambatan Kedua Pulau Pinang. 2026 ada kategori elit baru (Full dan Half Marathon Challenge).",status:"approved"},
+    {id:"contoh-a",name:"Contoh Larian Tasik Shah Alam",date_start:"2026-10-12",flagoff:"06:00",place:"Tasik Shah Alam",state:"Selangor",lat:3.0738,lng:101.5183,cats:["5K","10K","Half"],url:null,note:"Race rekaan untuk demo sahaja.",status:"approved"}],
+   reviews:[
+    {id:"r1",race_id:"contoh-a",user_id:"x1",display_name:"Aina",cat:"10K",s_all:5,s_org:5,s_route:4,s_water:5,s_medal:4,s_value:4,again:true,body:"Water station setiap 2.5 km, semua cukup air sejuk. Flag off ikut masa.",status:"approved",reply:"Terima kasih Aina. Jumpa tahun depan!",created_at:"2026-10-14T10:00:00Z"},
+    {id:"r2",race_id:"contoh-a",user_id:"x2",display_name:"Hafiz",cat:"Half",s_all:4,s_org:4,s_route:3,s_water:4,s_medal:5,s_value:4,again:true,body:"Laluan banyak U-turn, tapi marshal ramai. Medal cantik.",status:"approved",created_at:"2026-10-13T10:00:00Z"},
+    {id:"r3",race_id:"contoh-a",user_id:"x3",display_name:"Danial",cat:"5K",s_all:2,s_org:2,s_route:3,s_water:1,s_medal:3,s_value:2,again:false,body:"Water station 5K kering masa aku sampai.",status:"approved",created_at:"2026-10-13T09:00:00Z"}]};
+  function load(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY));}catch(e){}if(!d||!d.races)d=JSON.parse(JSON.stringify(SEED));d.claims=d.claims||[];d.reports=d.reports||[];return d;}
+  var db=load();function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
+  var user=null;try{user=JSON.parse(sessionStorage.getItem(KEY+"-u"));}catch(e){}
+  var wait=function(v){return new Promise(function(r){setTimeout(function(){r(v);},120);});};
+  function summary(id){var v=db.reviews.filter(function(x){return x.race_id===id&&x.status==="approved";});if(!v.length)return null;var s={n:v.length,again_pct:Math.round(v.filter(function(x){return x.again;}).length/v.length*100)};["all","org","route","water","medal","value"].forEach(function(k){s["s_"+k]=v.reduce(function(a,x){return a+x["s_"+k];},0)/v.length;});return s;}
+  function err(m){var e=new Error(m);e.message=m;return e;}
+  return{
+    mode:"demo",
+    init:async function(){},
+    user:function(){return user;},isStaff:function(){return!!user;},
+    login:async function(email){user={id:"demo-"+email,email:email};try{sessionStorage.setItem(KEY+"-u",JSON.stringify(user));}catch(e){}return"in";},
+    logout:async function(){user=null;try{sessionStorage.removeItem(KEY+"-u");}catch(e){}},
+    races:async function(){return wait(db.races.filter(function(r){return r.status==="approved";}).sort(function(a,b){return a.date_start<b.date_start?-1:1;}).map(function(r){return Object.assign({},r,{sum:summary(r.id)});}));},
+    reviews:async function(id){return wait(db.reviews.filter(function(x){return x.race_id===id&&(x.status==="approved"||(user&&x.user_id===user.id)||user);}).filter(function(x){return x.status==="approved"||(user&&x.user_id===user.id);}).sort(function(a,b){return a.created_at<b.created_at?1:-1;}).map(rvView));},
+    myReviews:async function(){if(!user)return[];return wait(db.reviews.filter(function(x){return x.user_id===user.id;}).map(function(x){var v=rvView(x);v.race=(db.races.find(function(r){return r.id===x.race_id;})||{}).name;return v;}));},
+    myRequests:async function(){if(!user)return[];return wait(db.races.filter(function(r){return r.created_by===user.id&&r.status!=="approved";}));},
+    addReview:async function(o){if(!user)throw err("Log masuk dulu");if(db.reviews.some(function(x){return x.race_id===o.race_id&&x.user_id===user.id;}))throw err("duplicate key");db.reviews.push(Object.assign({id:"r"+Date.now(),user_id:user.id,status:"pending",reply:null,created_at:new Date().toISOString()},o));save();return wait();},
+    requestRace:async function(o){db.races.push(Object.assign({id:"q"+Date.now(),status:"pending",created_by:user.id,created_at:new Date().toISOString()},o));save();return wait();},
+    queue:async function(){var rn=function(id){return(db.races.find(function(r){return r.id===id;})||{}).name;};return wait({races:db.races.filter(function(r){return r.status==="pending";}),reviews:db.reviews.filter(function(x){return x.status==="pending";}).map(function(x){var v=rvView(x);v.race=rn(x.race_id);return v;}),
+      claims:db.claims.filter(function(c){return c.status==="pending";}).map(function(c){return Object.assign({race:rn(c.race_id)},c);}),
+      reports:db.reports.filter(function(x){return x.status==="open";}).map(function(x){var v=db.reviews.find(function(r){return r.id===x.review_id;})||{};return{id:x.id,reason:x.reason,note:x.note,review_id:x.review_id,n:v.display_name,t:v.body,rstatus:v.status,race:rn(v.race_id)};})});},
+    report:async function(o){db.reports.push(Object.assign({id:"p"+Date.now(),status:"open"},o));save();return wait();},
+    claim:async function(o){if(db.claims.some(function(c){return c.race_id===o.race_id&&c.user_id===user.id;}))throw err("duplicate key");db.claims.push(Object.assign({id:"c"+Date.now(),user_id:user.id,status:"pending"},o));save();return wait();},
+    myClaims:async function(){if(!user)return[];return wait(db.claims.filter(function(c){return c.user_id===user.id;}).map(function(c){return Object.assign({race:(db.races.find(function(r){return r.id===c.race_id;})||{}).name},c);}));},
+    orgReply:async function(id,msg){var v=db.reviews.find(function(x){return x.id===id;}),r=db.races.find(function(x){return x.id===v.race_id;});if(!user||r.organizer_id!==user.id)throw err("not organizer");v.org_reply=msg||null;save();return wait();},
+    updateClaim:async function(id,o){Object.assign(db.claims.find(function(c){return c.id===id;}),o);save();return wait();},
+    updateReport:async function(id,o){Object.assign(db.reports.find(function(x){return x.id===id;}),o);save();return wait();},
+    updateRace:async function(id,o){Object.assign(db.races.find(function(r){return r.id===id;}),o);save();return wait();},
+    updateReview:async function(id,o){Object.assign(db.reviews.find(function(x){return x.id===id;}),o);save();return wait();}
+  };
+})();
+
+/* ---------- UI state ---------- */
+var RACES=[],when="up",cat="all",q="",sel=null,sortBy="new",map,markers={},cdTimer=null,curReviews=[];
+function visible(){return RACES.filter(function(r){return(when==="up"?!isPast(r):isPast(r))&&(cat==="all"||r.cats.indexOf(cat)>=0)&&(!q||(r.name+" "+r.place+" "+r.state).toLowerCase().indexOf(q)>=0);}).sort(function(a,b){return when==="up"?(a.date_start<b.date_start?-1:1):(a.date_start<b.date_start?1:-1);});}
+function pinLabel(r){var a=r.sum&&r.sum.s_all;if(a)return a.toFixed(1)+" ★";var p=dParts(r.date_start);return p.d+" "+MON[p.m];}
+function drawPins(){
+  Object.keys(markers).forEach(function(k){map.removeLayer(markers[k]);});markers={};
+  visible().forEach(function(r){if(r.lat==null)return;var a=r.sum&&r.sum.s_all;var m=L.marker([r.lat,r.lng],{icon:L.divIcon({className:"",html:'<div class="pin'+(a>=4?" hi":"")+(sel===r.id?" sel":"")+'">'+esc(pinLabel(r))+"</div>",iconSize:null}),title:r.name,keyboard:true});m.on("click",function(){openRace(r.id);});m.addTo(map);markers[r.id]=m;});
+}
+function listView(){
+  var v=visible(),out="",lastM="";
+  v.forEach(function(r){var p=dParts(r.date_start),mk=MON[p.m]+" "+p.y;if(mk!==lastM){out+='<div class="month">'+mk+"</div>";lastM=mk;}
+    var s=r.sum,right;
+    if(isPast(r))right='<span class="r">'+(s?s.s_all.toFixed(1):"–")+"<small>"+(s?s.n+" ulasan":"Belum rate")+"</small></span>";
+    else{var days=Math.round((new Date(r.date_start)-new Date(today()))/864e5);right=started(r)?'<span class="r soon">Hari ni</span>':'<span class="r'+(days<=7?" soon":"")+'">'+days+"<small>hari lagi</small></span>";}
+    out+='<button class="item" data-id="'+esc(r.id)+'"><span class="dt"><b>'+p.d+"</b><span>"+MON[p.m]+"</span></span><span><h3>"+esc(r.name)+'</h3><span class="m">'+esc(r.place)+" · "+r.cats.join("/")+(s&&isPast(r)?" · "+stars(s.s_all):"")+"</span></span>"+right+"</button>";});
+  if(!v.length)out='<p class="empty">'+(when==="up"?"Takde race akan datang yang padan.":"Takde race lepas yang padan.")+"</p>";
+  return out+'<button class="addrow" data-add="1">Race kau takde? <b>+ Tambah race</b></button>';
+}
+function paceBox(r){
+  var opts=r.cats.filter(function(c){return DIST[c];}).map(function(c){return"<option>"+c+"</option>";}).join("");if(!opts)return"";
+  return '<h3 class="h">Kira pace race kau</h3><div class="pace"><div class="row"><label>Kategori<select id="pcat">'+opts+'</select></label><label>Target masa (j:mm:ss)<input id="ptime" inputmode="numeric" placeholder="2:30:00"></label></div><div class="out" id="pout">Masukkan target masa.</div></div>';
+}
+function tips(r){
+  var t=[],h=r.flagoff?+r.flagoff.split(":")[0]:null;
+  if(h!==null&&h<5)t.push("Flag off "+r.flagoff+" pagi. Tidur awal 2 malam sebelum race, sebab malam sebelum tu memang susah nak lena.");
+  if(h!==null&&h<5)t.push("Sarapan ringan 2 jam sebelum flag off. Roti, pisang, kurma. Jangan cuba makanan baru.");
+  if(r.cats.indexOf("Half")>=0||r.cats.indexOf("Full")>=0)t.push("Half dan full: minum sikit di setiap water station dari awal, jangan tunggu dahaga.");
+  t.push("Start perlahan. 2 km pertama 10 hingga 15 saat lebih lambat dari pace target.");
+  t.push("Kasut dan baju yang dah biasa pakai long run. Hari race bukan masa cuba benda baru.");
+  return '<h3 class="h">Tips race ni</h3><div class="tips">'+t.map(function(x,i){return"<div><i>0"+(i+1)+"</i><span>"+esc(x)+"</span></div>";}).join("")+"</div>";
+}
+function reviewsBlock(r){
+  var live=curReviews.filter(function(x){return x.status==="approved";}),n=live.length,s=r.sum;
+  var hist=[5,4,3,2,1].map(function(k){var c=live.filter(function(x){return x.s.all===k;}).length;return"<div><span>"+k+"</span><i><b style=\"width:"+(n?c/n*100:0)+"%\"></b></i><span>"+c+"</span></div>";}).join("");
+  var crit=KEYS.map(function(k){var v=s?s["s_"+k[0]]:0;return"<div><span>"+k[1]+"</span><i><b style=\"width:"+(v/5*100)+"%\"></b></i><em>"+(v?(+v).toFixed(1):"–")+"</em></div>";}).join("");
+  var rs=curReviews.slice();if(sortBy==="hi")rs.sort(function(a,b){return b.s.all-a.s.all;});else if(sortBy==="lo")rs.sort(function(a,b){return a.s.all-b.s.all;});
+  var cards=rs.map(function(x){return '<div class="rv"><div class="who"><span class="av">'+esc(x.n[0])+"</span><span><b>"+esc(x.n)+"</b><span>"+esc(x.c)+" · "+ago(x.d)+'</span></span></div><div class="line">'+stars(x.s.all)+(x.a?'<span class="yes">Nak join lagi</span>':"")+(x.status!=="approved"?'<span class="pend">Menunggu semakan</span>':"")+"</div>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.org?'<div class="reply org"><b>Balasan penganjur · '+esc(r.organizer_name||"")+"</b>"+esc(x.org)+"</div>":"")+(x.rep?'<div class="reply"><b>Balasan SihatLab</b>'+esc(x.rep)+"</div>":"")+
+   (x.status==="approved"?'<button class="rp" data-report="'+esc(x.id)+'">Lapor</button>'+(isOrg(r)?'<button class="rp" data-orgreply="'+esc(x.id)+'">'+(x.org?"Ubah balasan penganjur":"Balas sebagai penganjur")+"</button>":""):"")+"</div>";}).join("");
+  return '<div class="sum"><div class="avg"><b>'+(s?(+s.s_all).toFixed(1):"–")+"</b>"+stars(s&&+s.s_all)+"<span>"+(s?s.n:0)+' ulasan</span></div><div class="hist">'+hist+'</div></div><div class="crit">'+crit+'</div><div class="again"><b>'+(s?s.again_pct:0)+'%</b> nak join lagi</div>'+
+   '<div class="rv-head"><h3>Ulasan</h3><div class="sort"><button data-s="new" class="'+(sortBy==="new"?"on":"")+'">Terbaru</button><button data-s="hi" class="'+(sortBy==="hi"?"on":"")+'">Tertinggi</button><button data-s="lo" class="'+(sortBy==="lo"?"on":"")+'">Terendah</button></div></div>'+
+   (cards||'<p class="empty" style="padding:16px 0">Belum ada ulasan. Kau join race ni? Jadi orang pertama rate.</p>')+
+   '<p class="disc">Ulasan ialah pendapat peribadi pelari, bukan pandangan SihatLab. Nampak ulasan yang melampau? Tekan Lapor. <button type="button" class="linkbtn" data-guide>Garis panduan ulasan</button> · <a href="terma.html">Terma</a></p>';
+}
+function raceView(r){
+  var gm=r.lat!=null?"https://www.google.com/maps/dir/?api=1&destination="+r.lat+","+r.lng:null,canRate=started(r);
+  var mine=api.user()&&curReviews.some(function(x){return x.user_id===api.user().id;});
+  var first=isOrg(r)?'<span class="off">Kau penganjur</span>':canRate?(mine?'<span class="off">Dah rate ✓</span>':'<button class="w" id="write">★ Tulis ulasan</button>'):'<span class="off">Rate lepas race</span>';
+  return '<div class="place"><button class="back" id="back">← Semua race</button><h2>'+esc(r.name)+'</h2><div class="meta mono"><span>'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+"</span><span>"+esc(r.place)+", "+esc(r.state)+'</span></div><div class="tags">'+r.cats.map(function(c){return"<span>"+esc(c)+"</span>";}).join("")+"</div>"+
+   (r.organizer_name?'<span class="orgline">✓ Penganjur disahkan: '+esc(r.organizer_name)+"</span>":"")+
+   (r.note?'<p class="note">'+esc(r.note)+"</p>":"")+
+   '<div class="acts">'+first+(gm?'<a href="'+gm+'" target="_blank" rel="noopener">Tunjuk arah</a>':'<span class="off">Peta belum ada</span>')+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">Laman rasmi</a>':'<span class="off">Link belum ada</span>')+"</div>"+
+   (!canRate?'<div class="cd" id="cd"></div>'+paceBox(r)+tips(r):"")+
+   (canRate?reviewsBlock(r):"")+
+   (!r.organizer_id?'<button class="claim" id="claim">Kau penganjur race ni? <b>Urus page ni</b></button>':"")+
+   '<p class="src">Info race dari laman rasmi dan berita. Semak laman rasmi untuk perubahan terkini.</p></div>';
+}
+function isOrg(r){return!!(api.user()&&r.organizer_id&&r.organizer_id===api.user().id);}
+function tickCd(r){var el=document.getElementById("cd");if(!el)return;var t=new Date(r.date_start+"T"+(r.flagoff||"06:00")+":00+08:00")-new Date();if(t<0)t=0;var d=Math.floor(t/864e5),h=Math.floor(t%864e5/36e5),m=Math.floor(t%36e5/6e4),s=Math.floor(t%6e4/1e3);el.innerHTML=[[d,"hari"],[h,"jam"],[m,"minit"],[s,"saat"]].map(function(x){return"<div><b>"+String(x[0]).padStart(2,"0")+"</b><span>"+x[1]+"</span></div>";}).join("");}
+function calcPace(){var c=document.getElementById("pcat"),t=document.getElementById("ptime"),o=document.getElementById("pout");if(!c)return;var p=t.value.trim().split(":").map(Number);if(p.some(isNaN)||!t.value.trim()){o.textContent="Masukkan target masa.";return;}var sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p.length===2?p[0]*60+p[1]:p[0]*60;var d=DIST[c.value],pk=sec/d;if(!sec){o.textContent="Masukkan target masa.";return;}
+  // VDOT (Daniels) from this race result, same maths as kalkulator.html
+  var tm=sec/60,v=d*1000/tm,vo2=-4.6+0.182258*v+0.000104*v*v,pct=0.8+0.1894393*Math.exp(-0.012778*tm)+0.2989558*Math.exp(-0.1932605*tm);
+  o.innerHTML="Pace purata <b>"+Math.floor(pk/60)+":"+String(Math.round(pk%60)).padStart(2,"0")+"</b> /km<br>Setiap 5 km: "+Math.floor(pk*5/60)+":"+String(Math.round(pk*5%60)).padStart(2,"0")+" · VDOT setara "+(vo2/pct).toFixed(1);}
+async function render(){
+  var s=document.getElementById("side"),r=RACES.find(function(x){return x.id===sel;});
+  clearInterval(cdTimer);
+  if(r){if(started(r)){try{curReviews=await api.reviews(r.id);}catch(e){curReviews=[];}}s.innerHTML=raceView(r);if(!started(r)){tickCd(r);cdTimer=setInterval(function(){tickCd(r);},1000);}}
+  else s.innerHTML=listView();
+  drawPins();
+}
+async function load(){try{RACES=await api.races();}catch(e){toast("Tak dapat muat race. Cuba refresh.");RACES=[];}render();}
+function openRace(id){sel=id;sortBy="new";var r=RACES.find(function(x){return x.id===id;});if(!r)return;if(isPast(r)!==(when==="past")){when=isPast(r)?"past":"up";segOn("w",when);}render();history.replaceState(null,"","#"+id);if(r.lat!=null)map.flyTo([r.lat,r.lng],Math.max(map.getZoom(),10),{duration:.6});document.getElementById("side").scrollTop=0;if(innerWidth<=860)document.getElementById("side").scrollIntoView({behavior:"smooth"});}
+function segOn(attr,val){document.querySelectorAll("[data-"+attr+"]").forEach(function(b){b.classList.toggle("on",b.dataset[attr]===val);});}
+function showErr(id,m){var e=document.getElementById(id);e.textContent=m;e.hidden=!m;}
+function dlg(id){document.getElementById(id).showModal();}
+function needLogin(then){if(api.user()){then();return;}pendingAfterLogin=then;resetLogin();dlg("dlogin");}
+var pendingAfterLogin=null;
+
+/* ---------- account + staff ---------- */
+async function refreshHeader(){
+  var u=api.user();document.getElementById("acctl").textContent=u?u.email.split("@")[0]:"Log masuk";
+  var sb=document.getElementById("staffbtn");
+  if(api.isStaff()){try{var qq=await api.queue();document.getElementById("qn").textContent=qq.races.length+qq.reviews.length+qq.claims.length+qq.reports.length;}catch(e){}sb.hidden=false;}else sb.hidden=true;
+}
+async function openAcct(){
+  document.getElementById("aemail").textContent=api.user().email;
+  var box=document.getElementById("amine");box.innerHTML='<p class="note">Memuatkan…</p>';dlg("dacct");
+  var rv=await api.myReviews(),rq=await api.myRequests(),cl=await api.myClaims();
+  box.innerHTML='<h3 class="h" style="margin-top:0">Ulasan kau</h3>'+(rv.length?rv.map(function(x){return'<div class="mine">'+esc(x.race)+" · "+stars(x.s.all)+'<span class="badge">'+({approved:"Keluar",pending:"Menunggu semakan",rejected:"Ditolak"}[x.status])+"</span></div>";}).join(""):'<p class="note">Belum ada.</p>')+
+   (rq.length?'<h3 class="h">Race yang kau minta</h3>'+rq.map(function(r){return'<div class="mine">'+esc(r.name)+'<span class="badge">'+(r.status==="pending"?"Menunggu semakan":"Ditolak")+"</span></div>";}).join(""):"")+
+   (cl.length?'<h3 class="h">Page penganjur</h3>'+cl.map(function(c){return'<div class="mine">'+esc(c.race)+" · "+esc(c.org_name)+'<span class="badge">'+({approved:"Disahkan",pending:"Menunggu pengesahan",rejected:"Ditolak"}[c.status])+"</span></div>";}).join(""):"");
+}
+async function openStaff(){
+  var box=document.getElementById("squeue");box.innerHTML='<p class="note">Memuatkan…</p>';dlg("dstaff");
+  var qq=await api.queue();
+  var rh=qq.races.map(function(r){return'<div class="qi" data-race="'+esc(r.id)+'"><span class="t">'+esc(r.name)+'</span><span class="m">'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+" · "+esc(r.place)+", "+esc(r.state)+" · "+r.cats.join("/")+"</span>"+(r.url?'<a class="m" href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.url)+"</a>":'<span class="m">Takde link</span>')+'<div class="ll"><input placeholder="Latitude" data-f="lat" inputmode="decimal" aria-label="Latitude"><input placeholder="Longitude" data-f="lng" inputmode="decimal" aria-label="Longitude"></div><textarea rows="2" data-f="note" placeholder="Nota ringkas (pilihan)" aria-label="Nota"></textarea><div class="b"><button class="y" data-act="race-ok">Lulus</button><button class="n" data-act="race-no">Tolak</button></div></div>';}).join("");
+  var vh=qq.reviews.map(function(x){return'<div class="qi" data-rv="'+esc(x.id)+'"><span class="t">'+esc(x.race)+" · "+esc(x.n)+" · "+stars(x.s.all)+'</span><span class="m">'+esc(x.c)+(x.proof?' · <a href="'+esc(x.proof)+'" target="_blank" rel="noopener">bukti</a>':" · takde bukti")+"</span>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+'<textarea rows="2" data-f="reply" placeholder="Balasan SihatLab (pilihan)" aria-label="Balasan"></textarea><div class="b"><button class="y" data-act="rv-ok">Lulus</button><button class="n" data-act="rv-no">Tolak</button></div></div>';}).join("");
+  var RS={fitnah:"Tuduhan tanpa bukti",serang:"Serang / kesat",peribadi:"Maklumat peribadi",palsu:"Palsu / tak join",spam:"Spam",lain:"Lain-lain"};
+  var ph=qq.reports.map(function(x){return'<div class="qi" data-rep="'+esc(x.id)+'" data-revid="'+esc(x.review_id)+'"><span class="t">'+esc(x.race)+" · ulasan "+esc(x.n)+'</span><span class="m">Sebab: '+esc(RS[x.reason]||x.reason)+(x.rstatus!=="approved"?" · ulasan dah tersembunyi":"")+"</span>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.note?'<p class="m">Nota pelapor: '+esc(x.note)+"</p>":"")+'<div class="b"><button class="n" data-act="rep-hide">Sembunyi ulasan</button><button data-act="rep-keep">Abaikan, ulasan okey</button></div></div>';}).join("");
+  var ch=qq.claims.map(function(c){return'<div class="qi" data-claim="'+esc(c.id)+'" data-race="'+esc(c.race_id)+'" data-user="'+esc(c.user_id)+'" data-org="'+esc(c.org_name)+'"><span class="t">'+esc(c.race)+" · "+esc(c.org_name)+'</span><span class="m">'+esc(c.role)+" · "+esc(c.contact)+"</span>"+(c.proof?'<a class="m" href="'+esc(c.proof)+'" target="_blank" rel="noopener">'+esc(c.proof)+"</a>":'<span class="m">Takde link bukti</span>')+'<p class="note">Sahkan dulu: hubungi kontak rasmi di laman penganjur, bukan kontak yang dia bagi.</p><div class="b"><button class="y" data-act="claim-ok">Sahkan penganjur</button><button class="n" data-act="claim-no">Tolak</button></div></div>';}).join("");
+  box.innerHTML=(ph?'<h3 class="h" style="margin-top:0">Aduan ('+qq.reports.length+')</h3><div class="q">'+ph+"</div>":"")+(ch?'<h3 class="h">Claim penganjur ('+qq.claims.length+')</h3><div class="q">'+ch+"</div>":"")+'<h3 class="h"'+(ph||ch?"":' style="margin-top:0"')+'>Race baru ('+qq.races.length+')</h3><div class="q">'+(rh||'<p class="note" style="padding:10px 0">Takde.</p>')+'</div><h3 class="h">Ulasan ('+qq.reviews.length+')</h3><div class="q">'+(vh||'<p class="note" style="padding:10px 0">Takde.</p>')+"</div>";
+}
+document.getElementById("squeue").addEventListener("click",async function(e){
+  var b=e.target.closest("[data-act]");if(!b)return;var it=b.closest(".qi"),act=b.dataset.act,val=function(f){var el=it.querySelector('[data-f="'+f+'"]');return el?el.value.trim():"";};
+  b.disabled=true;
+  try{
+    if(act==="race-ok"){var lat=parseFloat(val("lat")),lng=parseFloat(val("lng"));if(isNaN(lat)||isNaN(lng)){toast("Isi koordinat dulu supaya ada pin");b.disabled=false;return;}var o={status:"approved",lat:lat,lng:lng};if(val("note"))o.note=val("note");await api.updateRace(it.dataset.race,o);}
+    if(act==="race-no")await api.updateRace(it.dataset.race,{status:"rejected"});
+    if(act==="rv-ok"){var o2={status:"approved"};if(val("reply"))o2.reply=val("reply");await api.updateReview(it.dataset.rv,o2);}
+    if(act==="rv-no")await api.updateReview(it.dataset.rv,{status:"rejected"});
+    if(act==="rep-hide"){await api.updateReview(it.dataset.revid,{status:"rejected"});await api.updateReport(it.dataset.rep,{status:"done"});}
+    if(act==="rep-keep")await api.updateReport(it.dataset.rep,{status:"done"});
+    if(act==="claim-ok"){await api.updateRace(it.dataset.race,{organizer_id:it.dataset.user,organizer_name:it.dataset.org});await api.updateClaim(it.dataset.claim,{status:"approved"});}
+    if(act==="claim-no")await api.updateClaim(it.dataset.claim,{status:"rejected"});
+    it.remove();toast({"race-ok":"Race dilulus","rv-ok":"Ulasan dilulus","claim-ok":"Penganjur disahkan","rep-hide":"Ulasan disembunyikan","rep-keep":"Aduan ditutup"}[act]||"Ditolak");await load();refreshHeader();
+  }catch(er){toast("Gagal: "+er.message);b.disabled=false;}
+});
+
+/* ---------- events ---------- */
+document.addEventListener("click",function(e){
+  if(e.target.closest("[data-close]")){e.target.closest("dialog").close();return;}
+  var it=e.target.closest(".item");if(it){openRace(it.dataset.id);return;}
+  if(e.target.id==="back"){sel=null;history.replaceState(null,"",location.pathname);render();return;}
+  var w=e.target.closest("[data-w]");if(w){when=w.dataset.w;segOn("w",when);sel=null;render();return;}
+  var c=e.target.closest("[data-c]");if(c){cat=c.dataset.c;segOn("c",cat);sel=null;render();return;}
+  var sb=e.target.closest(".sort button");if(sb){sortBy=sb.dataset.s;render();return;}
+  if(e.target.closest("[data-add]")||e.target.closest("#addrace")){needLogin(function(){document.getElementById("af").reset();showErr("aerr","");dlg("dadd");});return;}
+  if(e.target.id==="write"){needLogin(openWrite);return;}
+  if(e.target.closest("#acct")){if(api.user())openAcct();else needLogin(function(){});return;}
+  if(e.target.closest("#staffbtn")){openStaff();return;}
+  if(e.target.id==="logout"){api.logout().then(function(){document.getElementById("dacct").close();refreshHeader();render();toast("Dah log keluar");});return;}
+  if(e.target.closest("[data-guide]")){dlg("dguide");return;}
+  var rpb=e.target.closest("[data-report]");if(rpb){reportId=rpb.dataset.report;document.getElementById("rf").reset();showErr("rerr","");dlg("drep");return;}
+  var orb=e.target.closest("[data-orgreply]");if(orb){orgId=orb.dataset.orgreply;var cur=curReviews.find(function(x){return x.id===orgId;});document.getElementById("of").msg.value=(cur&&cur.org)||"";showErr("oerr","");dlg("dorg");return;}
+  if(e.target.closest("#claim")){needLogin(function(){var r=RACES.find(function(x){return x.id===sel;});document.getElementById("cf2").reset();showErr("cerr","");document.getElementById("ct").textContent="Urus page: "+r.name;dlg("dclaim");});return;}
+  var sbtn=e.target.closest(".st button");if(sbtn){draft[sbtn.parentElement.dataset.k]=+sbtn.dataset.v;drawStars();return;}
+});
+document.getElementById("side").addEventListener("input",function(e){if(e.target.id==="ptime"||e.target.id==="pcat")calcPace();});
+document.getElementById("side").addEventListener("change",function(e){if(e.target.id==="pcat")calcPace();});
+document.getElementById("q").addEventListener("input",function(e){q=e.target.value.trim().toLowerCase();sel=null;render();});
+
+var loginStep="email";
+function resetLogin(){loginStep="email";var f=document.getElementById("lf");f.reset();f.email.readOnly=false;document.getElementById("codel").hidden=true;document.getElementById("lbtn").textContent=LOGIN_CODE?"Hantar kod":"Hantar link";showErr("lerr","");document.getElementById("lok").hidden=true;}
+async function afterLogin(){document.getElementById("dlogin").close();await refreshHeader();toast("Dah log masuk");if(pendingAfterLogin){var f=pendingAfterLogin;pendingAfterLogin=null;f();}render();}
+document.getElementById("lf").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target,em=f.email.value.trim(),btn=document.getElementById("lbtn");
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){showErr("lerr","Emel tak betul.");return;}
+  btn.disabled=true;showErr("lerr","");
+  try{
+    if(loginStep==="email"){var r=await api.login(em);
+      if(r==="sent"&&!LOGIN_CODE){var ok0=document.getElementById("lok");ok0.textContent="Link dah dihantar ke "+em+". Buka emel dan tekan link dalam browser yang sama dengan page ni. Tak jumpa? Semak folder spam.";ok0.hidden=false;}
+      else if(r==="sent"){loginStep="code";f.email.readOnly=true;document.getElementById("codel").hidden=false;btn.textContent="Masuk";var ok=document.getElementById("lok");ok.textContent="Kod dah dihantar ke "+em+". Tak jumpa? Semak folder spam. Boleh juga tekan link dalam emel tu.";ok.hidden=false;f.code.focus();}
+      else await afterLogin();}
+    else{var c=f.code.value.replace(/\D/g,"");if(c.length<6){showErr("lerr","Masukkan kod 6 digit.");btn.disabled=false;return;}await api.verify(em,c);await afterLogin();}
+  }catch(er){showErr("lerr",loginStep==="code"?"Kod salah atau dah tamat. Minta kod baru kalau perlu.":(/rate|seconds/i.test(er.message)?"Tunggu sekejap sebelum minta kod lagi.":"Tak dapat hantar kod. Cuba lagi sekejap."));}
+  btn.disabled=false;
+});
+var draft={};
+function drawStars(){document.querySelectorAll(".st").forEach(function(box){var k=box.dataset.k;box.innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" data-v="'+i+'" class="'+(draft[k]>=i?"on":"")+'" aria-label="'+i+' bintang">★</button>';}).join("");});}
+function openWrite(){var r=RACES.find(function(x){return x.id===sel;});draft={};drawStars();document.getElementById("wf").reset();showErr("werr","");document.getElementById("wt").textContent="Ulasan: "+r.name;document.getElementById("wcat").innerHTML=r.cats.map(function(c){return"<option>"+esc(c)+"</option>";}).join("");dlg("dlg");}
+document.getElementById("wf").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target;if(!draft.all){showErr("werr","Bagi bintang keseluruhan dulu.");return;}if(!f.agree.checked){showErr("werr","Tick kotak garis panduan dulu.");return;}if(!f.name.value.trim()){showErr("werr","Isi nama yang dipaparkan.");return;}
+  var proof=f.proof.value.trim();if(proof&&!/^https?:\/\//.test(proof))proof="https://"+proof;
+  var o={race_id:sel,display_name:f.name.value.trim(),cat:f.cat.value,s_all:draft.all,again:f.again.value==="1",body:f.body.value.trim()||null,proof:proof||null};
+  KEYS.forEach(function(k){o["s_"+k[0]]=draft[k[0]]||draft.all;});
+  var btn=f.querySelector(".sub");btn.disabled=true;
+  try{await api.addReview(o);document.getElementById("dlg").close();toast("Terima kasih. Ulasan kau disemak dulu.");render();refreshHeader();}
+  catch(er){showErr("werr",/duplicate|unique/i.test(er.message)?"Kau dah rate race ni.":"Tak dapat hantar. Cuba lagi.");}
+  btn.disabled=false;
+});
+var reportId=null,orgId=null;
+document.getElementById("rf").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target,r=f.querySelector('input[name="reason"]:checked');if(!r){showErr("rerr","Pilih sebab.");return;}
+  var btn=f.querySelector(".sub");btn.disabled=true;
+  try{await api.report({review_id:reportId,reason:r.value,note:f.note.value.trim()||null});document.getElementById("drep").close();toast("Terima kasih. Kami semak dalam 3 hari bekerja.");refreshHeader();}
+  catch(er){showErr("rerr","Tak dapat hantar. Cuba lagi.");}
+  btn.disabled=false;
+});
+document.getElementById("cf2").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target;
+  var miss=[["org","nama penganjur"],["role","jawatan"],["contact","kontak"]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
+  if(miss.length){showErr("cerr","Isi dulu: "+miss.join(", "));return;}
+  var proof=f.proof.value.trim();if(proof&&!/^https?:\/\//.test(proof))proof="https://"+proof;
+  var btn=f.querySelector(".sub");btn.disabled=true;
+  try{await api.claim({race_id:sel,org_name:f.org.value.trim(),role:f.role.value.trim(),contact:f.contact.value.trim(),proof:proof||null,status:"pending"});document.getElementById("dclaim").close();toast("Dihantar. Kami hubungi kontak rasmi penganjur untuk sahkan.");refreshHeader();}
+  catch(er){showErr("cerr",/duplicate|unique/i.test(er.message)?"Kau dah hantar permintaan untuk race ni.":"Tak dapat hantar. Cuba lagi.");}
+  btn.disabled=false;
+});
+document.getElementById("of").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target,btn=f.querySelector(".sub");btn.disabled=true;
+  try{await api.orgReply(orgId,f.msg.value.trim());document.getElementById("dorg").close();toast("Balasan disimpan");render();}
+  catch(er){showErr("oerr","Tak dapat simpan. Pastikan kau log masuk sebagai penganjur race ni.");}
+  btn.disabled=false;
+});
+document.getElementById("af").addEventListener("submit",async function(e){
+  e.preventDefault();var f=e.target;
+  var miss=[["name","nama race"],["date","tarikh"],["state","negeri"],["place","tempat start"]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
+  if(miss.length){showErr("aerr","Isi dulu: "+miss.join(", "));return;}
+  var url=f.url.value.trim();if(url&&!/^https?:\/\//.test(url))url="https://"+url;
+  var o={name:f.name.value.trim(),date_start:f.date.value,flagoff:f.flagoff.value||null,state:f.state.value,place:f.place.value.trim(),cats:[].slice.call(f.querySelectorAll('input[name="c"]:checked')).map(function(x){return x.value;}),url:url||null,status:"pending"};
+  var btn=f.querySelector(".sub");btn.disabled=true;
+  try{await api.requestRace(o);document.getElementById("dadd").close();toast("Terima kasih. Race dihantar untuk semakan.");refreshHeader();}
+  catch(er){showErr("aerr","Tak dapat hantar. Semak link dan cuba lagi.");}
+  btn.disabled=false;
+});
+
+/* ---------- start ---------- */
+map=L.map("map").setView([4.2,102],6);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap"}).addTo(map);
+document.getElementById("demo").hidden=api.mode!=="demo";
+(async function(){
+  await api.init(function(){refreshHeader();render();});
+  await refreshHeader();await load();
+  var h=location.hash.slice(1);if(h&&RACES.some(function(r){return r.id===h;}))openRace(h);
+})();
+</script>
+</body>
+</html>
