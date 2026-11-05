@@ -16,7 +16,7 @@
 <meta property="og:url" content="https://sihatlab.com.my/kalkulator.html">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 :root{--black:#000;--ink:#1D1D1F;--grey:#6E6E73;--muted:#86868B;--line:#E5E5EA;--mist:#F5F5F7;--white:#fff;--soft:#A1A1A6;--volt:#C8F31D;--red:#FF3B30;--yellow:#FFD60A;color-scheme:light}
 *{box-sizing:border-box}
@@ -98,6 +98,25 @@ nav .btn{min-height:44px}
 /* contrast 4.5:1 (sihatlab-web checklist) */
 :root{--muted:#6E6E73}
 .t5{background:#C4281C}
+/* ===== EDITORIAL LOOK (matches index.html) ===== */
+:root{--mist:#F4F4F1;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+body{background:#F4F4F1}
+*,*::before,*::after{border-radius:0!important;box-shadow:none!important}
+.btn,.seg button,input,select{border-radius:2px!important}
+nav{background:#F4F4F1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:1px solid #111}
+.lang{background:transparent!important;border:1px solid #111;padding:0!important}
+.lang button{font-family:var(--mono)!important;font-size:12px!important}
+.lang button[aria-pressed="true"]{background:#111!important;color:var(--volt)!important}
+nav .btn,.jump a{font-family:var(--mono);font-size:12px!important;text-transform:uppercase;letter-spacing:.04em;border-radius:0!important}
+.jump a.o{box-shadow:none!important;border:1px solid #3A3A3C}
+h1,h2{font-weight:900!important;text-transform:uppercase;letter-spacing:-.045em!important;line-height:.92!important}
+.hero h1{font-size:clamp(44px,8vw,96px)!important}
+.eyebrow,.lbl,.tag,.big span,.preds span,.time span{font-family:var(--mono)}
+.eyebrow,.lbl{text-transform:uppercase;letter-spacing:.05em;font-size:12px!important;font-weight:500!important}
+.big b,.row .v,.preds b,.tag{font-family:var(--mono)!important;letter-spacing:-.03em}
+.card,details{border:1px solid #1111112b;background:#fff}
+.row{border-bottom-color:#1111111f}
+.seg button.sel{background:#111}
 </style>
 </head>
 <body>

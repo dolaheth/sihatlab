@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 /* Layout: Apple-style long scroll. Black bands for hero and close, #F5F5F7 bands with white cards between, one 1120px column. Same tokens as the Nota Running deck. */
 :root{
@@ -408,6 +408,65 @@ nav .btn{min-height:44px}
 .tz-dots i{width:8px;height:8px;border-radius:4px;background:#D2D2D7;transition:width .2s,background .2s}
 .tz-dots i.on{background:var(--ink);width:22px}
 @media (max-width:480px){.tz-end{aspect-ratio:auto;min-height:180px}}
+/* ===== EDITORIAL LOOK (Nov 2026): sharp edges, hairlines, mono numbers. Remove this block to go back. ===== */
+:root{--paper:#F4F4F1;--mist:#F4F4F1;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+body{background:var(--paper)}
+*,*::before,*::after{border-radius:0!important;box-shadow:none!important}
+.ppl i,.pill::before,.urgent::before,.gal-dots i,.tz-dots i{border-radius:50%!important}
+.btn,.opt,.seg button,input,select,.code input,.wl input,.wl select{border-radius:2px!important}
+h1,h2{font-weight:900!important;text-transform:uppercase;letter-spacing:-.045em!important;line-height:.92!important}
+.grad,.grad-ink{background:none!important;-webkit-text-fill-color:currentColor!important}
+.hl{-webkit-text-fill-color:var(--volt)!important;color:var(--volt)!important}
+.eyebrow{font-family:var(--mono)!important;font-size:12px!important;font-weight:500!important;text-transform:uppercase;letter-spacing:.06em!important}
+.big,.amt,.total b,.stickycta b,.ratio,.num,.when,.bab,.src,.secure,.k,.tag,.pill,.creds,.yrs,.jweeks,.jphase,.q cite,.tz-hint,.tzs figcaption,.gs figcaption span{font-family:var(--mono)!important}
+.big,.amt{letter-spacing:-.04em!important}
+body{counter-reset:sec}
+section:has(> .wrap > .eyebrow:first-child),section:has(> .wrap > div > .eyebrow:first-child){counter-increment:sec}
+section > .wrap > .eyebrow:first-child::before,section > .wrap > div > .eyebrow:first-child::before{content:counter(sec,decimal-leading-zero) " / ";color:inherit}
+body > section{border-top:1px solid #111}
+.card,.opt,.sum,.gift,.who .wp,.extras .card{border:1px solid #1111112b}
+.card{background:#fff}
+.opt.on,.who .wp[aria-pressed="true"]{border:2px solid #111!important}
+.opt.promo.on{border-color:var(--volt)!important}
+
+/* nav */
+nav{background:var(--paper)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:1px solid #111!important}
+nav .links a{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.calcbtn{width:auto!important;height:44px!important;padding:0 12px;gap:7px;background:transparent!important;border:1px solid #111}
+.calcbtn .cl{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:500}
+.calcbtn:hover{background:var(--volt)!important}
+.lang{background:transparent!important;border:1px solid #111}
+.lang button{font-family:var(--mono)!important;font-size:12px!important}
+.lang button[aria-pressed="true"]{background:#111!important;color:var(--volt)!important}
+nav .btn{font-family:var(--mono);font-size:12px!important;text-transform:uppercase;letter-spacing:.04em}
+@media (max-width:440px){.navr{gap:6px}.calcbtn{padding:0 8px}nav .btn{display:none!important}nav .wrap{gap:8px}nav .logo{height:22px}}
+
+/* hero */
+.hero{border-bottom:1px solid #111}
+.hero .photo::after{background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.6) 30%,rgba(0,0,0,0) 62%)}
+.hero h1{font-size:clamp(56px,8vw,116px)!important;line-height:.86!important;color:#fff;max-width:560px!important}
+.hero h1 em{font-style:italic;color:var(--volt)}
+.pill{border:0!important;padding:0!important;background:none!important;color:#B5B5B5!important;font-size:12px!important;text-transform:uppercase;letter-spacing:.05em;font-weight:500!important}
+.creds.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid #ffffff33;padding-top:0}
+.creds.stats span{display:flex;flex-direction:column;padding:14px 12px 0 0}
+.creds.stats b{font-size:26px;color:#fff!important;font-weight:700;letter-spacing:-.02em}
+.creds.stats i{font-style:normal;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#A0A0A0;margin-top:4px}
+@media (max-width:720px){.creds.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mq-track span{font-weight:900;font-style:italic;text-transform:uppercase}
+.btn{font-weight:800}
+
+/* syllabus: index rows */
+.learn{display:block!important;border-top:1px solid #111;counter-reset:bab -1;margin-top:40px!important}
+.learn .card{display:grid!important;grid-template-columns:64px minmax(0,1fr) 150px;column-gap:20px;row-gap:4px;padding:22px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid #1111111f!important;counter-increment:bab;position:relative;transition:padding .15s}
+.learn .card::before{content:counter(bab,decimal-leading-zero);grid-column:1;grid-row:1/span 4;font:700 30px/1 var(--mono);letter-spacing:-.04em}
+.learn .card:hover{padding-left:12px!important}
+.learn .card:hover::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--volt)}
+.learn .when{grid-column:3;grid-row:1/span 2;justify-self:end;align-self:start;background:none!important;color:var(--ink)!important;font-size:15px!important;font-weight:700!important;padding:0!important;letter-spacing:0!important;white-space:nowrap}
+.learn .card:first-child .when{background:var(--volt)!important;padding:0 6px!important}
+.learn .bab{grid-column:2;color:var(--grey)!important;font-size:12px!important}
+.learn h3{grid-column:2;font-size:22px!important;font-weight:800!important}
+.learn .card > p:not(.when):not(.bab){grid-column:2}
+@media (max-width:720px){.learn .card{grid-template-columns:40px minmax(0,1fr);column-gap:12px}.learn .card::before{font-size:22px}.learn .when{grid-column:2;grid-row:auto;justify-self:start;font-size:13px!important}}
 </style>
 </head>
 <body>
@@ -419,7 +478,7 @@ nav .btn{min-height:44px}
     <a href="#" aria-label="SihatLab"><img class="logo" src="logo-dark.png" alt="SihatLab"></a>
     <div class="links"><a href="#belajar" data-en="Classes">Kelas</a><a href="#coach">Coach</a><a href="#bukti" data-en="Reviews">Kata peserta</a><a href="#harga" data-en="Pricing">Harga</a><a href="#soalan" data-en="FAQ">Soalan</a><a href="kalkulator.html" data-en="Calculators">Kalkulator</a></div>
     <div class="navr">
-      <a class="calcbtn" href="kalkulator.html" aria-label="Kalkulator VDOT dan heart rate / VDOT and heart rate calculators" title="Kalkulator"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg></a>
+      <a class="calcbtn" href="kalkulator.html" aria-label="Kalkulator VDOT dan heart rate / VDOT and heart rate calculators" title="Kalkulator"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg><span class="cl" data-en="Calculator">Kalkulator</span></a>
       <div class="lang" role="group" aria-label="Bahasa / Language">
         <button type="button" data-l="ms" aria-pressed="true" lang="ms">BM</button>
         <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
@@ -432,18 +491,18 @@ nav .btn{min-height:44px}
 <header class="hero">
   <div class="photo" role="img" aria-label="Coach Dollah berlari dalam half marathon"></div>
   <div class="wrap">
-    <span class="pill" data-en="Kelas Lari SihatLab (Run 30) · Cohort 1 · Online, Sundays 9pm">Kelas Lari SihatLab (Run 30) · Cohort 1 · Online, Ahad 9 malam</span>
-    <h1 class="grad" data-en="Run 30 minutes.<br>No injuries.">Lari 30 minit.<br>Tanpa injury.</h1>
+    <span class="pill" data-en="Run 30 · Cohort 01 · Online · Sun 9pm · 22.11 → 17.01">Run 30 · Cohort 01 · Online · Ahad 9 malam · 22.11 → 17.01</span>
+    <h1 data-en="Run<br>30 minutes.<br><em>No<br>injuries.</em>">Lari<br>30 minit.<br><em>Tanpa<br>injury.</em></h1>
     <p class="sub" data-en="You don’t need to be an athlete to start running. You don’t need an expensive watch. From walking to running your first 5K non-stop!">Tak perlu jadi athlete untuk start berlari. Tak perlu jam yang mahal. Dari berjalan ke first 5KM lari non stop!</p>
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
       <a class="btn btn-w" href="#harga" data-en="Let’s start">Jom start</a>
       <span style="color:var(--soft);font-size:15px" data-en="First class just RM19 · a free guideline with every ticket">Kelas pertama RM19 je · semua dapat guideline free</span>
     </div>
-    <div class="creds">
-      <span data-en="<b>4.6/5</b> from 19 students"><b>4.6/5</b> dari 19 peserta</span>
-      <span><b>World Athletics</b> Level 1 Coach</span>
-      <span data-en="<b>Sports Science</b> Level 1, AKK"><b>Sains Sukan</b> Tahap 1, AKK</span>
-      <span>5K PB <b>18:47</b></span>
+    <div class="creds stats">
+      <span><b>4.6/5</b><i data-en="from 19 students">dari 19 peserta</i></span>
+      <span><b>18:47</b><i data-en="coach 5K PB">PB 5K coach</i></span>
+      <span><b>WA L1</b><i>World Athletics</i></span>
+      <span><b>AKK</b><i data-en="Sports Science L1">Sains Sukan T1</i></span>
     </div>
   </div>
 </header>
