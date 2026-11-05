@@ -379,6 +379,35 @@ nav .btn{min-height:44px}
 .learn .bab,.extras .k,.secure,.learn .seq,.extras .soon,.opt .was{color:var(--grey)}
 .proof .src{color:#8E8E93}
 .danger .card.hot,.tag{background:#C4281C}
+/* RM19 first-class promo */
+.opt.promo{background:#000;color:#fff}
+.opt.promo p{color:#C7C7CC}
+.opt.promo .amt{color:var(--volt)}
+.opt.promo .was{color:#A1A1A6}
+.tag.tag-v{background:var(--volt);color:#000}
+/* slide teaser carousel */
+.tz{margin-top:28px}
+.tz-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tz-hint{font-size:13px;color:var(--grey)}
+.tz-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-top:12px;padding-bottom:4px}
+.tz-track::-webkit-scrollbar{display:none}
+.tz-track:focus-visible{outline:3px solid #0071E3;outline-offset:2px;border-radius:20px}
+.tzs{flex:0 0 88%;margin:0;scroll-snap-align:start;display:flex;flex-direction:column;gap:8px}
+@media (min-width:860px){.tzs{flex-basis:calc(62% - 6px)}}
+.tzs img{width:100%;height:auto;aspect-ratio:16/9;display:block;border-radius:18px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.08)}
+.tzs a:focus-visible{outline:3px solid #0071E3;outline-offset:2px;border-radius:18px;display:block}
+.tzs figcaption{font-size:14px;font-weight:600;color:var(--grey)}
+.tz-end{background:#000;color:#fff;border-radius:18px;padding:28px;justify-content:center;gap:14px;aspect-ratio:16/9;align-self:flex-start;width:100%}
+.tz-end .k{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--volt)}
+.tz-end h3{font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em;line-height:1.2}
+.tz-end .btn{align-self:flex-start}
+.tz-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:10px}
+.tz-b{width:44px;height:44px;border-radius:50%;border:1px solid #D2D2D7;background:#fff;color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.tz-b:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.tz-dots{display:flex;gap:6px;align-items:center}
+.tz-dots i{width:8px;height:8px;border-radius:4px;background:#D2D2D7;transition:width .2s,background .2s}
+.tz-dots i.on{background:var(--ink);width:22px}
+@media (max-width:480px){.tz-end{aspect-ratio:auto;min-height:180px}}
 </style>
 </head>
 <body>
@@ -408,7 +437,7 @@ nav .btn{min-height:44px}
     <p class="sub" data-en="You don’t need to be an athlete to start running. You don’t need an expensive watch. From walking to running your first 5K non-stop!">Tak perlu jadi athlete untuk start berlari. Tak perlu jam yang mahal. Dari berjalan ke first 5KM lari non stop!</p>
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
       <a class="btn btn-w" href="#harga" data-en="Let’s start">Jom start</a>
-      <span style="color:var(--soft);font-size:15px" data-en="From RM39 · a free guideline with every ticket">Dari RM39 je · semua dapat guideline free</span>
+      <span style="color:var(--soft);font-size:15px" data-en="First class just RM19 · a free guideline with every ticket">Kelas pertama RM19 je · semua dapat guideline free</span>
     </div>
     <div class="creds">
       <span data-en="<b>4.6/5</b> from 19 students"><b>4.6/5</b> dari 19 peserta</span>
@@ -493,6 +522,18 @@ nav .btn{min-height:44px}
       <div class="card mist"><p class="when" data-en="SUN 3 JAN">AHAD 3 JAN</p><p class="bab" data-en="CHAPTER 5 · PLANNING YOUR WEEK">BAB 5 · SUSUN LATIHAN</p><h3 data-en="How often? How far?">Seminggu berapa kali? Berapa jauh?</h3><p data-en="Supercompensation, rest, and a training week you can actually stick to. Timing beats volume.">Supercompensation, rehat, dan susun minggu latihan yang realistik. Timing beats volume.</p><p class="seq" data-en="Easier if you’ve done Chapter 2">Lagi faham kalau dah ikut Bab 2</p></div>
       <div class="card mist"><p class="when" data-en="SUN 10 JAN">AHAD 10 JAN</p><p class="bab" data-en="CHAPTER 6 · EATING FOR RUNNING">BAB 6 · MAKAN UNTUK LARI</p><h3 data-en="What should I eat before and after a run?">Nak makan apa sebelum dan lepas lari?</h3><p data-en="Energy basics, hydration, and eating to recover. No extreme diets.">Asas tenaga, air, dan makan untuk recover. Takde diet ekstrem.</p></div>
       <div class="card mist"><p class="when" data-en="SUN 17 JAN">AHAD 17 JAN</p><p class="bab" data-en="CHAPTER 7 · INJURIES AND RACE DAY">BAB 7 · INJURY DAN RACE</p><h3 data-en="Sore knee. Rest or keep going?">Lutut sakit. Rehat ke teruskan?</h3><p data-en="Spot the early signs of injury, basic strength work, and race-day prep.">Kenal tanda awal injury, strength asas, dan persediaan hari race.</p></div>
+    </div>
+    <div class="tz" aria-label="Contoh slide kelas / Sample class slides">
+      <div class="tz-head"><p class="eyebrow" data-en="Peek inside the class">Intip isi kelas</p><p class="tz-hint" data-en="Swipe · tap a slide to zoom">Swipe · tekan slide untuk besarkan</p></div>
+      <div class="tz-track" id="tztrack" tabindex="0">
+        <figure class="tzs"><a href="teaser-1.jpg" target="_blank" rel="noopener"><img src="teaser-1.jpg" alt="Slide Bab 0: empat mitos yang buat orang tak mula lari" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · Myths vs facts">Bab 0 · Mitos vs fakta</figcaption></figure>
+        <figure class="tzs"><a href="teaser-2.jpg" target="_blank" rel="noopener"><img src="teaser-2.jpg" alt="Slide Bab 0: ujian bercakap, boleh nyanyi, ayat penuh, 2 hingga 3 perkataan" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · The talk test">Bab 0 · Ujian bercakap</figcaption></figure>
+        <figure class="tzs"><a href="teaser-3.jpg" target="_blank" rel="noopener"><img src="teaser-3.jpg" alt="Slide Bab 0: tiga tahap dari jalan laju ke lari 30 minit" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · Three stages">Bab 0 · Tiga tahap</figcaption></figure>
+        <figure class="tzs"><a href="teaser-4.jpg" target="_blank" rel="noopener"><img src="teaser-4.jpg" alt="Slide Bab 3: formula MAF 180 tolak umur" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 3 · The MAF formula">Bab 3 · Formula MAF</figcaption></figure>
+        <figure class="tzs"><a href="teaser-5.jpg" target="_blank" rel="noopener"><img src="teaser-5.jpg" alt="Slide Bab 2: lima zon heart rate" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 2 · Heart rate zones">Bab 2 · Zon heart rate</figcaption></figure>
+        <div class="tzs tz-end"><p class="k" data-en="And that’s just a peek">Ni baru sikit</p><h3 data-en="Every class has slides like these, plus notes and homework.">Setiap kelas ada slide macam ni, plus nota dan homework.</h3><a class="btn btn-v" href="#harga" data-en="Try Chapter 0 for RM19">Cuba Bab 0, RM19</a></div>
+      </div>
+      <div class="tz-nav"><button type="button" class="tz-b" data-td="-1" aria-label="Sebelum / Previous">‹</button><div class="tz-dots" id="tzdots"><i></i><i></i><i></i><i></i><i></i><i></i></div><button type="button" class="tz-b" data-td="1" aria-label="Seterusnya / Next">›</button></div>
     </div>
     <a class="calcpromo" href="kalkulator.html"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg></span><span><b data-en="Free calculators: VDOT and heart rate zones">Kalkulator percuma: VDOT dan zon heart rate</b><span data-en="Get your training paces from one race, or your HR zones from your age.">Dapat pace latihan dari satu race, atau zon heart rate dari umur kau.</span></span><span class="go" aria-hidden="true">→</span></a>
   </div>
@@ -580,9 +621,13 @@ nav .btn{min-height:44px}
       <span class="ic" aria-hidden="true">PDF</span>
       <div><h3 data-en="Free for everyone: Start Running Plan">Bonus untuk semua: Pelan Mula Lari</h3><p data-en="A 3-stage plan from brisk walking to running 30 minutes. It’s yours right after payment, so you can start before class.">Pelan 3 tahap dari jalan laju ke lari 30 minit. Dapat terus lepas bayar, boleh start sementara tunggu kelas.</p></div>
     </div>
-    <p class="urgent" data-en="Early bird price RM149 until 15 Nov only. After that it’s RM199.">Harga early bird RM149 sampai 15 Nov je. Lepas tu RM199.</p>
+    <p class="urgent" data-en="First-class promo: Chapter 0 on Sunday 22 Nov for just RM19 (normally RM39). Bundle early bird RM149 until 15 Nov.">Promo kelas pertama: Bab 0, Ahad 22 Nov, RM19 je (biasa RM39). Bundle early bird RM149 sampai 15 Nov.</p>
     <div class="price">
       <div class="opts">
+        <button class="opt promo on" id="opt-promo" data-k="promo" type="button">
+          <div><h3><span data-en="First class">Kelas pertama</span><span class="tag tag-v" data-en="Promo">Promo</span></h3><p data-en="Chapter 0 · Sun 22 Nov, 9pm · Starting from zero">Bab 0 · Ahad 22 Nov, 9 malam · Mula dari kosong</p></div>
+          <span class="amt"><span class="was">RM39</span>RM19</span>
+        </button>
         <button class="opt" id="opt-one" data-k="one" type="button">
           <div><h3 data-en="Walk-in, one chapter">Walk-in, satu Bab</h3><p data-en="1 live class · pick any chapter below">1 kelas live · pilih mana-mana Bab kat bawah</p></div>
           <span class="amt">RM39</span>
@@ -590,9 +635,9 @@ nav .btn{min-height:44px}
         <div class="pick">
           <label for="bab" data-en="Which class?">Kelas mana?</label>
           <select id="bab"></select>
-          <p class="credit" data-en="Walked in and want the rest? I’ll WhatsApp you an upgrade link after class, with your RM39 already taken off. Valid for 7 days.">Dah walk-in dan nak sambung? Aku WhatsApp link upgrade lepas kelas, RM39 dah ditolak. Sah 7 hari.</p>
+          <p class="credit" data-en="Walked in and want the rest? I’ll WhatsApp you an upgrade link after class, with what you paid for the walk-in taken off. Valid for 7 days.">Dah walk-in dan nak sambung? Aku WhatsApp link upgrade lepas kelas, bayaran walk-in kau dah ditolak. Sah 7 hari.</p>
         </div>
-        <button class="opt on" id="opt-bundle" data-k="bundle" type="button">
+        <button class="opt" id="opt-bundle" data-k="bundle" type="button">
           <div><h3><span data-en="8-class bundle">Bundle 8 kelas</span><span class="tag" data-en="Early bird · until 15 Nov">Early bird · sampai 15 Nov</span></h3><p data-en="Chapters 0–7, 30-day replays, every bonus">Bab 0–7, rakaman 30 hari, semua bonus</p></div>
           <span class="amt"><span class="was">RM199</span>RM149</span>
         </button>
@@ -607,7 +652,7 @@ nav .btn{min-height:44px}
         <p class="eyebrow" data-en="Summary">Ringkasan</p>
         <p id="sumname" style="font-size:20px;font-weight:700;letter-spacing:-.02em"></p>
         <ul id="bonus"></ul>
-        <div class="total"><span style="color:var(--grey)" data-en="Total">Jumlah</span><b id="total">RM149</b></div>
+        <div class="total"><span style="color:var(--grey)" data-en="Total">Jumlah</span><b id="total">RM19</b></div>
         <button type="button" class="btn btn-v pay" data-wl="pick" data-en="Save my spot">Simpan tempat aku</button>
         <p class="secure" data-en="Payment isn’t open yet. Join the waitlist and we’ll send you the payment link when it opens.">Bayaran belum buka. Masuk senarai menunggu dulu, kami hantar link bayaran bila dah buka.</p>
       </aside>
@@ -644,7 +689,7 @@ nav .btn{min-height:44px}
       <details><summary data-en="Is it guaranteed I won’t get injured, or that I’ll lose weight?">Confirm ke tak cedera atau turun berat?</summary><p data-en="No honest coach can promise that. What I give you: a plan that builds slowly, how to spot the early signs of injury, and tests to measure your progress. Results depend on how consistent you are.">Coach yang jujur takkan janji macam tu. Apa yang aku bagi: pelan yang naik perlahan, cara kenal tanda awal injury, dan ujian untuk ukur progress. Result bergantung pada konsisten korang.</p></details>
       <details><summary data-en="What language is the class in?">Kelas dalam bahasa apa?</summary><p data-en="Malay, with sports terms in English (heart rate, pace, VDOT) so you can read your watch and running apps. Questions in English are always welcome.">Bahasa Melayu, dengan istilah sukan dalam English (heart rate, pace, VDOT) supaya korang faham bila baca jam atau app lari.</p></details>
       <details><summary data-en="How is SihatLab different from other running coaches?">Apa beza SihatLab dengan coach lari lain?</summary><p data-en="Four things. A certified coach (World Athletics Level 1, Sports Science Level 1 AKK), not an influencer. We start from walking, for people who’ve never run. The plan builds slowly with easy weeks so you stay injury-free. And progress is measured with tests in week 1 and week 12, not guessed.">Empat benda. Coach bertauliah (World Athletics Level 1, Sains Sukan Tahap 1 AKK), bukan influencer. Kita start dari jalan kaki, untuk orang yang tak pernah lari. Pelan naik perlahan dengan minggu ringan supaya tak cedera. Dan progress diukur guna ujian minggu 1 dan minggu 12, bukan teka.</p></details>
-      <details><summary data-en="What’s the difference between a walk-in and the bundle?">Apa beza walk-in dengan bundle?</summary><p data-en="Walk-in: 1 live class for the chapter you pick, plus the Start Running Plan PDF. Bundle: all 8 classes, 30-day replays, the Nota Running 2026 ebook, a form-check report, a progress tracker and a certificate. Walked in and liked it? I’ll WhatsApp you an upgrade link after class, with your RM39 already taken off. Valid for 7 days.">Walk-in: 1 kelas live untuk Bab yang korang pilih, plus PDF Pelan Mula Lari. Bundle: semua 8 kelas, rakaman 30 hari, e-book Nota Running 2026, form-check report, tracker progress dan sijil. Dah walk-in dan suka? Aku WhatsApp link upgrade lepas kelas, RM39 dah ditolak. Sah 7 hari.</p></details>
+      <details><summary data-en="What’s the difference between a walk-in and the bundle?">Apa beza walk-in dengan bundle?</summary><p data-en="Walk-in: 1 live class for the chapter you pick, plus the Start Running Plan PDF. Bundle: all 8 classes, 30-day replays, the Nota Running 2026 ebook, a form-check report, a progress tracker and a certificate. Walked in and liked it? I’ll WhatsApp you an upgrade link after class, with what you paid for the walk-in taken off. Valid for 7 days.">Walk-in: 1 kelas live untuk Bab yang korang pilih, plus PDF Pelan Mula Lari. Bundle: semua 8 kelas, rakaman 30 hari, e-book Nota Running 2026, form-check report, tracker progress dan sijil. Dah walk-in dan suka? Aku WhatsApp link upgrade lepas kelas, bayaran walk-in kau dah ditolak. Sah 7 hari.</p></details>
       <details><summary data-en="How do I get the certificate?">Macam mana nak dapat sijil?</summary><p data-en="Bundle students who attend at least 6 of the 8 live classes, and watch the replay of every class they miss, get a signed participation certificate for Kelas Lari SihatLab (Run 30) as a PDF. Joined mid-cohort? It comes once you’ve met the same rule, including the classes you take in the next cohort.">Peserta bundle yang hadir sekurang-kurangnya 6 dari 8 kelas live, dan tengok rakaman untuk setiap kelas yang terlepas, dapat Sijil Penyertaan Kelas Lari SihatLab (Run 30) bertandatangan coach, dalam PDF. Join tengah jalan? Sijil keluar bila dah cukup syarat yang sama, termasuk kelas yang diikut dalam cohort seterusnya.</p></details>
       <details><summary data-en="What if I miss a live class?">Kalau terlepas kelas live?</summary><p data-en="Bundle students get replays of every class for 30 days. A walk-in ticket can move to another chapter once, with 24 hours’ notice.">Peserta bundle dapat rakaman setiap kelas, 30 hari. Tiket walk-in boleh tukar ke Bab lain sekali, bagitahu 24 jam awal.</p></details>
       <details><summary data-en="Can I join the bundle after the cohort has started?">Boleh join bundle bila kelas dah start?</summary><p data-en="Yes. You get the replays of the classes that already happened, and you can join the chapters you missed free in the next cohort, so you still finish the full syllabus with a live class.">Boleh. Korang dapat rakaman kelas yang dah lepas, dan Bab yang terlepas boleh ikut free dalam cohort seterusnya. Jadi korang tetap habis silibus penuh, dengan kelas live.</p></details>
@@ -682,7 +727,7 @@ nav .btn{min-height:44px}
 </footer>
 
 <div class="stickycta" id="stickycta" aria-hidden="true">
-  <p data-en="<b>RM149</b> · Early bird until 15 Nov"><b>RM149</b> · Early bird sampai 15 Nov</p>
+  <p data-en="<b>RM19</b> · First class, Sun 22 Nov"><b>RM19</b> · Kelas pertama, Ahad 22 Nov</p>
   <a class="btn btn-v" href="#harga" tabindex="-1" data-en="I’m in">Aku nak join</a>
 </div>
 
@@ -717,23 +762,23 @@ nav .btn{min-height:44px}
     ms:{
       babs:[['Mula dari kosong','22 Nov'],['Kasut dan gear','29 Nov'],['Zon heart rate','6 Dis'],['Ujian MAF','13 Dis'],['Pace dan VDOT','20 Dis'],['Susun latihan','3 Jan'],['Makan untuk lari','10 Jan'],['Injury dan race','17 Jan']],
       bab:function(n,b){return 'Bab '+n+' · '+b[1]+' · '+b[0];},
-      one:function(n,b){return ['1 kelas live: Bab '+n+', '+b[0],'Ahad '+b[1]+', 9 malam','Bonus: PDF Pelan Mula Lari','Nak sambung? Link upgrade (RM39 dah ditolak) masuk WhatsApp lepas kelas'];},
+      one:function(n,b){return ['1 kelas live: Bab '+n+', '+b[0],'Ahad '+b[1]+', 9 malam','Bonus: PDF Pelan Mula Lari',(n===0?'Promo kelas pertama: RM19, biasa RM39':'Nak sambung? Link upgrade masuk WhatsApp lepas kelas'),'Bayaran walk-in ditolak kalau upgrade ke bundle dalam 7 hari'];},
       bundle:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','Join lambat? Bab yang terlepas free dalam cohort seterusnya','Bonus: PDF Pelan Mula Lari','E-book Nota Running 2026 (PDF, 55 muka)','Form-check report dari video lari korang','Tracker progress dan sijil penyertaan'],
-      nameOne:function(n){return 'Walk-in · Bab '+n;}, nameBundle:'Bundle 8 kelas (early bird)', nameClub:function(c){return 'Bundle 8 kelas (kod '+c+')';},
+      nameOne:function(n){return n===0?'Kelas pertama · Bab 0 (promo)':'Walk-in · Bab '+n;}, nameBundle:'Bundle 8 kelas (early bird)', nameClub:function(c){return 'Bundle 8 kelas (kod '+c+')';},
       hint:'Ahli kelab larian dapat RM30 off bundle.', empty:'Masukkan kod kelab dulu.',
       ok:function(c){return 'Kod '+c+' diterima. Harga kelab RM169, tapi harga early bird RM149 lagi murah, so korang bayar RM149.';}
     },
     en:{
       babs:[['Starting from zero','22 Nov'],['Shoes and gear','29 Nov'],['Heart rate zones','6 Dec'],['The MAF test','13 Dec'],['Pace and VDOT','20 Dec'],['Planning your week','3 Jan'],['Eating for running','10 Jan'],['Injuries and race day','17 Jan']],
       bab:function(n,b){return 'Ch. '+n+' · '+b[1]+' · '+b[0];},
-      one:function(n,b){return ['1 live class: Chapter '+n+', '+b[0],'Sunday '+b[1]+', 9pm','Bonus: Start Running Plan PDF','Want the rest? An upgrade link (RM39 off) comes by WhatsApp after class'];},
+      one:function(n,b){return ['1 live class: Chapter '+n+', '+b[0],'Sunday '+b[1]+', 9pm','Bonus: Start Running Plan PDF',(n===0?'First-class promo: RM19, normally RM39':'Want the rest? An upgrade link comes by WhatsApp after class'),'Your walk-in fee comes off if you upgrade to the bundle within 7 days'];},
       bundle:['8 live classes, Chapters 0 to 7','Replays of every class for 30 days','Joined late? Missed chapters are free in the next cohort','Bonus: Start Running Plan PDF','Nota Running 2026 ebook (PDF, 55 pages)','Form-check report from your running video','Progress tracker and participation certificate'],
-      nameOne:function(n){return 'Walk-in · Chapter '+n;}, nameBundle:'8-class bundle (early bird)', nameClub:function(c){return '8-class bundle (code '+c+')';},
+      nameOne:function(n){return n===0?'First class · Chapter 0 (promo)':'Walk-in · Chapter '+n;}, nameBundle:'8-class bundle (early bird)', nameClub:function(c){return '8-class bundle (code '+c+')';},
       hint:'Running club members get RM30 off the bundle.', empty:'Enter your club code first.',
       ok:function(c){return 'Code '+c+' accepted. The club price is RM169, but the early bird price of RM149 is lower, so you pay RM149.';}
     }
   };
-  var L='ms', k='bundle', club='', msgState='hint', bab=0, sel=document.getElementById('bab');
+  var L='ms', k='one', club='', msgState='hint', bab=0, sel=document.getElementById('bab');
   var opts=document.querySelectorAll('.opt'), ul=document.getElementById('bonus');
   var msg=document.getElementById('codemsg'), inp=document.getElementById('clubcode');
   var tr=document.querySelectorAll('[data-en]');
@@ -742,9 +787,9 @@ nav .btn{min-height:44px}
 
   function render(){
     var t=T[L], b=k==='bundle';
-    opts.forEach(function(o){o.classList.toggle('on',o.dataset.k===k);o.setAttribute('aria-pressed',o.dataset.k===k);});
+    opts.forEach(function(o){var d=o.dataset.k,on=d==='promo'?(k==='one'&&bab===0):d==='one'?(k==='one'&&bab!==0):d===k;o.classList.toggle('on',on);o.setAttribute('aria-pressed',on);});
     document.getElementById('sumname').textContent=b?(club?t.nameClub(club):t.nameBundle):t.nameOne(bab);
-    document.getElementById('total').textContent=b?'RM149':'RM39';
+    document.getElementById('total').textContent=b?'RM149':(bab===0?'RM19':'RM39');
     ul.innerHTML='';
     (b?t.bundle:t.one(bab,t.babs[bab])).forEach(function(s){var li=document.createElement('li');li.textContent=s;ul.appendChild(li);});
     msg.textContent=msgState==='ok'?t.ok(club):msgState==='err'?t.empty:t.hint;
@@ -766,7 +811,7 @@ nav .btn{min-height:44px}
     try{localStorage.setItem('sihatlab-lang',L);}catch(e){}
   }
   document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
-  opts.forEach(function(o){o.addEventListener('click',function(){k=o.dataset.k;render();});});
+  opts.forEach(function(o){o.addEventListener('click',function(){if(o.dataset.k==='promo'){k='one';bab=0;sel.value='0';}else{k=o.dataset.k;if(k==='one'&&bab===0){bab=1;sel.value='1';}}render();});});
   sel.addEventListener('change',function(){bab=+sel.value;k='one';render();});
   document.getElementById('apply').addEventListener('click',function(){
     var v=inp.value.trim().toUpperCase();
@@ -778,9 +823,9 @@ nav .btn{min-height:44px}
   var WAITLIST={action:'https://docs.google.com/forms/d/e/1FAIpQLSfjZzEK5MKtEj4Y80t98e0xWKH8G5O32Jsm-eT9D7MZt7lZkA/formResponse', ids:{nama:'entry.1124285446', wa:'entry.269752014', emel:'entry.1277302905', pakej:'entry.2092179361', kod:'entry.1101144078'}};
   var dlg=document.getElementById('wl'), wf=document.getElementById('wlform'), wsel=document.getElementById('wlpakej');
   var wbody=document.getElementById('wlbody'), wdone=document.getElementById('wldone'), wmsg=document.getElementById('wlmsg');
-  var W={ms:{bundle:'Bundle 8 kelas · RM149',coach:'Coaching 1-1 (daftar minat)',walk:function(n,b){return 'Walk-in Bab '+n+' · '+b[1]+' · RM39';},
+  var W={ms:{bundle:'Bundle 8 kelas · RM149',coach:'Coaching 1-1 (daftar minat)',walk:function(n,b){return 'Walk-in Bab '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
              need:'Isi nama, WhatsApp, emel dan tick persetujuan dulu.',off:'Borang belum disambung lagi. Cuba sekejap lagi.',fail:'Tak dapat hantar. Cuba lagi.'},
-         en:{bundle:'8-class bundle · RM149',coach:'1-on-1 coaching (register interest)',walk:function(n,b){return 'Walk-in Ch. '+n+' · '+b[1]+' · RM39';},
+         en:{bundle:'8-class bundle · RM149',coach:'1-on-1 coaching (register interest)',walk:function(n,b){return 'Walk-in Ch. '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
              need:'Fill in your name, WhatsApp, email and tick the consent box first.',off:'The form isn’t connected yet. Please try again later.',fail:'Couldn’t send. Please try again.'}};
   function fillPakej(){
     var v=wsel.value; wsel.innerHTML='';
@@ -819,12 +864,12 @@ nav .btn{min-height:44px}
 
   // "Which one are you?" picker
   var WHO={ms:[
-    ['Mula dengan Bab 0','Kelas pertama khas untuk yang tak pernah lari: saringan kesihatan, mitos, dan pelan dari jalan laju ke lari 30 minit. Cuba walk-in dulu (RM39, Ahad 22 Nov). Suka? Upgrade ke bundle, RM39 tu ditolak.','Simpan tempat Bab 0','bab0'],
+    ['Mula dengan Bab 0','Kelas pertama khas untuk yang tak pernah lari: saringan kesihatan, mitos, dan pelan dari jalan laju ke lari 30 minit. Cuba kelas pertama dulu, promo RM19 je (Ahad 22 Nov). Suka? Upgrade ke bundle, RM19 tu ditolak.','Simpan tempat Bab 0','bab0'],
     ['Ambil bundle 8 kelas','Cedera selalunya datang dari naik jarak atau masa terlalu cepat. Bab 5 ajar susun minggu latihan, Bab 7 ajar kenal tanda awal injury dan strength asas. Dua-dua perlukan pelan, bukan satu kelas je.','Simpan tempat bundle','bundle'],
     ['Ambil bundle 8 kelas','Bab 2 ajar lari dalam zon heart rate rendah, Bab 6 pasal makan untuk lari. Yang paling penting ialah konsisten setiap minggu, dan bundle bagi korang 8 kelas dengan group.','Simpan tempat bundle','bundle'],
     ['Ambil bundle 8 kelas','Bab 0 sampai Bab 7, dengan ujian minggu 1 dan minggu 12 supaya korang nampak progress sendiri. Buat kerja tapi tak improve? Duit balik 100%.','Simpan tempat bundle','bundle']],
    en:[
-    ['Start with Chapter 0','The first class is built for people who have never run: health screening, myths, and a plan from brisk walking to running 30 minutes. Try a walk-in first (RM39, Sunday 22 Nov). Like it? Upgrade to the bundle and your RM39 comes off.','Save my Chapter 0 spot','bab0'],
+    ['Start with Chapter 0','The first class is built for people who have never run: health screening, myths, and a plan from brisk walking to running 30 minutes. Try the first class first, just RM19 on promo (Sunday 22 Nov). Like it? Upgrade to the bundle and your RM19 comes off.','Save my Chapter 0 spot','bab0'],
     ['Take the 8-class bundle','Injuries usually come from adding distance or time too quickly. Chapter 5 shows you how to plan your training week, Chapter 7 covers early injury signs and basic strength. Both need a plan, not just one class.','Save my bundle spot','bundle'],
     ['Take the 8-class bundle','Chapter 2 is about running in low heart rate zones, Chapter 6 is about eating for running. What matters most is showing up every week, and the bundle gives you 8 classes with a group.','Save my bundle spot','bundle'],
     ['Take the 8-class bundle','Chapters 0 to 7, with tests in week 1 and week 12 so you can see your own progress. Do the work and don’t improve? 100% of your money back.','Save my bundle spot','bundle']]};
@@ -856,6 +901,17 @@ nav .btn{min-height:44px}
   gt.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();gt.scrollBy({left:(e.key==='ArrowRight'?1:-1)*gStep(),behavior:'smooth'});}});
   gSync();
 
+
+  // slide teaser carousel
+  var tt=document.getElementById('tztrack'), td=[].slice.call(document.querySelectorAll('#tzdots i'));
+  if(tt){
+    var tStep=function(){var f=tt.querySelector('.tzs');return f?f.getBoundingClientRect().width+12:1;};
+    var tSync=function(){var i=Math.round(tt.scrollLeft/tStep());td.forEach(function(d,j){d.classList.toggle('on',j===Math.min(i,td.length-1));});};
+    tt.addEventListener('scroll',function(){window.requestAnimationFrame(tSync);},{passive:true});
+    document.querySelectorAll('.tz-b').forEach(function(b){b.addEventListener('click',function(){tt.scrollBy({left:+b.dataset.td*tStep(),behavior:'smooth'});});});
+    tt.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();tt.scrollBy({left:(e.key==='ArrowRight'?1:-1)*tStep(),behavior:'smooth'});}});
+    tSync();
+  }
   var start='ms';
   try{
     var q=new URLSearchParams(location.search).get('lang');
