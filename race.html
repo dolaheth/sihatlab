@@ -29,6 +29,7 @@ header{display:flex;align-items:stretch;justify-content:space-between;gap:12px;p
 header b{font-weight:900;text-transform:uppercase;letter-spacing:-.03em;font-size:18px;align-self:center}
 header nav{display:flex}
 header nav button,header nav a{display:flex;align-items:center;gap:6px;padding:0 14px;border:0;border-left:1px solid var(--ink);background:none;font-family:var(--mono);font-size:12px;text-transform:uppercase;text-decoration:none;min-width:44px;justify-content:center}
+header nav .lang{display:flex}header nav .lang button{min-width:44px;padding:0 10px}header nav .lang button[aria-pressed="true"]{background:#111;color:var(--volt)}
 header nav .staff{background:#111;color:var(--volt)}
 header nav .staff i{font-style:normal;background:var(--volt);color:#111;padding:0 5px}
 .bar{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--ink);flex-wrap:wrap;align-items:center}
@@ -42,8 +43,8 @@ header nav .staff i{font-style:normal;background:var(--volt);color:#111;padding:
 .chip.add{background:var(--volt);font-weight:700}
 .intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px 40px;padding:28px 20px 24px;border-bottom:1px solid var(--ink);align-items:end}
 .intro .eb{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--grey)}
-.intro h1{font-size:clamp(34px,5vw,64px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.92;margin-top:8px}
-.intro h1 em{font-style:italic;background:var(--volt);padding:0 .08em}
+.intro h1{font-size:clamp(34px,5vw,64px);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:1.08;margin-top:10px}
+.intro h1 em{font-style:italic;background:var(--volt);padding:.02em .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .intro p.lede{margin-top:12px;color:#333;max-width:520px}
 .intro .stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
 .intro .stats div{padding:10px 8px 0 0}
@@ -190,128 +191,129 @@ fieldset input,.ck input{min-height:0}
 </style>
 </head>
 <body>
-<div class="demo mono" id="demo" hidden>Mod demo · data disimpan dalam browser ni je · race "Contoh" dan ulasannya rekaan</div>
+<div class="demo mono" id="demo" hidden data-en="Demo mode · data stays in this browser · &quot;Contoh&quot; races and their reviews are made up">Mod demo · data disimpan dalam browser ni je · race "Contoh" dan ulasannya rekaan</div>
 <header><b><a href="index.html" style="text-decoration:none">SihatLab</a> · Race</b><nav>
-  <a href="kalkulator.html" class="lbl">Kalkulator</a>
+  <a href="kalkulator.html" class="lbl" data-en="Calculators">Kalkulator</a>
+  <div class="lang" role="group" aria-label="Bahasa / Language"><button type="button" data-l="ms" aria-pressed="true">BM</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
   <button class="staff" id="staffbtn" hidden>Semakan <i id="qn">0</i></button>
   <button id="acct"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl" id="acctl">Log masuk</span></button>
 </nav></header>
 <section class="intro" aria-labelledby="ih">
   <div>
-    <p class="eb">Kalendar race Malaysia · by SihatLab</p>
-    <h1 id="ih">Sebelum daftar, <em>baca rating pelari.</em></h1>
-    <p class="lede">Race akan datang dengan countdown dan kira pace. Race yang dah lepas dengan rating jujur dari pelari yang betul-betul join: organisasi, laluan, water station, medal dan harga.</p>
+    <p class="eb" data-en="Malaysia race calendar · by SihatLab">Kalendar race Malaysia · by SihatLab</p>
+    <h1 id="ih" data-en="Before you sign up, <em>read what runners say.</em>">Sebelum daftar, <em>baca rating pelari.</em></h1>
+    <p class="lede" data-en="Upcoming races with a countdown and a pace calculator. Past races with honest ratings from runners who actually ran them: organisation, route, water stations, medal and price.">Race akan datang dengan countdown dan kira pace. Race yang dah lepas dengan rating jujur dari pelari yang betul-betul join: organisasi, laluan, water station, medal dan harga.</p>
   </div>
   <div>
-    <div class="stats"><div><b id="s-up">–</b><span>Akan datang</span></div><div><b id="s-past">–</b><span>Dah lepas</span></div><div><b id="s-rv">–</b><span>Ulasan</span></div></div>
-    <div class="ctas"><button class="v" type="button" id="go-rate">★ Rate race kau</button><button type="button" data-add="1">+ Tambah race</button></div>
+    <div class="stats"><div><b id="s-up">–</b><span data-en="Upcoming">Akan datang</span></div><div><b id="s-past">–</b><span data-en="Past">Dah lepas</span></div><div><b id="s-rv">–</b><span data-en="Reviews">Ulasan</span></div></div>
+    <div class="ctas"><button class="v" type="button" id="go-rate" data-en="★ Rate your race">★ Rate race kau</button><button type="button" data-add="1" data-en="+ Add a race">+ Tambah race</button></div>
   </div>
 </section>
 <div class="bar">
-  <input id="q" placeholder="Cari race atau tempat…" aria-label="Cari race atau tempat">
-  <div class="seg" role="group" aria-label="Masa"><button data-w="up" class="on">Akan datang</button><button data-w="past">Dah lepas</button></div>
-  <div class="seg" role="group" aria-label="Kategori"><button data-c="all" class="on">Semua</button><button data-c="5K">5K</button><button data-c="10K">10K</button><button data-c="Half">Half</button><button data-c="Full">Full</button></div>
-  <button class="chip add" id="addrace" type="button">+ Tambah race</button>
+  <input id="q" placeholder="Cari race atau tempat…" data-ph-en="Search races or places…" aria-label="Cari race atau tempat / Search races or places">
+  <div class="seg" role="group" aria-label="Masa"><button data-w="up" class="on" data-en="Upcoming">Akan datang</button><button data-w="past" data-en="Past">Dah lepas</button></div>
+  <div class="seg" role="group" aria-label="Kategori"><button data-c="all" class="on" data-en="All">Semua</button><button data-c="5K">5K</button><button data-c="10K">10K</button><button data-c="Half">Half</button><button data-c="Full">Full</button></div>
+  <button class="chip add" id="addrace" type="button" data-en="+ Add a race">+ Tambah race</button>
 </div>
-<div class="layout"><div id="map" aria-label="Peta race"></div><div class="side" id="side" aria-live="polite"></div></div>
+<div class="layout"><div id="map" aria-label="Peta race / Race map"></div><div class="side" id="side" aria-live="polite"></div></div>
 
 <!-- login -->
 <dialog id="dlogin"><form id="lf" novalidate>
-  <h3>Log masuk</h3>
-  <p class="note">Takde password. Masukkan emel, kami hantar kod 6 digit ke emel kau. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
-  <label>Emel<input name="email" type="email" required autocomplete="email" inputmode="email"></label>
-  <label id="codel" hidden>Kod 6 digit dari emel<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"></label>
+  <h3 data-en="Log in">Log masuk</h3>
+  <p class="note" data-en="No password. Enter your email and we send you a 6-digit code. Logging in keeps it to one rating per runner per race.">Takde password. Masukkan emel, kami hantar kod 6 digit ke emel kau. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
+  <label><span data-en="Email">Emel</span><input name="email" type="email" required autocomplete="email" inputmode="email"></label>
+  <label id="codel" hidden><span data-en="6-digit code from the email">Kod 6 digit dari emel</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"></label>
   <p class="err" id="lerr" hidden></p><p class="ok" id="lok" hidden></p>
-  <button class="sub" type="submit" id="lbtn">Hantar kod</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" id="lbtn">Hantar kod</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- account -->
 <dialog id="dacct"><div class="in">
-  <h3>Akaun kau</h3><p id="aemail" class="mono"></p>
+  <h3 data-en="Your account">Akaun kau</h3><p id="aemail" class="mono"></p>
   <div id="amine"></div>
-  <button class="cancel" type="button" id="logout">Log keluar</button><button class="cancel" type="button" data-close>Tutup</button>
+  <button class="cancel" type="button" id="logout" data-en="Log out">Log keluar</button><button class="cancel" type="button" data-close data-en="Close">Tutup</button>
 </div></dialog>
 
 <!-- write review -->
 <dialog id="dlg"><form id="wf" novalidate>
   <h3 id="wt">Tulis ulasan</h3>
-  <div class="rate"><span>Keseluruhan</span><div class="st" data-k="all"></div></div>
-  <div class="rate"><span>Organisasi</span><div class="st" data-k="org"></div></div>
-  <div class="rate"><span>Laluan</span><div class="st" data-k="route"></div></div>
-  <div class="rate"><span>Water station</span><div class="st" data-k="water"></div></div>
-  <div class="rate"><span>Medal / jersey</span><div class="st" data-k="medal"></div></div>
-  <div class="rate"><span>Nilai harga</span><div class="st" data-k="value"></div></div>
-  <div class="row2"><label>Kategori kau lari<select name="cat" id="wcat"></select></label>
-  <label>Nak join lagi?<select name="again"><option value="1">Ya</option><option value="0">Tak</option></select></label></div>
-  <label>Cerita pengalaman kau<textarea name="body" rows="3" maxlength="600" placeholder="Laluan, water station, apa yang best, apa yang kurang…"></textarea></label>
-  <label>Nama yang dipaparkan<input name="name" maxlength="40" required></label>
-  <label>Link Strava atau IG (pilihan, bukti kau lari)<input name="proof" maxlength="200" placeholder="https://"></label>
-  <label class="ck"><input type="checkbox" name="agree"> Aku dah join race ni, dan ulasan aku ikut <button type="button" class="linkbtn" data-guide>garis panduan</button>.</label>
-  <p class="note">Ulasan disemak dulu sebelum keluar.</p>
+  <div class="rate"><span data-en="Overall">Keseluruhan</span><div class="st" data-k="all"></div></div>
+  <div class="rate"><span data-en="Organisation">Organisasi</span><div class="st" data-k="org"></div></div>
+  <div class="rate"><span data-en="Route">Laluan</span><div class="st" data-k="route"></div></div>
+  <div class="rate"><span data-en="Water stations">Water station</span><div class="st" data-k="water"></div></div>
+  <div class="rate"><span data-en="Medal / jersey">Medal / jersey</span><div class="st" data-k="medal"></div></div>
+  <div class="rate"><span data-en="Value for money">Nilai harga</span><div class="st" data-k="value"></div></div>
+  <div class="row2"><label><span data-en="Category you ran">Kategori kau lari</span><select name="cat" id="wcat"></select></label>
+  <label><span data-en="Would you run it again?">Nak join lagi?</span><select name="again"><option value="1" data-en="Yes">Ya</option><option value="0" data-en="No">Tak</option></select></label></div>
+  <label><span data-en="Tell us about it">Cerita pengalaman kau</span><textarea name="body" rows="3" maxlength="600" placeholder="Laluan, water station, apa yang best, apa yang kurang…" data-ph-en="Route, water stations, what was good, what was not…"></textarea></label>
+  <label><span data-en="Name to show">Nama yang dipaparkan</span><input name="name" maxlength="40" required></label>
+  <label><span data-en="Strava or IG link (optional, proof you ran)">Link Strava atau IG (pilihan, bukti kau lari)</span><input name="proof" maxlength="200" placeholder="https://"></label>
+  <label class="ck"><input type="checkbox" name="agree"> <span><span data-en="I ran this race and my review follows the">Aku dah join race ni, dan ulasan aku ikut</span> <button type="button" class="linkbtn" data-guide data-en="guidelines">garis panduan</button>.</span></label>
+  <p class="note" data-en="Reviews are checked before they go live.">Ulasan disemak dulu sebelum keluar.</p>
   <p class="err" id="werr" hidden></p>
-  <button class="sub" type="submit">Hantar ulasan</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" data-en="Send review">Hantar ulasan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- add race -->
 <dialog id="dadd"><form id="af" novalidate>
-  <h3>Tambah race</h3>
-  <p class="note">Race takde dalam senarai? Hantar sini. Kami semak tarikh dan link rasmi dulu, lepas tu masukkan ke kalendar.</p>
-  <label>Nama race<input name="name" required maxlength="100" placeholder="Contoh: KLHalf 2026"></label>
-  <div class="row2"><label>Tarikh<input name="date" type="date" required></label><label>Masa flag off (kalau tahu)<input name="flagoff" type="time"></label></div>
-  <div class="row2"><label>Negeri<select name="state" required><option value="">Pilih</option><option>Johor</option><option>Kedah</option><option>Kelantan</option><option>Melaka</option><option>Negeri Sembilan</option><option>Pahang</option><option>Perak</option><option>Perlis</option><option>Pulau Pinang</option><option>Sabah</option><option>Sarawak</option><option>Selangor</option><option>Terengganu</option><option>WP Kuala Lumpur</option><option>WP Putrajaya</option><option>WP Labuan</option></select></label>
-  <label>Tempat start<input name="place" required maxlength="120" placeholder="Dataran Merdeka"></label></div>
-  <fieldset><legend>Kategori</legend><label><input type="checkbox" name="c" value="5K">5K</label><label><input type="checkbox" name="c" value="10K">10K</label><label><input type="checkbox" name="c" value="Half">Half</label><label><input type="checkbox" name="c" value="Full">Full</label><label><input type="checkbox" name="c" value="Trail">Trail</label></fieldset>
-  <label>Link rasmi atau pendaftaran<input name="url" type="url" maxlength="200" placeholder="https://"></label>
+  <h3 data-en="Add a race">Tambah race</h3>
+  <p class="note" data-en="Race not listed? Send it here. We check the date and official link first, then add it to the calendar.">Race takde dalam senarai? Hantar sini. Kami semak tarikh dan link rasmi dulu, lepas tu masukkan ke kalendar.</p>
+  <label><span data-en="Race name">Nama race</span><input name="name" required maxlength="100" placeholder="Contoh: KLHalf 2026" data-ph-en="e.g. KLHalf 2026"></label>
+  <div class="row2"><label><span data-en="Date">Tarikh</span><input name="date" type="date" required></label><label><span data-en="Flag-off time (if known)">Masa flag off (kalau tahu)</span><input name="flagoff" type="time"></label></div>
+  <div class="row2"><label><span data-en="State">Negeri</span><select name="state" required><option value="" data-en="Choose">Pilih</option><option>Johor</option><option>Kedah</option><option>Kelantan</option><option>Melaka</option><option>Negeri Sembilan</option><option>Pahang</option><option>Perak</option><option>Perlis</option><option>Pulau Pinang</option><option>Sabah</option><option>Sarawak</option><option>Selangor</option><option>Terengganu</option><option>WP Kuala Lumpur</option><option>WP Putrajaya</option><option>WP Labuan</option></select></label>
+  <label><span data-en="Start venue">Tempat start</span><input name="place" required maxlength="120" placeholder="Dataran Merdeka"></label></div>
+  <fieldset><legend data-en="Categories">Kategori</legend><label><input type="checkbox" name="c" value="5K">5K</label><label><input type="checkbox" name="c" value="10K">10K</label><label><input type="checkbox" name="c" value="Half">Half</label><label><input type="checkbox" name="c" value="Full">Full</label><label><input type="checkbox" name="c" value="Trail">Trail</label></fieldset>
+  <label><span data-en="Official or registration link">Link rasmi atau pendaftaran</span><input name="url" type="url" maxlength="200" placeholder="https://"></label>
   <p class="err" id="aerr" hidden></p>
-  <button class="sub" type="submit">Hantar permintaan</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" data-en="Send request">Hantar permintaan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- guidelines -->
 <dialog id="dguide"><div class="in guide">
-  <h3>Garis panduan ulasan</h3>
-  <h4>Boleh</h4><ul><li>Cerita pengalaman kau sendiri: laluan, water station, organisasi, medal, harga.</li><li>Kritik yang spesifik. Contoh: "water station KM15 habis cawan masa aku sampai".</li><li>Letak link Strava atau gambar sebagai bukti kau lari.</li></ul>
-  <h4>Tak boleh</h4><ul><li>Tuduh penipuan atau jenayah tanpa bukti.</li><li>Serang individu (staff, marshal, sukarelawan) atau guna bahasa kesat.</li><li>Dedah maklumat peribadi orang lain.</li><li>Ulasan palsu, atau rate race yang kau tak join.</li><li>Promosi dan spam.</li></ul>
-  <h4>Penganjur</h4><ul><li>Penganjur boleh urus page race dan balas ulasan lepas kami sahkan.</li><li>Ulasan negatif yang ikut garis panduan tak dibuang atas permintaan penganjur.</li><li>SihatLab tak jual rating dan tak terima bayaran untuk ubah ulasan.</li></ul>
-  <h4>Aduan</h4><ul><li>Tekan "Lapor" pada ulasan, atau emel hai@sihatlab.com.my. Kami semak dalam 3 hari bekerja. Ulasan boleh disembunyikan sementara semakan.</li></ul>
-  <button class="cancel" type="button" data-close>Tutup</button>
+  <h3 data-en="Review guidelines">Garis panduan ulasan</h3>
+  <h4 data-en="Do">Boleh</h4><ul data-en="<li>Share your own experience: route, water stations, organisation, medal, price.</li><li>Be specific. Example: &quot;the KM15 water station ran out of cups when I got there&quot;.</li><li>Add a Strava link or photo as proof you ran.</li>"><li>Cerita pengalaman kau sendiri: laluan, water station, organisasi, medal, harga.</li><li>Kritik yang spesifik. Contoh: "water station KM15 habis cawan masa aku sampai".</li><li>Letak link Strava atau gambar sebagai bukti kau lari.</li></ul>
+  <h4 data-en="Don&#39;t">Tak boleh</h4><ul data-en="<li>Accuse anyone of fraud or crime without proof.</li><li>Attack individuals (staff, marshals, volunteers) or use abusive language.</li><li>Share other people&#39;s personal details.</li><li>Post fake reviews, or rate a race you didn&#39;t run.</li><li>Promote or spam.</li>"><li>Tuduh penipuan atau jenayah tanpa bukti.</li><li>Serang individu (staff, marshal, sukarelawan) atau guna bahasa kesat.</li><li>Dedah maklumat peribadi orang lain.</li><li>Ulasan palsu, atau rate race yang kau tak join.</li><li>Promosi dan spam.</li></ul>
+  <h4 data-en="Organisers">Penganjur</h4><ul data-en="<li>Organisers can manage their race page and reply to reviews once we verify them.</li><li>Negative reviews that follow these guidelines are not removed because an organiser asks.</li><li>SihatLab does not sell ratings or take money to change reviews.</li>"><li>Penganjur boleh urus page race dan balas ulasan lepas kami sahkan.</li><li>Ulasan negatif yang ikut garis panduan tak dibuang atas permintaan penganjur.</li><li>SihatLab tak jual rating dan tak terima bayaran untuk ubah ulasan.</li></ul>
+  <h4 data-en="Complaints">Aduan</h4><ul data-en="<li>Tap &quot;Report&quot; on a review, or email hai@sihatlab.com.my. We check within 3 working days. A review can be hidden while we check.</li>"><li>Tekan "Lapor" pada ulasan, atau emel hai@sihatlab.com.my. Kami semak dalam 3 hari bekerja. Ulasan boleh disembunyikan sementara semakan.</li></ul>
+  <button class="cancel" type="button" data-close data-en="Close">Tutup</button>
 </div></dialog>
 
 <!-- report a review -->
 <dialog id="drep"><form id="rf" novalidate>
-  <h3>Lapor ulasan</h3>
-  <p class="note">Laporan kau sampai kepada pasukan SihatLab je. Tak perlu log masuk.</p>
+  <h3 data-en="Report a review">Lapor ulasan</h3>
+  <p class="note" data-en="Only the SihatLab team sees your report. No login needed.">Laporan kau sampai kepada pasukan SihatLab je. Tak perlu log masuk.</p>
   <div class="radios">
-    <label><input type="radio" name="reason" value="fitnah"> Tuduhan tanpa bukti</label>
-    <label><input type="radio" name="reason" value="serang"> Serang individu atau bahasa kesat</label>
-    <label><input type="radio" name="reason" value="peribadi"> Ada maklumat peribadi</label>
-    <label><input type="radio" name="reason" value="palsu"> Ulasan palsu atau tak join race</label>
-    <label><input type="radio" name="reason" value="spam"> Spam atau promosi</label>
-    <label><input type="radio" name="reason" value="lain"> Lain-lain</label>
+    <label><input type="radio" name="reason" value="fitnah"> <span data-en="Accusation without proof">Tuduhan tanpa bukti</span></label>
+    <label><input type="radio" name="reason" value="serang"> <span data-en="Attacks someone or abusive language">Serang individu atau bahasa kesat</span></label>
+    <label><input type="radio" name="reason" value="peribadi"> <span data-en="Contains personal details">Ada maklumat peribadi</span></label>
+    <label><input type="radio" name="reason" value="palsu"> <span data-en="Fake, or they didn&#39;t run it">Ulasan palsu atau tak join race</span></label>
+    <label><input type="radio" name="reason" value="spam"> <span data-en="Spam or promotion">Spam atau promosi</span></label>
+    <label><input type="radio" name="reason" value="lain"> <span data-en="Something else">Lain-lain</span></label>
   </div>
-  <label>Terangkan sikit (pilihan)<textarea name="note" rows="2" maxlength="300"></textarea></label>
+  <label><span data-en="A few words (optional)">Terangkan sikit (pilihan)</span><textarea name="note" rows="2" maxlength="300"></textarea></label>
   <p class="err" id="rerr" hidden></p>
-  <button class="sub" type="submit">Hantar laporan</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" data-en="Send report">Hantar laporan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- organizer claim -->
 <dialog id="dclaim"><form id="cf2" novalidate>
   <h3 id="ct">Urus page race</h3>
-  <p class="note">Untuk penganjur rasmi. Lepas kami sahkan, kau boleh balas ulasan sebagai penganjur dan nama penganjur keluar di page race.</p>
-  <label>Nama syarikat atau kelab penganjur<input name="org" maxlength="80" required></label>
-  <div class="row2"><label>Jawatan kau<input name="role" maxlength="60" required placeholder="Race director"></label>
-  <label>Emel atau telefon rasmi<input name="contact" maxlength="80" required></label></div>
-  <label>Link bukti (laman rasmi atau page FB yang sebut nama kau / syarikat)<input name="proof" maxlength="200" placeholder="https://"></label>
+  <p class="note" data-en="For official organisers. Once we verify you, you can reply to reviews as the organiser and your name shows on the race page.">Untuk penganjur rasmi. Lepas kami sahkan, kau boleh balas ulasan sebagai penganjur dan nama penganjur keluar di page race.</p>
+  <label><span data-en="Organising company or club">Nama syarikat atau kelab penganjur</span><input name="org" maxlength="80" required></label>
+  <div class="row2"><label><span data-en="Your role">Jawatan kau</span><input name="role" maxlength="60" required placeholder="Race director"></label>
+  <label><span data-en="Official email or phone">Emel atau telefon rasmi</span><input name="contact" maxlength="80" required></label></div>
+  <label><span data-en="Proof link (official site or FB page naming you or the company)">Link bukti (laman rasmi atau page FB yang sebut nama kau / syarikat)</span><input name="proof" maxlength="200" placeholder="https://"></label>
   <p class="err" id="cerr" hidden></p>
-  <button class="sub" type="submit">Hantar untuk pengesahan</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" data-en="Send for verification">Hantar untuk pengesahan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- organizer reply -->
 <dialog id="dorg"><form id="of" novalidate>
-  <h3>Balas sebagai penganjur</h3>
-  <p class="note">Balasan keluar terus di bawah ulasan. Jawab dengan tenang dan terangkan apa yang akan diperbaiki.</p>
-  <label>Balasan<textarea name="msg" rows="4" maxlength="400"></textarea></label>
+  <h3 data-en="Reply as organiser">Balas sebagai penganjur</h3>
+  <p class="note" data-en="Your reply shows right under the review. Stay calm and explain what you will improve.">Balasan keluar terus di bawah ulasan. Jawab dengan tenang dan terangkan apa yang akan diperbaiki.</p>
+  <label><span data-en="Reply">Balasan</span><textarea name="msg" rows="4" maxlength="400"></textarea></label>
   <p class="err" id="oerr" hidden></p>
-  <button class="sub" type="submit">Hantar balasan</button><button class="cancel" type="button" data-close>Batal</button>
+  <button class="sub" type="submit" data-en="Send reply">Hantar balasan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
 
 <!-- staff -->
@@ -319,7 +321,7 @@ fieldset input,.ck input{min-height:0}
   <h3>Semakan</h3>
   <p class="note">Race baru: semak tarikh dengan laman rasmi, isi koordinat (Google Maps: tekan lama pada tempat, salin nombor), lepas tu lulus. Ulasan: lulus kalau cerita pengalaman, tolak kalau serang orang atau spam.</p>
   <div id="squeue"></div>
-  <button class="cancel" type="button" data-close>Tutup</button>
+  <button class="cancel" type="button" data-close data-en="Close">Tutup</button>
 </div></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -333,19 +335,29 @@ var LOGIN_CODE = true;
 var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8"; // public anon key, safe with RLS
 /* ================================================================================ */
 
-var MON=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
-var KEYS=[["org","Organisasi"],["route","Laluan"],["water","Water station"],["medal","Medal / jersey"],["value","Nilai harga"]];
+var MON=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"],MON_EN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+/* ---------- language: shared with the homepage via localStorage "sihatlab-lang"; ?lang=en works ---------- */
+var LANG=(function(){var m=location.search.match(/[?&]lang=(en|ms)/);if(m)return m[1];try{return localStorage.getItem("sihatlab-lang")==="en"?"en":"ms";}catch(e){return"ms";}})();
+function t(ms,en){return LANG==="en"?en:ms;}
+function M(i){return(LANG==="en"?MON_EN:MON)[i];}
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll("[data-en]").forEach(function(e){if(!e.hasAttribute("data-ms"))e.setAttribute("data-ms",e.innerHTML);e.innerHTML=e.getAttribute(LANG==="en"?"data-en":"data-ms");});
+  document.querySelectorAll("[data-ph-en]").forEach(function(e){if(!e.hasAttribute("data-ph-ms"))e.setAttribute("data-ph-ms",e.placeholder);e.placeholder=e.getAttribute(LANG==="en"?"data-ph-en":"data-ph-ms");});
+  document.querySelectorAll("[data-l]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.l===LANG));});
+}
+var KEYS=[["org","Organisasi","Organisation"],["route","Laluan","Route"],["water","Water station","Water stations"],["medal","Medal / jersey","Medal / jersey"],["value","Nilai harga","Value for money"]];
 var DIST={"5K":5,"10K":10,"Half":21.0975,"Full":42.195};
 var esc=function(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function dParts(s){var p=s.split("-");return{y:+p[0],m:+p[1]-1,d:+p[2]};}
-function fmtDate(r){var a=dParts(r.date_start);if(r.date_end&&r.date_end!==r.date_start){var b=dParts(r.date_end);return(a.m===b.m?a.d+"–"+b.d:a.d+" "+MON[a.m]+"–"+b.d)+" "+MON[b.m]+" "+b.y;}return a.d+" "+MON[a.m]+" "+a.y;}
+function fmtDate(r){var a=dParts(r.date_start);if(r.date_end&&r.date_end!==r.date_start){var b=dParts(r.date_end);return(a.m===b.m?a.d+"–"+b.d:a.d+" "+M(a.m)+"–"+b.d)+" "+M(b.m)+" "+b.y;}return a.d+" "+M(a.m)+" "+a.y;}
 function isPast(r){return(r.date_end||r.date_start)<today();}
 function started(r){return r.date_start<=today();}
-function stars(n){var f=Math.round(n||0),h="";for(var i=1;i<=5;i++)h+=i<=f?"★":'<span class="off">★</span>';return '<span class="stars" aria-label="'+(n||0).toFixed(1)+' bintang">'+h+"</span>";}
+function stars(n){var f=Math.round(n||0),h="";for(var i=1;i<=5;i++)h+=i<=f?"★":'<span class="off">★</span>';return '<span class="stars" aria-label="'+(n||0).toFixed(1)+t(" bintang"," stars")+'">'+h+"</span>";}
 function toast(t){var d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},3600);}
 function rvView(x){return{id:x.id,race_id:x.race_id,n:x.display_name,c:x.cat,d:x.created_at,s:{all:x.s_all,org:x.s_org,route:x.s_route,water:x.s_water,medal:x.s_medal,value:x.s_value},a:x.again,t:x.body,rep:x.reply,org:x.org_reply,status:x.status,proof:x.proof,user_id:x.user_id};}
-function ago(iso){var d=new Date(iso);return d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();}
+function ago(iso){var d=new Date(iso);return d.getDate()+" "+M(d.getMonth())+" "+d.getFullYear();}
 
 /* ---------- data layer: same functions for live (Supabase) and demo (localStorage) ---------- */
 var api=(function(){
@@ -427,65 +439,65 @@ setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}c
 /* ---------- UI state ---------- */
 var RACES=[],when="up",cat="all",q="",sel=null,sortBy="new",map,markers={},cdTimer=null,curReviews=[];
 function visible(){return RACES.filter(function(r){return(when==="up"?!isPast(r):isPast(r))&&(cat==="all"||r.cats.indexOf(cat)>=0)&&(!q||(r.name+" "+r.place+" "+r.state).toLowerCase().indexOf(q)>=0);}).sort(function(a,b){return when==="up"?(a.date_start<b.date_start?-1:1):(a.date_start<b.date_start?1:-1);});}
-function pinLabel(r){var a=r.sum&&r.sum.s_all;if(a)return a.toFixed(1)+" ★";var p=dParts(r.date_start);return p.d+" "+MON[p.m];}
+function pinLabel(r){var a=r.sum&&r.sum.s_all;if(a)return a.toFixed(1)+" ★";var p=dParts(r.date_start);return p.d+" "+M(p.m);}
 function drawPins(){
   Object.keys(markers).forEach(function(k){map.removeLayer(markers[k]);});markers={};
   visible().forEach(function(r){if(r.lat==null)return;var a=r.sum&&r.sum.s_all;var m=L.marker([r.lat,r.lng],{icon:L.divIcon({className:"",html:'<div class="pin'+(a>=4?" hi":"")+(sel===r.id?" sel":"")+'">'+esc(pinLabel(r))+"</div>",iconSize:null}),title:r.name,keyboard:true});m.on("click",function(){openRace(r.id);});m.addTo(map);markers[r.id]=m;});
 }
 function listView(){
   var v=visible(),out="",lastM="";
-  v.forEach(function(r){var p=dParts(r.date_start),mk=MON[p.m]+" "+p.y;if(mk!==lastM){out+='<div class="month">'+mk+"</div>";lastM=mk;}
+  v.forEach(function(r){var p=dParts(r.date_start),mk=M(p.m)+" "+p.y;if(mk!==lastM){out+='<div class="month">'+mk+"</div>";lastM=mk;}
     var s=r.sum,right;
-    if(isPast(r))right='<span class="r">'+(s?s.s_all.toFixed(1):"–")+"<small>"+(s?s.n+" ulasan":"Belum rate")+"</small></span>";
-    else{var days=Math.round((new Date(r.date_start)-new Date(today()))/864e5);right=started(r)?'<span class="r soon">Hari ni</span>':'<span class="r'+(days<=7?" soon":"")+'">'+days+"<small>hari lagi</small></span>";}
-    out+='<button class="item" data-id="'+esc(r.id)+'"><span class="dt"><b>'+p.d+"</b><span>"+MON[p.m]+"</span></span><span><h3>"+esc(r.name)+'</h3><span class="m">'+esc(r.place)+" · "+r.cats.join("/")+(s&&isPast(r)?" · "+stars(s.s_all):"")+"</span></span>"+right+"</button>";});
-  if(!v.length)out='<p class="empty">'+(when==="up"?"Takde race akan datang yang padan.":"Takde race lepas yang padan.")+"</p>";
-  return out+'<button class="addrow" data-add="1">Race kau takde? <b>+ Tambah race</b></button>';
+    if(isPast(r))right='<span class="r">'+(s?s.s_all.toFixed(1):"–")+"<small>"+(s?s.n+t(" ulasan",s.n===1?" review":" reviews"):t("Belum rate","No ratings yet"))+"</small></span>";
+    else{var days=Math.round((new Date(r.date_start)-new Date(today()))/864e5);right=started(r)?'<span class="r soon">'+t("Hari ni","Today")+'</span>':'<span class="r'+(days<=7?" soon":"")+'">'+days+"<small>"+t("hari lagi",days===1?"day to go":"days to go")+"</small></span>";}
+    out+='<button class="item" data-id="'+esc(r.id)+'"><span class="dt"><b>'+p.d+"</b><span>"+M(p.m)+"</span></span><span><h3>"+esc(r.name)+'</h3><span class="m">'+esc(r.place)+" · "+r.cats.join("/")+(s&&isPast(r)?" · "+stars(s.s_all):"")+"</span></span>"+right+"</button>";});
+  if(!v.length)out='<p class="empty">'+(when==="up"?t("Takde race akan datang yang padan.","No upcoming races match."):t("Takde race lepas yang padan.","No past races match."))+"</p>";
+  return out+'<button class="addrow" data-add="1">'+t("Race kau takde?","Race missing?")+' <b>'+t("+ Tambah race","+ Add a race")+'</b></button>';
 }
 function paceBox(r){
   var opts=r.cats.filter(function(c){return DIST[c];}).map(function(c){return"<option>"+c+"</option>";}).join("");if(!opts)return"";
-  return '<h3 class="h">Kira pace race kau</h3><div class="pace"><div class="row"><label>Kategori<select id="pcat">'+opts+'</select></label><label>Target masa (j:mm:ss)<input id="ptime" inputmode="numeric" placeholder="2:30:00"></label></div><div class="out" id="pout">Masukkan target masa.</div></div>';
+  return '<h3 class="h">'+t("Kira pace race kau","Work out your race pace")+'</h3><div class="pace"><div class="row"><label>'+t("Kategori","Category")+'<select id="pcat">'+opts+'</select></label><label>'+t("Target masa (j:mm:ss)","Target time (h:mm:ss)")+'<input id="ptime" inputmode="numeric" placeholder="2:30:00"></label></div><div class="out" id="pout">'+t("Masukkan target masa.","Enter a target time.")+'</div></div>';
 }
 function tips(r){
-  var t=[],h=r.flagoff?+r.flagoff.split(":")[0]:null;
-  if(h!==null&&h<5)t.push("Flag off "+r.flagoff+" pagi. Tidur awal 2 malam sebelum race, sebab malam sebelum tu memang susah nak lena.");
-  if(h!==null&&h<5)t.push("Sarapan ringan 2 jam sebelum flag off. Roti, pisang, kurma. Jangan cuba makanan baru.");
-  if(r.cats.indexOf("Half")>=0||r.cats.indexOf("Full")>=0)t.push("Half dan full: minum sikit di setiap water station dari awal, jangan tunggu dahaga.");
-  t.push("Start perlahan. 2 km pertama 10 hingga 15 saat lebih lambat dari pace target.");
-  t.push("Kasut dan baju yang dah biasa pakai long run. Hari race bukan masa cuba benda baru.");
-  return '<h3 class="h">Tips race ni</h3><div class="tips">'+t.map(function(x,i){return"<div><i>0"+(i+1)+"</i><span>"+esc(x)+"</span></div>";}).join("")+"</div>";
+  var tr=window.t,t=[],h=r.flagoff?+r.flagoff.split(":")[0]:null;
+  if(h!==null&&h<5)t.push(tr("Flag off "+r.flagoff+" pagi. Tidur awal 2 malam sebelum race, sebab malam sebelum tu memang susah nak lena.","Flag-off is at "+r.flagoff+" am. Sleep early two nights before, because the night before is hard to sleep."));
+  if(h!==null&&h<5)t.push(tr("Sarapan ringan 2 jam sebelum flag off. Roti, pisang, kurma. Jangan cuba makanan baru.","Light breakfast 2 hours before flag-off. Bread, banana, dates. Don't try new food."));
+  if(r.cats.indexOf("Half")>=0||r.cats.indexOf("Full")>=0)t.push(tr("Half dan full: minum sikit di setiap water station dari awal, jangan tunggu dahaga.","Half and full: sip at every water station from the start, don't wait until you're thirsty."));
+  t.push(tr("Start perlahan. 2 km pertama 10 hingga 15 saat lebih lambat dari pace target.","Start easy. Run the first 2 km 10 to 15 seconds slower than target pace."));
+  t.push(tr("Kasut dan baju yang dah biasa pakai long run. Hari race bukan masa cuba benda baru.","Wear shoes and kit you've used on long runs. Race day is not the day to try new things."));
+  return '<h3 class="h">'+tr("Tips race ni","Tips for this race")+'</h3><div class="tips">'+t.map(function(x,i){return"<div><i>0"+(i+1)+"</i><span>"+esc(x)+"</span></div>";}).join("")+"</div>";
 }
 function reviewsBlock(r){
   var live=curReviews.filter(function(x){return x.status==="approved";}),n=live.length,s=r.sum;
   var hist=[5,4,3,2,1].map(function(k){var c=live.filter(function(x){return x.s.all===k;}).length;return"<div><span>"+k+"</span><i><b style=\"width:"+(n?c/n*100:0)+"%\"></b></i><span>"+c+"</span></div>";}).join("");
-  var crit=KEYS.map(function(k){var v=s?s["s_"+k[0]]:0;return"<div><span>"+k[1]+"</span><i><b style=\"width:"+(v/5*100)+"%\"></b></i><em>"+(v?(+v).toFixed(1):"–")+"</em></div>";}).join("");
+  var crit=KEYS.map(function(k){var v=s?s["s_"+k[0]]:0;return"<div><span>"+t(k[1],k[2])+"</span><i><b style=\"width:"+(v/5*100)+"%\"></b></i><em>"+(v?(+v).toFixed(1):"–")+"</em></div>";}).join("");
   var rs=curReviews.slice();if(sortBy==="hi")rs.sort(function(a,b){return b.s.all-a.s.all;});else if(sortBy==="lo")rs.sort(function(a,b){return a.s.all-b.s.all;});
-  var cards=rs.map(function(x){return '<div class="rv"><div class="who"><span class="av">'+esc(x.n[0])+"</span><span><b>"+esc(x.n)+"</b><span>"+esc(x.c)+" · "+ago(x.d)+'</span></span></div><div class="line">'+stars(x.s.all)+(x.a?'<span class="yes">Nak join lagi</span>':"")+(x.status!=="approved"?'<span class="pend">Menunggu semakan</span>':"")+"</div>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.org?'<div class="reply org"><b>Balasan penganjur · '+esc(r.organizer_name||"")+"</b>"+esc(x.org)+"</div>":"")+(x.rep?'<div class="reply"><b>Balasan SihatLab</b>'+esc(x.rep)+"</div>":"")+
-   (x.status==="approved"?'<button class="rp" data-report="'+esc(x.id)+'">Lapor</button>'+(isOrg(r)?'<button class="rp" data-orgreply="'+esc(x.id)+'">'+(x.org?"Ubah balasan penganjur":"Balas sebagai penganjur")+"</button>":""):"")+"</div>";}).join("");
-  return '<div class="sum"><div class="avg"><b>'+(s?(+s.s_all).toFixed(1):"–")+"</b>"+stars(s&&+s.s_all)+"<span>"+(s?s.n:0)+' ulasan</span></div><div class="hist">'+hist+'</div></div><div class="crit">'+crit+'</div><div class="again"><b>'+(s?s.again_pct:0)+'%</b> nak join lagi</div>'+
-   '<div class="rv-head"><h3>Ulasan</h3><div class="sort"><button data-s="new" class="'+(sortBy==="new"?"on":"")+'">Terbaru</button><button data-s="hi" class="'+(sortBy==="hi"?"on":"")+'">Tertinggi</button><button data-s="lo" class="'+(sortBy==="lo"?"on":"")+'">Terendah</button></div></div>'+
-   (cards||'<p class="empty" style="padding:16px 0">Belum ada ulasan. Kau join race ni? Jadi orang pertama rate.</p>')+
-   '<p class="disc">Ulasan ialah pendapat peribadi pelari, bukan pandangan SihatLab. Nampak ulasan yang melampau? Tekan Lapor. <button type="button" class="linkbtn" data-guide>Garis panduan ulasan</button> · <a href="terma.html">Terma</a></p>';
+  var cards=rs.map(function(x){return '<div class="rv"><div class="who"><span class="av">'+esc(x.n[0])+"</span><span><b>"+esc(x.n)+"</b><span>"+esc(x.c)+" · "+ago(x.d)+'</span></span></div><div class="line">'+stars(x.s.all)+(x.a?'<span class="yes">'+t("Nak join lagi","Would run again")+'</span>':"")+(x.status!=="approved"?'<span class="pend">'+t("Menunggu semakan","Awaiting review")+'</span>':"")+"</div>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.org?'<div class="reply org"><b>'+t("Balasan penganjur","Organiser reply")+' · '+esc(r.organizer_name||"")+"</b>"+esc(x.org)+"</div>":"")+(x.rep?'<div class="reply"><b>'+t("Balasan SihatLab","Reply from SihatLab")+'</b>'+esc(x.rep)+"</div>":"")+
+   (x.status==="approved"?'<button class="rp" data-report="'+esc(x.id)+'">'+t("Lapor","Report")+'</button>'+(isOrg(r)?'<button class="rp" data-orgreply="'+esc(x.id)+'">'+(x.org?t("Ubah balasan penganjur","Edit organiser reply"):t("Balas sebagai penganjur","Reply as organiser"))+"</button>":""):"")+"</div>";}).join("");
+  return '<div class="sum"><div class="avg"><b>'+(s?(+s.s_all).toFixed(1):"–")+"</b>"+stars(s&&+s.s_all)+"<span>"+(s?s.n:0)+t(" ulasan"," reviews")+'</span></div><div class="hist">'+hist+'</div></div><div class="crit">'+crit+'</div><div class="again"><b>'+(s?s.again_pct:0)+'%</b> '+t("nak join lagi","would run it again")+'</div>'+
+   '<div class="rv-head"><h3>'+t("Ulasan","Reviews")+'</h3><div class="sort"><button data-s="new" class="'+(sortBy==="new"?"on":"")+'">'+t("Terbaru","Newest")+'</button><button data-s="hi" class="'+(sortBy==="hi"?"on":"")+'">'+t("Tertinggi","Highest")+'</button><button data-s="lo" class="'+(sortBy==="lo"?"on":"")+'">'+t("Terendah","Lowest")+'</button></div></div>'+
+   (cards||'<p class="empty" style="padding:16px 0">'+t("Belum ada ulasan. Kau join race ni? Jadi orang pertama rate.","No reviews yet. Did you run it? Be the first to rate it.")+'</p>')+
+   '<p class="disc">'+t("Ulasan ialah pendapat peribadi pelari, bukan pandangan SihatLab. Nampak ulasan yang melampau? Tekan Lapor.","Reviews are runners\' own opinions, not SihatLab\'s. See something out of line? Tap Report.")+' <button type="button" class="linkbtn" data-guide>'+t("Garis panduan ulasan","Review guidelines")+'</button> · <a href="terma.html">'+t("Terma","Terms")+'</a></p>';
 }
 function raceView(r){
   var gm=r.lat!=null?"https://www.google.com/maps/dir/?api=1&destination="+r.lat+","+r.lng:null,canRate=started(r);
   var mine=api.user()&&curReviews.some(function(x){return x.user_id===api.user().id;});
-  var first=isOrg(r)?'<span class="off">Kau penganjur</span>':canRate?(mine?'<span class="off">Dah rate ✓</span>':'<button class="w" id="write">★ Tulis ulasan</button>'):'<span class="off">Rate lepas race</span>';
-  return '<div class="place"><button class="back" id="back">← Semua race</button><h2>'+esc(r.name)+'</h2><div class="meta mono"><span>'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+"</span><span>"+esc(r.place)+", "+esc(r.state)+'</span></div><div class="tags">'+r.cats.map(function(c){return"<span>"+esc(c)+"</span>";}).join("")+"</div>"+
-   (r.organizer_name?'<span class="orgline">✓ Penganjur disahkan: '+esc(r.organizer_name)+"</span>":"")+
+  var first=isOrg(r)?'<span class="off">'+t("Kau penganjur","You organise this")+'</span>':canRate?(mine?'<span class="off">'+t("Dah rate ✓","Rated ✓")+'</span>':'<button class="w" id="write">'+t("★ Tulis ulasan","★ Write a review")+'</button>'):'<span class="off">'+t("Rate lepas race","Rate after the race")+'</span>';
+  return '<div class="place"><button class="back" id="back">'+t("← Semua race","← All races")+'</button><h2>'+esc(r.name)+'</h2><div class="meta mono"><span>'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+"</span><span>"+esc(r.place)+", "+esc(r.state)+'</span></div><div class="tags">'+r.cats.map(function(c){return"<span>"+esc(c)+"</span>";}).join("")+"</div>"+
+   (r.organizer_name?'<span class="orgline">✓ '+t("Penganjur disahkan","Verified organiser")+': '+esc(r.organizer_name)+"</span>":"")+
    (r.note?'<p class="note">'+esc(r.note)+"</p>":"")+
-   '<div class="acts">'+first+(gm?'<a href="'+gm+'" target="_blank" rel="noopener">Tunjuk arah</a>':'<span class="off">Peta belum ada</span>')+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">Laman rasmi</a>':'<span class="off">Link belum ada</span>')+"</div>"+
+   '<div class="acts">'+first+(gm?'<a href="'+gm+'" target="_blank" rel="noopener">'+t("Tunjuk arah","Directions")+'</a>':'<span class="off">'+t("Peta belum ada","No map yet")+'</span>')+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+t("Laman rasmi","Official site")+'</a>':'<span class="off">'+t("Link belum ada","No link yet")+'</span>')+"</div>"+
    (!canRate?'<div class="cd" id="cd"></div>'+paceBox(r)+tips(r):"")+
    (canRate?reviewsBlock(r):"")+
-   (!r.organizer_id?'<button class="claim" id="claim">Kau penganjur race ni? <b>Urus page ni</b></button>':"")+
-   '<p class="src">Info race dari laman rasmi dan berita. Semak laman rasmi untuk perubahan terkini.</p></div>';
+   (!r.organizer_id?'<button class="claim" id="claim">'+t("Kau penganjur race ni?","Organise this race?")+' <b>'+t("Urus page ni","Manage this page")+'</b></button>':"")+
+   '<p class="src">'+t("Info race dari laman rasmi dan berita. Semak laman rasmi untuk perubahan terkini.","Race info comes from official sites and news. Check the official site for the latest changes.")+'</p></div>';
 }
 function isOrg(r){return!!(api.user()&&r.organizer_id&&r.organizer_id===api.user().id);}
-function tickCd(r){var el=document.getElementById("cd");if(!el)return;var t=new Date(r.date_start+"T"+(r.flagoff||"06:00")+":00+08:00")-new Date();if(t<0)t=0;var d=Math.floor(t/864e5),h=Math.floor(t%864e5/36e5),m=Math.floor(t%36e5/6e4),s=Math.floor(t%6e4/1e3);el.innerHTML=[[d,"hari"],[h,"jam"],[m,"minit"],[s,"saat"]].map(function(x){return"<div><b>"+String(x[0]).padStart(2,"0")+"</b><span>"+x[1]+"</span></div>";}).join("");}
-function calcPace(){var c=document.getElementById("pcat"),t=document.getElementById("ptime"),o=document.getElementById("pout");if(!c)return;var p=t.value.trim().split(":").map(Number);if(p.some(isNaN)||!t.value.trim()){o.textContent="Masukkan target masa.";return;}var sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p.length===2?p[0]*60+p[1]:p[0]*60;var d=DIST[c.value],pk=sec/d;if(!sec){o.textContent="Masukkan target masa.";return;}
+function tickCd(r){var el=document.getElementById("cd");if(!el)return;var ms=new Date(r.date_start+"T"+(r.flagoff||"06:00")+":00+08:00")-new Date();if(ms<0)ms=0;var d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);el.innerHTML=[[d,t("hari","days")],[h,t("jam","hrs")],[m,t("minit","min")],[s,t("saat","sec")]].map(function(x){return"<div><b>"+String(x[0]).padStart(2,"0")+"</b><span>"+x[1]+"</span></div>";}).join("");}
+function calcPace(){var c=document.getElementById("pcat"),ti=document.getElementById("ptime"),o=document.getElementById("pout");if(!c)return;var p=ti.value.trim().split(":").map(Number);if(p.some(isNaN)||!ti.value.trim()){o.textContent=t("Masukkan target masa.","Enter a target time.");return;}var sec=p.length===3?p[0]*3600+p[1]*60+p[2]:p.length===2?p[0]*60+p[1]:p[0]*60;var d=DIST[c.value],pk=sec/d;if(!sec){o.textContent=t("Masukkan target masa.","Enter a target time.");return;}
   // VDOT (Daniels) from this race result, same maths as kalkulator.html
   var tm=sec/60,v=d*1000/tm,vo2=-4.6+0.182258*v+0.000104*v*v,pct=0.8+0.1894393*Math.exp(-0.012778*tm)+0.2989558*Math.exp(-0.1932605*tm);
-  o.innerHTML="Pace purata <b>"+Math.floor(pk/60)+":"+String(Math.round(pk%60)).padStart(2,"0")+"</b> /km<br>Setiap 5 km: "+Math.floor(pk*5/60)+":"+String(Math.round(pk*5%60)).padStart(2,"0")+" · VDOT setara "+(vo2/pct).toFixed(1);}
+  o.innerHTML=t("Pace purata","Average pace")+" <b>"+Math.floor(pk/60)+":"+String(Math.round(pk%60)).padStart(2,"0")+"</b> /km<br>"+t("Setiap 5 km: ","Every 5 km: ")+Math.floor(pk*5/60)+":"+String(Math.round(pk*5%60)).padStart(2,"0")+t(" · VDOT setara "," · equivalent VDOT ")+(vo2/pct).toFixed(1);}
 async function render(){
   var s=document.getElementById("side"),r=RACES.find(function(x){return x.id===sel;});
   clearInterval(cdTimer);
@@ -493,7 +505,7 @@ async function render(){
   else s.innerHTML=listView();
   drawPins();
 }
-async function load(){try{RACES=await api.races();}catch(e){toast("Tak dapat muat race. Cuba refresh.");RACES=[];}render();var up=RACES.filter(function(r){return!isPast(r);}).length;document.getElementById("s-up").textContent=up;document.getElementById("s-past").textContent=RACES.length-up;document.getElementById("s-rv").textContent=RACES.reduce(function(a,r){return a+(r.sum?r.sum.n:0);},0);}
+async function load(){try{RACES=await api.races();}catch(e){toast(t("Tak dapat muat race. Cuba refresh.","Couldn't load races. Try refreshing."));RACES=[];}render();var up=RACES.filter(function(r){return!isPast(r);}).length;document.getElementById("s-up").textContent=up;document.getElementById("s-past").textContent=RACES.length-up;document.getElementById("s-rv").textContent=RACES.reduce(function(a,r){return a+(r.sum?r.sum.n:0);},0);}
 function openRace(id){sel=id;sortBy="new";var r=RACES.find(function(x){return x.id===id;});if(!r)return;if(isPast(r)!==(when==="past")){when=isPast(r)?"past":"up";segOn("w",when);}render();history.replaceState(null,"","#"+id);if(r.lat!=null)map.flyTo([r.lat,r.lng],Math.max(map.getZoom(),10),{duration:.6});document.getElementById("side").scrollTop=0;if(innerWidth<=860)document.getElementById("side").scrollIntoView({behavior:"smooth"});}
 function segOn(attr,val){document.querySelectorAll("[data-"+attr+"]").forEach(function(b){b.classList.toggle("on",b.dataset[attr]===val);});}
 function showErr(id,m){var e=document.getElementById(id);e.textContent=m;e.hidden=!m;}
@@ -503,17 +515,18 @@ var pendingAfterLogin=null;
 
 /* ---------- account + staff ---------- */
 async function refreshHeader(){
-  var u=api.user();document.getElementById("acctl").textContent=u?u.email.split("@")[0]:"Log masuk";
+  var u=api.user();document.getElementById("acctl").textContent=u?u.email.split("@")[0]:t("Log masuk","Log in");
   var sb=document.getElementById("staffbtn");
   if(api.isStaff()){try{var qq=await api.queue();document.getElementById("qn").textContent=qq.races.length+qq.reviews.length+qq.claims.length+qq.reports.length;}catch(e){}sb.hidden=false;}else sb.hidden=true;
 }
 async function openAcct(){
   document.getElementById("aemail").textContent=api.user().email;
-  var box=document.getElementById("amine");box.innerHTML='<p class="note">Memuatkan…</p>';dlg("dacct");
+  var box=document.getElementById("amine");box.innerHTML='<p class="note">'+t("Memuatkan…","Loading…")+'</p>';dlg("dacct");
   var rv=await api.myReviews(),rq=await api.myRequests(),cl=await api.myClaims();
-  box.innerHTML='<h3 class="h" style="margin-top:0">Ulasan kau</h3>'+(rv.length?rv.map(function(x){return'<div class="mine">'+esc(x.race)+" · "+stars(x.s.all)+'<span class="badge">'+({approved:"Keluar",pending:"Menunggu semakan",rejected:"Ditolak"}[x.status])+"</span></div>";}).join(""):'<p class="note">Belum ada.</p>')+
-   (rq.length?'<h3 class="h">Race yang kau minta</h3>'+rq.map(function(r){return'<div class="mine">'+esc(r.name)+'<span class="badge">'+(r.status==="pending"?"Menunggu semakan":"Ditolak")+"</span></div>";}).join(""):"")+
-   (cl.length?'<h3 class="h">Page penganjur</h3>'+cl.map(function(c){return'<div class="mine">'+esc(c.race)+" · "+esc(c.org_name)+'<span class="badge">'+({approved:"Disahkan",pending:"Menunggu pengesahan",rejected:"Ditolak"}[c.status])+"</span></div>";}).join(""):"");
+  var ST={approved:t("Keluar","Live"),pending:t("Menunggu semakan","Awaiting review"),rejected:t("Ditolak","Rejected")};
+  box.innerHTML='<h3 class="h" style="margin-top:0">'+t("Ulasan kau","Your reviews")+'</h3>'+(rv.length?rv.map(function(x){return'<div class="mine">'+esc(x.race)+" · "+stars(x.s.all)+'<span class="badge">'+ST[x.status]+"</span></div>";}).join(""):'<p class="note">'+t("Belum ada.","None yet.")+'</p>')+
+   (rq.length?'<h3 class="h">'+t("Race yang kau minta","Races you requested")+'</h3>'+rq.map(function(r){return'<div class="mine">'+esc(r.name)+'<span class="badge">'+ST[r.status]+"</span></div>";}).join(""):"")+
+   (cl.length?'<h3 class="h">'+t("Page penganjur","Organiser pages")+'</h3>'+cl.map(function(c){return'<div class="mine">'+esc(c.race)+" · "+esc(c.org_name)+'<span class="badge">'+({approved:t("Disahkan","Verified"),pending:t("Menunggu pengesahan","Awaiting verification"),rejected:t("Ditolak","Rejected")}[c.status])+"</span></div>";}).join(""):"");
 }
 async function openStaff(){
   var box=document.getElementById("squeue");box.innerHTML='<p class="note">Memuatkan…</p>';dlg("dstaff");
@@ -543,6 +556,7 @@ document.getElementById("squeue").addEventListener("click",async function(e){
 
 /* ---------- events ---------- */
 document.addEventListener("click",function(e){
+  var lb=e.target.closest("[data-l]");if(lb){LANG=lb.dataset.l==="en"?"en":"ms";try{localStorage.setItem("sihatlab-lang",LANG);}catch(er){}applyLang();refreshHeader();render();return;}
   if(e.target.closest("[data-close]")){e.target.closest("dialog").close();return;}
   var it=e.target.closest(".item");if(it){openRace(it.dataset.id);return;}
   if(e.target.id==="back"){sel=null;history.replaceState(null,"",location.pathname);render();return;}
@@ -553,12 +567,12 @@ document.addEventListener("click",function(e){
   if(e.target.id==="write"){needLogin(openWrite);return;}
   if(e.target.closest("#acct")){if(api.user())openAcct();else needLogin(function(){});return;}
   if(e.target.closest("#staffbtn")){openStaff();return;}
-  if(e.target.id==="logout"){api.logout().then(function(){document.getElementById("dacct").close();refreshHeader();render();toast("Dah log keluar");});return;}
-  if(e.target.closest("#go-rate")){when="past";segOn("w","past");sel=null;history.replaceState(null,"",location.pathname);render();document.querySelector(".bar").scrollIntoView({behavior:"smooth"});toast("Pilih race yang kau dah join");return;}
+  if(e.target.id==="logout"){api.logout().then(function(){document.getElementById("dacct").close();refreshHeader();render();toast(t("Dah log keluar","Logged out"));});return;}
+  if(e.target.closest("#go-rate")){when="past";segOn("w","past");sel=null;history.replaceState(null,"",location.pathname);render();document.querySelector(".bar").scrollIntoView({behavior:"smooth"});toast(t("Pilih race yang kau dah join","Pick a race you ran"));return;}
   if(e.target.closest("[data-guide]")){dlg("dguide");return;}
   var rpb=e.target.closest("[data-report]");if(rpb){reportId=rpb.dataset.report;document.getElementById("rf").reset();showErr("rerr","");dlg("drep");return;}
   var orb=e.target.closest("[data-orgreply]");if(orb){orgId=orb.dataset.orgreply;var cur=curReviews.find(function(x){return x.id===orgId;});document.getElementById("of").msg.value=(cur&&cur.org)||"";showErr("oerr","");dlg("dorg");return;}
-  if(e.target.closest("#claim")){needLogin(function(){var r=RACES.find(function(x){return x.id===sel;});document.getElementById("cf2").reset();showErr("cerr","");document.getElementById("ct").textContent="Urus page: "+r.name;dlg("dclaim");});return;}
+  if(e.target.closest("#claim")){needLogin(function(){var r=RACES.find(function(x){return x.id===sel;});document.getElementById("cf2").reset();showErr("cerr","");document.getElementById("ct").textContent=t("Urus page: ","Manage page: ")+r.name;dlg("dclaim");});return;}
   var sbtn=e.target.closest(".st button");if(sbtn){draft[sbtn.parentElement.dataset.k]=+sbtn.dataset.v;drawStars();return;}
 });
 document.getElementById("side").addEventListener("input",function(e){if(e.target.id==="ptime"||e.target.id==="pcat")calcPace();});
@@ -566,67 +580,67 @@ document.getElementById("side").addEventListener("change",function(e){if(e.targe
 document.getElementById("q").addEventListener("input",function(e){q=e.target.value.trim().toLowerCase();sel=null;render();});
 
 var loginStep="email";
-function resetLogin(){loginStep="email";var f=document.getElementById("lf");f.reset();f.email.readOnly=false;document.getElementById("codel").hidden=true;document.getElementById("lbtn").textContent=LOGIN_CODE?"Hantar kod":"Hantar link";showErr("lerr","");document.getElementById("lok").hidden=true;}
-async function afterLogin(){document.getElementById("dlogin").close();await refreshHeader();toast("Dah log masuk");if(pendingAfterLogin){var f=pendingAfterLogin;pendingAfterLogin=null;f();}render();}
+function resetLogin(){loginStep="email";var f=document.getElementById("lf");f.reset();f.email.readOnly=false;document.getElementById("codel").hidden=true;document.getElementById("lbtn").textContent=LOGIN_CODE?t("Hantar kod","Send code"):t("Hantar link","Send link");showErr("lerr","");document.getElementById("lok").hidden=true;}
+async function afterLogin(){document.getElementById("dlogin").close();await refreshHeader();toast(t("Dah log masuk","Logged in"));if(pendingAfterLogin){var f=pendingAfterLogin;pendingAfterLogin=null;f();}render();}
 document.getElementById("lf").addEventListener("submit",async function(e){
   e.preventDefault();var f=e.target,em=f.email.value.trim(),btn=document.getElementById("lbtn");
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){showErr("lerr","Emel tak betul.");return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){showErr("lerr",t("Emel tak betul.","That email doesn't look right."));return;}
   btn.disabled=true;showErr("lerr","");
   try{
     if(loginStep==="email"){var r=await api.login(em);
-      if(r==="sent"&&!LOGIN_CODE){var ok0=document.getElementById("lok");ok0.textContent="Link dah dihantar ke "+em+". Buka emel dan tekan link dalam browser yang sama dengan page ni. Tak jumpa? Semak folder spam.";ok0.hidden=false;}
-      else if(r==="sent"){loginStep="code";f.email.readOnly=true;document.getElementById("codel").hidden=false;btn.textContent="Masuk";var ok=document.getElementById("lok");ok.textContent="Kod dah dihantar ke "+em+". Tak jumpa? Semak folder spam. Boleh juga tekan link dalam emel tu.";ok.hidden=false;f.code.focus();}
+      if(r==="sent"&&!LOGIN_CODE){var ok0=document.getElementById("lok");ok0.textContent=t("Link dah dihantar ke "+em+". Buka emel dan tekan link dalam browser yang sama dengan page ni. Tak jumpa? Semak folder spam.","Link sent to "+em+". Open it in the same browser as this page. Can't find it? Check spam.");ok0.hidden=false;}
+      else if(r==="sent"){loginStep="code";f.email.readOnly=true;document.getElementById("codel").hidden=false;btn.textContent=t("Masuk","Log in");var ok=document.getElementById("lok");ok.textContent=t("Kod dah dihantar ke "+em+". Tak jumpa? Semak folder spam. Boleh juga tekan link dalam emel tu.","Code sent to "+em+". Can't find it? Check spam. You can also tap the link in the email.");ok.hidden=false;f.code.focus();}
       else await afterLogin();}
-    else{var c=f.code.value.replace(/\D/g,"");if(c.length<6){showErr("lerr","Masukkan kod 6 digit.");btn.disabled=false;return;}await api.verify(em,c);await afterLogin();}
-  }catch(er){showErr("lerr",loginStep==="code"?"Kod salah atau dah tamat. Minta kod baru kalau perlu.":(/rate|seconds/i.test(er.message)?"Tunggu sekejap sebelum minta kod lagi.":"Tak dapat hantar kod. Cuba lagi sekejap."));}
+    else{var c=f.code.value.replace(/\D/g,"");if(c.length<6){showErr("lerr",t("Masukkan kod 6 digit.","Enter the 6-digit code."));btn.disabled=false;return;}await api.verify(em,c);await afterLogin();}
+  }catch(er){showErr("lerr",loginStep==="code"?t("Kod salah atau dah tamat. Minta kod baru kalau perlu.","Wrong or expired code. Ask for a new one if needed."):(/rate|seconds/i.test(er.message)?t("Tunggu sekejap sebelum minta kod lagi.","Wait a moment before asking for another code."):t("Tak dapat hantar kod. Cuba lagi sekejap.","Couldn't send the code. Try again shortly.")));}
   btn.disabled=false;
 });
 var draft={};
-function drawStars(){document.querySelectorAll(".st").forEach(function(box){var k=box.dataset.k;box.innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" data-v="'+i+'" class="'+(draft[k]>=i?"on":"")+'" aria-label="'+i+' bintang">★</button>';}).join("");});}
-function openWrite(){var r=RACES.find(function(x){return x.id===sel;});draft={};drawStars();document.getElementById("wf").reset();showErr("werr","");document.getElementById("wt").textContent="Ulasan: "+r.name;document.getElementById("wcat").innerHTML=r.cats.map(function(c){return"<option>"+esc(c)+"</option>";}).join("");dlg("dlg");}
+function drawStars(){document.querySelectorAll(".st").forEach(function(box){var k=box.dataset.k;box.innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" data-v="'+i+'" class="'+(draft[k]>=i?"on":"")+'" aria-label="'+i+t(" bintang"," stars")+'">★</button>';}).join("");});}
+function openWrite(){var r=RACES.find(function(x){return x.id===sel;});draft={};drawStars();document.getElementById("wf").reset();showErr("werr","");document.getElementById("wt").textContent=t("Ulasan: ","Review: ")+r.name;document.getElementById("wcat").innerHTML=r.cats.map(function(c){return"<option>"+esc(c)+"</option>";}).join("");dlg("dlg");}
 document.getElementById("wf").addEventListener("submit",async function(e){
-  e.preventDefault();var f=e.target;if(!draft.all){showErr("werr","Bagi bintang keseluruhan dulu.");return;}if(!f.agree.checked){showErr("werr","Tick kotak garis panduan dulu.");return;}if(!f.name.value.trim()){showErr("werr","Isi nama yang dipaparkan.");return;}
+  e.preventDefault();var f=e.target;if(!draft.all){showErr("werr",t("Bagi bintang keseluruhan dulu.","Give an overall star rating first."));return;}if(!f.agree.checked){showErr("werr",t("Tick kotak garis panduan dulu.","Tick the guidelines box first."));return;}if(!f.name.value.trim()){showErr("werr",t("Isi nama yang dipaparkan.","Add the name to show."));return;}
   var proof=f.proof.value.trim();if(proof&&!/^https?:\/\//.test(proof))proof="https://"+proof;
   var o={race_id:sel,display_name:f.name.value.trim(),cat:f.cat.value,s_all:draft.all,again:f.again.value==="1",body:f.body.value.trim()||null,proof:proof||null};
   KEYS.forEach(function(k){o["s_"+k[0]]=draft[k[0]]||draft.all;});
   var btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.addReview(o);document.getElementById("dlg").close();toast("Terima kasih. Ulasan kau disemak dulu.");render();refreshHeader();}
-  catch(er){showErr("werr",/duplicate|unique/i.test(er.message)?"Kau dah rate race ni.":"Tak dapat hantar. Cuba lagi.");}
+  try{await api.addReview(o);document.getElementById("dlg").close();toast(t("Terima kasih. Ulasan kau disemak dulu.","Thanks. Your review will be checked first."));render();refreshHeader();}
+  catch(er){showErr("werr",/duplicate|unique/i.test(er.message)?t("Kau dah rate race ni.","You already rated this race."):t("Tak dapat hantar. Cuba lagi.","Couldn't send. Try again."));}
   btn.disabled=false;
 });
 var reportId=null,orgId=null;
 document.getElementById("rf").addEventListener("submit",async function(e){
-  e.preventDefault();var f=e.target,r=f.querySelector('input[name="reason"]:checked');if(!r){showErr("rerr","Pilih sebab.");return;}
+  e.preventDefault();var f=e.target,r=f.querySelector('input[name="reason"]:checked');if(!r){showErr("rerr",t("Pilih sebab.","Pick a reason."));return;}
   var btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.report({review_id:reportId,reason:r.value,note:f.note.value.trim()||null});document.getElementById("drep").close();toast("Terima kasih. Kami semak dalam 3 hari bekerja.");refreshHeader();}
-  catch(er){showErr("rerr","Tak dapat hantar. Cuba lagi.");}
+  try{await api.report({review_id:reportId,reason:r.value,note:f.note.value.trim()||null});document.getElementById("drep").close();toast(t("Terima kasih. Kami semak dalam 3 hari bekerja.","Thanks. We'll check within 3 working days."));refreshHeader();}
+  catch(er){showErr("rerr",t("Tak dapat hantar. Cuba lagi.","Couldn't send. Try again."));}
   btn.disabled=false;
 });
 document.getElementById("cf2").addEventListener("submit",async function(e){
   e.preventDefault();var f=e.target;
-  var miss=[["org","nama penganjur"],["role","jawatan"],["contact","kontak"]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
-  if(miss.length){showErr("cerr","Isi dulu: "+miss.join(", "));return;}
+  var miss=[["org",t("nama penganjur","organiser name")],["role",t("jawatan","role")],["contact",t("kontak","contact")]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
+  if(miss.length){showErr("cerr",t("Isi dulu: ","Fill in: ")+miss.join(", "));return;}
   var proof=f.proof.value.trim();if(proof&&!/^https?:\/\//.test(proof))proof="https://"+proof;
   var btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.claim({race_id:sel,org_name:f.org.value.trim(),role:f.role.value.trim(),contact:f.contact.value.trim(),proof:proof||null,status:"pending"});document.getElementById("dclaim").close();toast("Dihantar. Kami hubungi kontak rasmi penganjur untuk sahkan.");refreshHeader();}
-  catch(er){showErr("cerr",/duplicate|unique/i.test(er.message)?"Kau dah hantar permintaan untuk race ni.":"Tak dapat hantar. Cuba lagi.");}
+  try{await api.claim({race_id:sel,org_name:f.org.value.trim(),role:f.role.value.trim(),contact:f.contact.value.trim(),proof:proof||null,status:"pending"});document.getElementById("dclaim").close();toast(t("Dihantar. Kami hubungi kontak rasmi penganjur untuk sahkan.","Sent. We'll contact the organiser's official contact to verify."));refreshHeader();}
+  catch(er){showErr("cerr",/duplicate|unique/i.test(er.message)?t("Kau dah hantar permintaan untuk race ni.","You already sent a request for this race."):t("Tak dapat hantar. Cuba lagi.","Couldn't send. Try again."));}
   btn.disabled=false;
 });
 document.getElementById("of").addEventListener("submit",async function(e){
   e.preventDefault();var f=e.target,btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.orgReply(orgId,f.msg.value.trim());document.getElementById("dorg").close();toast("Balasan disimpan");render();}
-  catch(er){showErr("oerr","Tak dapat simpan. Pastikan kau log masuk sebagai penganjur race ni.");}
+  try{await api.orgReply(orgId,f.msg.value.trim());document.getElementById("dorg").close();toast(t("Balasan disimpan","Reply saved"));render();}
+  catch(er){showErr("oerr",t("Tak dapat simpan. Pastikan kau log masuk sebagai penganjur race ni.","Couldn't save. Make sure you're logged in as this race's organiser."));}
   btn.disabled=false;
 });
 document.getElementById("af").addEventListener("submit",async function(e){
   e.preventDefault();var f=e.target;
-  var miss=[["name","nama race"],["date","tarikh"],["state","negeri"],["place","tempat start"]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
-  if(miss.length){showErr("aerr","Isi dulu: "+miss.join(", "));return;}
+  var miss=[["name",t("nama race","race name")],["date",t("tarikh","date")],["state",t("negeri","state")],["place",t("tempat start","start venue")]].filter(function(k){return!f[k[0]].value.trim();}).map(function(k){return k[1];});
+  if(miss.length){showErr("aerr",t("Isi dulu: ","Fill in: ")+miss.join(", "));return;}
   var url=f.url.value.trim();if(url&&!/^https?:\/\//.test(url))url="https://"+url;
   var o={name:f.name.value.trim(),date_start:f.date.value,flagoff:f.flagoff.value||null,state:f.state.value,place:f.place.value.trim(),cats:[].slice.call(f.querySelectorAll('input[name="c"]:checked')).map(function(x){return x.value;}),url:url||null,status:"pending"};
   var btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.requestRace(o);document.getElementById("dadd").close();toast("Terima kasih. Race dihantar untuk semakan.");refreshHeader();}
-  catch(er){showErr("aerr","Tak dapat hantar. Semak link dan cuba lagi.");}
+  try{await api.requestRace(o);document.getElementById("dadd").close();toast(t("Terima kasih. Race dihantar untuk semakan.","Thanks. The race was sent for review."));refreshHeader();}
+  catch(er){showErr("aerr",t("Tak dapat hantar. Semak link dan cuba lagi.","Couldn't send. Check the link and try again."));}
   btn.disabled=false;
 });
 
@@ -634,6 +648,7 @@ document.getElementById("af").addEventListener("submit",async function(e){
 map=L.map("map").setView([4.2,102],6);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap"}).addTo(map);
 document.getElementById("demo").hidden=api.mode!=="demo";
+applyLang();
 (async function(){
   await api.init(function(){refreshHeader();render();});
   await refreshHeader();await load();
