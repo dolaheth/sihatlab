@@ -47,7 +47,8 @@ nav .logo{height:22px;display:block}
 .navr .lang button[aria-pressed="true"]{background:#111;color:var(--volt)}
 .navr .cta{background:var(--volt);font-weight:700}
 .navr .cta:hover{background:var(--volt)}
-@media (max-width:760px){.navr .tl{display:none}.navr .rc{display:flex}}
+@media (max-width:760px){.navr .tl{display:none}.navr .rc,.navr .kc{display:flex}.navr .kc .tx{display:none}}
+@media (max-width:400px){.navr .rc{font-size:0;gap:0}}
 @media (max-width:420px){nav .wrap{padding:0 0 0 14px}nav .logo{height:19px}.navr a,.navr button{padding:0 10px}}
 
 /* hero */
@@ -157,8 +158,8 @@ footer a{color:#fff}
   <a href="index.html" aria-label="SihatLab"><img class="logo" src="logo-dark.png" alt="SihatLab"></a>
   <div class="navr">
     <a class="tl" href="kelas.html" data-en="Class">Kelas</a>
-    <a class="tl rc" href="race.html"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg>Race</a>
-    <a class="tl" href="kalkulator.html" data-en="Calculators">Kalkulator</a>
+    <a class="tl rc" href="race.html" aria-label="Race"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg>Race</a>
+    <a class="tl kc" href="kalkulator.html" aria-label="Kalkulator / Calculators"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="1.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span class="tx" data-en="Calculators">Kalkulator</span></a>
     <div class="lang" role="group" aria-label="Bahasa / Language"><button type="button" data-l="ms" aria-pressed="true">BM</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
     <a class="cta" href="kelas.html#harga" data-en="Join">Daftar</a>
   </div>
