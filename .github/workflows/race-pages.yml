@@ -1,0 +1,27 @@
+# Copied into dolaheth/sihatlab/.github/workflows/ by scripts/deploy-site.sh. Edit it in content/website/ci/.
+name: Refresh race pages
+on:
+  schedule:
+    - cron: "0 16 * * *"   # 00:00 Malaysia time
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild race pages from live ratings
+        run: SITE_DIR=. python3 tools/build_race_pages.py
+      - name: Publish if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A race race.html sitemap.xml
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Refresh race pages $(date -u +%F)"
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null || true
