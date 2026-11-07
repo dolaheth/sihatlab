@@ -607,7 +607,7 @@ var draft={};
 function drawStars(){document.querySelectorAll(".st").forEach(function(box){var k=box.dataset.k;box.innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" data-v="'+i+'" class="'+(draft[k]>=i?"on":"")+'" aria-label="'+i+t(" bintang"," stars")+'">★</button>';}).join("");});}
 function shareRace(){
   var r=RACES.find(function(x){return x.id===sel;});if(!r)return;var rate=started(r);
-  var url=location.origin+location.pathname+(rate?"?rate=1":"")+"#"+r.id;
+  var url=location.origin+location.pathname+(rate?"?rate=1&v=2":"?v=2")+"#"+r.id; // v=2: new link so WhatsApp fetches the race preview, not the old class image
   var txt=rate?t("Dah join "+r.name+"? Bagi rating kat sini:","Ran "+r.name+"? Rate it here:"):t(r.name+". Tengok info race, countdown dan kira pace kat sini:",r.name+". Race info, countdown and pace calculator here:");
   var copy=function(){var done=function(){toast(t("Link disalin. Paste dalam WhatsApp atau story.","Link copied. Paste it in WhatsApp or your story."));};
     if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(url).then(done,old);}else old();
