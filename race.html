@@ -152,7 +152,7 @@ header nav .staff i{font-style:normal;background:var(--volt);color:#111;padding:
 .reply b{color:#111;font-size:12px;font-family:var(--mono);text-transform:uppercase;display:block}
 .src{margin-top:24px;font-size:12px;color:var(--grey)}
 /* dialogs */
-dialog{border:1px solid #111;padding:0;width:min(500px,calc(100vw - 24px));max-height:calc(100vh - 24px);background:var(--paper)}
+dialog{margin:auto;border:1px solid #111;padding:0;width:min(500px,calc(100vw - 24px));max-height:calc(100vh - 24px);background:var(--paper)}
 dialog.wide{width:min(760px,calc(100vw - 24px))}
 dialog::backdrop{background:#000a}
 dialog form,dialog .in{padding:20px;display:grid;gap:12px}
@@ -211,7 +211,7 @@ fieldset input,.ck input{min-height:0}
 <header><b><a href="index.html" style="text-decoration:none">SihatLab</a> · Race</b><nav>
   <a href="kalkulator.html" aria-label="Kalkulator / Calculators"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="1.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span class="lbl" data-en="Calculators">Kalkulator</span></a>
   <div class="lang" role="group" aria-label="Bahasa / Language"><button type="button" data-l="ms" aria-pressed="true">BM</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
-  <button class="staff" id="staffbtn" hidden aria-label="Semakan"><span class="lbl">Semakan </span><i id="qn">0</i></button>
+  <button class="staff" id="staffbtn" hidden aria-label="Semakan"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/></svg><span class="lbl">Semakan </span><i id="qn">0</i></button>
   <button id="acct"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl" id="acctl">Log masuk</span></button>
 </nav></header>
 <section class="intro" aria-labelledby="ih">
@@ -545,6 +545,9 @@ function needLogin(then){if(api.user()){then();return;}pendingAfterLogin=then;re
 var pendingAfterLogin=null;
 
 /* ---------- account + staff ---------- */
+// Phones keep old tabs open: refresh the staff count whenever the page comes back into view.
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&api.isStaff())refreshHeader();});
+window.addEventListener("pageshow",function(ev){if(ev.persisted)refreshHeader();});
 async function refreshHeader(){
   var u=api.user();document.getElementById("acctl").textContent=u?u.email.split("@")[0]:t("Log masuk","Log in");
   var sb=document.getElementById("staffbtn");
