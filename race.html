@@ -223,9 +223,9 @@ fieldset input,.ck input{min-height:0}
 <!-- login -->
 <dialog id="dlogin"><form id="lf" novalidate>
   <h3 data-en="Log in">Log masuk</h3>
-  <p class="note" data-en="No password. Enter your email and we send you a 6-digit code. Logging in keeps it to one rating per runner per race.">Takde password. Masukkan emel, kami hantar kod 6 digit ke emel kau. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
+  <p class="note" data-en="No password. Enter your email and we send you a login code. Logging in keeps it to one rating per runner per race.">Takde password. Masukkan emel, kami hantar kod login ke emel kau. Login perlu supaya setiap pelari cuma boleh rate satu kali setiap race.</p>
   <label><span data-en="Email">Emel</span><input name="email" type="email" required autocomplete="email" inputmode="email"></label>
-  <label id="codel" hidden><span data-en="6-digit code from the email">Kod 6 digit dari emel</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"></label>
+  <label id="codel" hidden><span data-en="Code from the email">Kod dari emel</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="12345678"></label>
   <p class="err" id="lerr" hidden></p><p class="ok" id="lok" hidden></p>
   <button class="sub" type="submit" id="lbtn">Hantar kod</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
@@ -597,7 +597,7 @@ document.getElementById("lf").addEventListener("submit",async function(e){
       if(r==="sent"&&!LOGIN_CODE){var ok0=document.getElementById("lok");ok0.textContent=t("Link dah dihantar ke "+em+". Buka emel dan tekan link dalam browser yang sama dengan page ni. Tak jumpa? Semak folder spam.","Link sent to "+em+". Open it in the same browser as this page. Can't find it? Check spam.");ok0.hidden=false;}
       else if(r==="sent"){loginStep="code";f.email.readOnly=true;document.getElementById("codel").hidden=false;btn.textContent=t("Masuk","Log in");var ok=document.getElementById("lok");ok.textContent=t("Kod dah dihantar ke "+em+". Tak jumpa? Semak folder spam. Boleh juga tekan link dalam emel tu.","Code sent to "+em+". Can't find it? Check spam. You can also tap the link in the email.");ok.hidden=false;f.code.focus();}
       else await afterLogin();}
-    else{var c=f.code.value.replace(/\D/g,"");if(c.length<6){showErr("lerr",t("Masukkan kod 6 digit.","Enter the 6-digit code."));btn.disabled=false;return;}await api.verify(em,c);await afterLogin();}
+    else{var c=f.code.value.replace(/\D/g,"");if(c.length<6){showErr("lerr",t("Masukkan kod dari emel.","Enter the code from the email."));btn.disabled=false;return;}await api.verify(em,c);await afterLogin();}
   }catch(er){showErr("lerr",loginStep==="code"?t("Kod salah atau dah tamat. Minta kod baru kalau perlu.","Wrong or expired code. Ask for a new one if needed."):(/rate|seconds/i.test(er.message)?t("Tunggu sekejap sebelum minta kod lagi.","Wait a moment before asking for another code."):t("Tak dapat hantar kod. Cuba lagi sekejap.","Couldn't send the code. Try again shortly.")));}
   btn.disabled=false;
 });
