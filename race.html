@@ -377,7 +377,7 @@ var api=(function(){
       init:async function(cb){var s=await sb.auth.getSession();user=s.data.session?s.data.session.user:null;try{staff=user?!!chk(await sb.rpc("is_staff")):false;}catch(e){staff=false;console.warn("is_staff",e);}sb.auth.onAuthStateChange(function(ev,ss){var u=ss?ss.user:null;if((u&&u.id)!==(user&&user.id)){user=u;staff=false;// supabase-js: never await inside this callback (it can lock auth), so defer the staff check
 setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}catch(e){staff=false;}cb();},0);}});},
       user:function(){return user;},isStaff:function(){return staff;},
-      login:async function(email){chk(await sb.auth.signInWithOtp({email:email,options:{emailRedirectTo:location.href.split("#")[0]}}));return"sent";},
+      login:async function(email){chk(await sb.auth.signInWithOtp({email:email,options:{emailRedirectTo:loginReturnUrl()}}));return"sent";},
       verify:async function(email,code){var r=await sb.auth.verifyOtp({email:email,token:code,type:"email"});if(r.error)throw r.error;user=r.data.user;try{staff=!!chk(await sb.rpc("is_staff"));}catch(e){staff=false;}return user;},
       logout:async function(){await sb.auth.signOut();user=null;staff=false;},
       races:async function(){var r=chk(await sb.from("races").select("*").eq("status","approved").order("date_start"));var s=chk(await sb.from("race_summary").select("*"));var m={};s.forEach(function(x){m[x.race_id]=x;});r.forEach(function(x){x.sum=m[x.id]||null;});return r;},
@@ -518,6 +518,8 @@ function openRace(id){sel=id;sortBy="new";var r=RACES.find(function(x){return x.
 function segOn(attr,val){document.querySelectorAll("[data-"+attr+"]").forEach(function(b){b.classList.toggle("on",b.dataset[attr]===val);});}
 function showErr(id,m){var e=document.getElementById(id);e.textContent=m;e.hidden=!m;}
 function dlg(id){document.getElementById(id).showModal();}
+// Where the email link brings people back: the same race, and the review form if that's what they were doing.
+function loginReturnUrl(){var u=location.origin+location.pathname;if(sel)u+="?race="+encodeURIComponent(sel)+(pendingAfterLogin===openWrite?"&rate=1":"");return u;}
 function needLogin(then){if(api.user()){then();return;}pendingAfterLogin=then;resetLogin();dlg("dlogin");}
 var pendingAfterLogin=null;
 
@@ -671,9 +673,9 @@ applyLang();
 (async function(){
   await api.init(function(){refreshHeader();render();});
   await refreshHeader();await load();
-  var h=location.hash.slice(1);if(h&&RACES.some(function(r){return r.id===h;})){openRace(h);
-    // Shared rating link (race.html?rate=1#id): open the review form once the race view is ready.
-    if(/[?&]rate=1/.test(location.search)){history.replaceState(null,"",location.pathname+"#"+h);var tries=0,iv=setInterval(function(){var w=document.getElementById("write");if(w||++tries>40){clearInterval(iv);if(w)w.click();}},100);}}
+  // race.html#id, race.html?race=id (email login link) and ?rate=1 (open the review form).
+  var qp=new URLSearchParams(location.search),h=qp.get("race")||location.hash.slice(1);if(h&&RACES.some(function(r){return r.id===h;})){openRace(h);history.replaceState(null,"",location.pathname+"#"+h);
+    if(qp.get("rate")==="1"){var tries=0,iv=setInterval(function(){var w=document.getElementById("write");if(w||++tries>40){clearInterval(iv);if(w)w.click();}},100);}}
 })();
 </script>
 </body>
