@@ -357,7 +357,7 @@ var esc=function(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){re
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function dParts(s){var p=s.split("-");return{y:+p[0],m:+p[1]-1,d:+p[2]};}
 function fmtDate(r){var a=dParts(r.date_start);if(r.date_end&&r.date_end!==r.date_start){var b=dParts(r.date_end);return(a.m===b.m?a.d+"–"+b.d:a.d+" "+M(a.m)+"–"+b.d)+" "+M(b.m)+" "+b.y;}return a.d+" "+M(a.m)+" "+a.y;}
-function isPast(r){return(r.date_end||r.date_start)<today();}
+function isPast(r){return r.date_start<=today();} // race day counts as "past" so runners can find and rate it after the finish
 function started(r){return r.date_start<=today();}
 function stars(n){var f=Math.round(n||0),h="";for(var i=1;i<=5;i++)h+=i<=f?"★":'<span class="off">★</span>';return '<span class="stars" aria-label="'+(n||0).toFixed(1)+t(" bintang"," stars")+'">'+h+"</span>";}
 function toast(t){var d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},3600);}
