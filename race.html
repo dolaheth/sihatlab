@@ -180,6 +180,9 @@ fieldset input,.ck input{min-height:0}
 .orgline{margin-top:10px;font:500 11px var(--mono);text-transform:uppercase;display:inline-block;border:1px solid #111;padding:2px 8px;background:#fff}
 .disc{margin-top:16px;font-size:13px;color:var(--grey);border-top:1px solid var(--line);padding-top:12px}
 .linkbtn{border:0;background:none;padding:0;text-decoration:underline;font:inherit;color:#111;cursor:pointer}
+.share{display:flex;gap:8px;align-items:center;justify-content:center;width:100%;margin-top:8px;border:1px solid #111;background:#111;color:#fff;font:600 12px var(--mono);text-transform:uppercase;min-height:44px;padding:10px;cursor:pointer}
+.share svg{width:16px;height:16px;flex:none}
+.share+.cd{margin-top:20px}
 .claim{display:block;margin-top:16px;border:1px dashed #111;background:none;padding:12px;width:100%;text-align:left;font-size:14px;min-height:44px}
 .claim b{font-family:var(--mono);font-size:11px;text-transform:uppercase;background:var(--volt);padding:1px 5px;margin-left:4px}
 .guide h4{font-size:14px;font-weight:800;text-transform:uppercase;margin-top:6px}
@@ -487,6 +490,7 @@ function raceView(r){
    (r.organizer_name?'<span class="orgline">✓ '+t("Penganjur disahkan","Verified organiser")+': '+esc(r.organizer_name)+"</span>":"")+
    (r.note?'<p class="note">'+esc(r.note)+"</p>":"")+
    '<div class="acts">'+first+(gm?'<a href="'+gm+'" target="_blank" rel="noopener">'+t("Tunjuk arah","Directions")+'</a>':'<span class="off">'+t("Peta belum ada","No map yet")+'</span>')+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+t("Laman rasmi","Official site")+'</a>':'<span class="off">'+t("Link belum ada","No link yet")+'</span>')+"</div>"+
+   '<button class="share" id="share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>'+(canRate?t("Kongsi link rate race ni","Share the rating link"):t("Kongsi race ni","Share this race"))+'</button>'+
    (!canRate?'<div class="cd" id="cd"></div>'+paceBox(r)+tips(r):"")+
    (canRate?reviewsBlock(r):"")+
    (!r.organizer_id?'<button class="claim" id="claim">'+t("Kau penganjur race ni?","Organise this race?")+' <b>'+t("Urus page ni","Manage this page")+'</b></button>':"")+
@@ -570,6 +574,7 @@ document.addEventListener("click",function(e){
   if(e.target.closest("#staffbtn")){openStaff();return;}
   if(e.target.id==="logout"){api.logout().then(function(){document.getElementById("dacct").close();refreshHeader();render();toast(t("Dah log keluar","Logged out"));});return;}
   if(e.target.closest("#go-rate")){when="past";segOn("w","past");sel=null;history.replaceState(null,"",location.pathname);render();document.querySelector(".bar").scrollIntoView({behavior:"smooth"});toast(t("Pilih race yang kau dah join","Pick a race you ran"));return;}
+  if(e.target.closest("#share")){shareRace();return;}
   if(e.target.closest("[data-guide]")){dlg("dguide");return;}
   var rpb=e.target.closest("[data-report]");if(rpb){reportId=rpb.dataset.report;document.getElementById("rf").reset();showErr("rerr","");dlg("drep");return;}
   var orb=e.target.closest("[data-orgreply]");if(orb){orgId=orb.dataset.orgreply;var cur=curReviews.find(function(x){return x.id===orgId;});document.getElementById("of").msg.value=(cur&&cur.org)||"";showErr("oerr","");dlg("dorg");return;}
@@ -598,6 +603,15 @@ document.getElementById("lf").addEventListener("submit",async function(e){
 });
 var draft={};
 function drawStars(){document.querySelectorAll(".st").forEach(function(box){var k=box.dataset.k;box.innerHTML=[1,2,3,4,5].map(function(i){return'<button type="button" data-v="'+i+'" class="'+(draft[k]>=i?"on":"")+'" aria-label="'+i+t(" bintang"," stars")+'">★</button>';}).join("");});}
+function shareRace(){
+  var r=RACES.find(function(x){return x.id===sel;});if(!r)return;var rate=started(r);
+  var url=location.origin+location.pathname+(rate?"?rate=1":"")+"#"+r.id;
+  var txt=rate?t("Dah join "+r.name+"? Bagi rating kat sini:","Ran "+r.name+"? Rate it here:"):t(r.name+". Tengok info race, countdown dan kira pace kat sini:",r.name+". Race info, countdown and pace calculator here:");
+  var copy=function(){var done=function(){toast(t("Link disalin. Paste dalam WhatsApp atau story.","Link copied. Paste it in WhatsApp or your story."));};
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(url).then(done,old);}else old();
+    function old(){var a=document.createElement("textarea");a.value=url;a.setAttribute("readonly","");a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand("copy");}catch(e){}a.remove();if(ok)done();else prompt(t("Salin link ni:","Copy this link:"),url);}};
+  if(navigator.share&&matchMedia("(pointer:coarse)").matches){navigator.share({title:r.name,text:txt,url:url}).catch(function(e){if(e&&e.name!=="AbortError")copy();});}else copy();
+}
 function openWrite(){var r=RACES.find(function(x){return x.id===sel;});draft={};drawStars();document.getElementById("wf").reset();showErr("werr","");document.getElementById("wt").textContent=t("Ulasan: ","Review: ")+r.name;document.getElementById("wcat").innerHTML=r.cats.map(function(c){return"<option>"+esc(c)+"</option>";}).join("");dlg("dlg");}
 document.getElementById("wf").addEventListener("submit",async function(e){
   e.preventDefault();var f=e.target;if(!draft.all){showErr("werr",t("Bagi bintang keseluruhan dulu.","Give an overall star rating first."));return;}if(!f.agree.checked){showErr("werr",t("Tick kotak garis panduan dulu.","Tick the guidelines box first."));return;}if(!f.name.value.trim()){showErr("werr",t("Isi nama yang dipaparkan.","Add the name to show."));return;}
@@ -653,7 +667,9 @@ applyLang();
 (async function(){
   await api.init(function(){refreshHeader();render();});
   await refreshHeader();await load();
-  var h=location.hash.slice(1);if(h&&RACES.some(function(r){return r.id===h;}))openRace(h);
+  var h=location.hash.slice(1);if(h&&RACES.some(function(r){return r.id===h;})){openRace(h);
+    // Shared rating link (race.html?rate=1#id): open the review form once the race view is ready.
+    if(/[?&]rate=1/.test(location.search)){history.replaceState(null,"",location.pathname+"#"+h);var tries=0,iv=setInterval(function(){var w=document.getElementById("write");if(w||++tries>40){clearInterval(iv);if(w)w.click();}},100);}}
 })();
 </script>
 </body>
