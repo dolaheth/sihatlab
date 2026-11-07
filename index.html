@@ -315,11 +315,11 @@ footer a{color:#fff}
   function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
   function draw(){
     if(!races)return;var en=L==="en",M=en?EN:MS,t=today();
-    var up=races.filter(function(r){return(r.date_end||r.date_start)>=t;}).slice(0,3);
-    var past=races.filter(function(r){return(r.date_end||r.date_start)<t;}).slice(-1);
+    var up=races.filter(function(r){return r.date_start>t;}).slice(0,3);
+    var past=races.filter(function(r){return r.date_start<=t;}).slice(-1); // race day counts as finished, like race.html
     function row(r,isPast){var p=r.date_start.split("-"),days=Math.round((new Date(r.date_start)-new Date(t))/864e5);
       var right=isPast?(en?"Rate it":"Rate")+" →":(days<=0?(en?"Today":"Hari ni"):days+"<small>"+(en?(days===1?"day to go":"days to go"):"hari lagi")+"</small>");
-      return'<a class="rb-row'+(isPast?" past":"")+'" href="race.html#'+encodeURIComponent(r.id)+'"><span class="d"><b>'+(+p[2])+"</b>"+M[+p[1]-1]+'</span><span class="n">'+esc(r.name)+"<small>"+(isPast?(en?"Just finished · ":"Baru lepas · "):"")+esc(r.place)+" · "+esc((r.cats||[]).join("/"))+'</small></span><span class="c">'+right+"</span></a>";}
+      return'<a class="rb-row'+(isPast?" past":"")+'" href="race.html'+(isPast?"?rate=1":"")+'#'+encodeURIComponent(r.id)+'"><span class="d"><b>'+(+p[2])+"</b>"+M[+p[1]-1]+'</span><span class="n">'+esc(r.name)+"<small>"+(isPast?(en?"Just finished · ":"Baru lepas · "):"")+esc(r.place)+" · "+esc((r.cats||[]).join("/"))+'</small></span><span class="c">'+right+"</span></a>";}
     box.innerHTML=up.map(function(r){return row(r,false);}).join("")+past.map(function(r){return row(r,true);}).join("")||'<p class="rb-empty">'+(en?"No races listed yet.":"Belum ada race.")+"</p>";
   }
   fetch(URL,{headers:{apikey:KEY,Authorization:"Bearer "+KEY}}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){races=d;draw();})
