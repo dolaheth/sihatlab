@@ -249,7 +249,7 @@ fieldset input,.ck input{min-height:0}
   <label><span data-en="Name to show">Nama yang dipaparkan</span><input name="name" maxlength="40" required></label>
   <label><span data-en="Strava or IG link (optional, proof you ran)">Link Strava atau IG (pilihan, bukti kau lari)</span><input name="proof" maxlength="200" placeholder="https://"></label>
   <label class="ck"><input type="checkbox" name="agree"> <span><span data-en="I ran this race and my review follows the">Aku dah join race ni, dan ulasan aku ikut</span> <button type="button" class="linkbtn" data-guide data-en="guidelines">garis panduan</button>.</span></label>
-  <p class="note" data-en="Reviews are checked before they go live.">Ulasan disemak dulu sebelum keluar.</p>
+  <p class="note" data-en="Your stars go live straight away. If you write something, the text shows after we check it.">Bintang kau terus keluar. Kalau kau tulis cerita, ayat tu keluar lepas kami semak.</p>
   <p class="err" id="werr" hidden></p>
   <button class="sub" type="submit" data-en="Send review">Hantar ulasan</button><button class="cancel" type="button" data-close data-en="Cancel">Batal</button>
 </form></dialog>
@@ -319,7 +319,7 @@ fieldset input,.ck input{min-height:0}
 <!-- staff -->
 <dialog id="dstaff" class="wide"><div class="in">
   <h3>Semakan</h3>
-  <p class="note">Race baru: semak tarikh dengan laman rasmi, isi koordinat (Google Maps: tekan lama pada tempat, salin nombor), lepas tu lulus. Ulasan: lulus kalau cerita pengalaman, tolak kalau serang orang atau spam.</p>
+  <p class="note">Race baru: semak tarikh dengan laman rasmi, isi koordinat (Google Maps: tekan lama pada tempat, salin nombor), lepas tu lulus. Ulasan: bintang dah keluar, yang tunggu cuma ayat. Lulus ayat kalau cerita pengalaman. Kalau ayat serang orang tapi rating nampak betul, buang ayat dan kekal bintang. Tolak semua kalau palsu atau spam.</p>
   <div id="squeue"></div>
   <button class="cancel" type="button" data-close data-en="Close">Tutup</button>
 </div></dialog>
@@ -356,7 +356,7 @@ function isPast(r){return(r.date_end||r.date_start)<today();}
 function started(r){return r.date_start<=today();}
 function stars(n){var f=Math.round(n||0),h="";for(var i=1;i<=5;i++)h+=i<=f?"★":'<span class="off">★</span>';return '<span class="stars" aria-label="'+(n||0).toFixed(1)+t(" bintang"," stars")+'">'+h+"</span>";}
 function toast(t){var d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},3600);}
-function rvView(x){return{id:x.id,race_id:x.race_id,n:x.display_name,c:x.cat,d:x.created_at,s:{all:x.s_all,org:x.s_org,route:x.s_route,water:x.s_water,medal:x.s_medal,value:x.s_value},a:x.again,t:x.body,rep:x.reply,org:x.org_reply,status:x.status,proof:x.proof,user_id:x.user_id};}
+function rvView(x){return{id:x.id,race_id:x.race_id,n:x.display_name,c:x.cat,d:x.created_at,s:{all:x.s_all,org:x.s_org,route:x.s_route,water:x.s_water,medal:x.s_medal,value:x.s_value},a:x.again,mine:!!x.mine,t:x.body,rep:x.reply,org:x.org_reply,status:x.status,proof:x.proof,user_id:x.user_id};}
 function ago(iso){var d=new Date(iso);return d.getDate()+" "+M(d.getMonth())+" "+d.getFullYear();}
 
 /* ---------- data layer: same functions for live (Supabase) and demo (localStorage) ---------- */
@@ -374,7 +374,7 @@ setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}c
       verify:async function(email,code){var r=await sb.auth.verifyOtp({email:email,token:code,type:"email"});if(r.error)throw r.error;user=r.data.user;try{staff=!!chk(await sb.rpc("is_staff"));}catch(e){staff=false;}return user;},
       logout:async function(){await sb.auth.signOut();user=null;staff=false;},
       races:async function(){var r=chk(await sb.from("races").select("*").eq("status","approved").order("date_start"));var s=chk(await sb.from("race_summary").select("*"));var m={};s.forEach(function(x){m[x.race_id]=x;});r.forEach(function(x){x.sum=m[x.id]||null;});return r;},
-      reviews:async function(id){return chk(await sb.from("reviews").select("*").eq("race_id",id).order("created_at",{ascending:false})).map(rvView);},
+      reviews:async function(id){return chk(await sb.from("review_list").select("*").eq("race_id",id).order("created_at",{ascending:false})).map(rvView);},
       myReviews:async function(){if(!user)return[];return chk(await sb.from("reviews").select("*,races(name)").eq("user_id",user.id).order("created_at",{ascending:false})).map(function(x){var v=rvView(x);v.race=x.races&&x.races.name;return v;});},
       myRequests:async function(){if(!user)return[];return chk(await sb.from("races").select("*").eq("created_by",user.id).neq("status","approved"));},
       addReview:async function(o){chk(await sb.from("reviews").insert(o));},
@@ -408,7 +408,7 @@ setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}c
   var db=load();function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
   var user=null;try{user=JSON.parse(sessionStorage.getItem(KEY+"-u"));}catch(e){}
   var wait=function(v){return new Promise(function(r){setTimeout(function(){r(v);},120);});};
-  function summary(id){var v=db.reviews.filter(function(x){return x.race_id===id&&x.status==="approved";});if(!v.length)return null;var s={n:v.length,again_pct:Math.round(v.filter(function(x){return x.again;}).length/v.length*100)};["all","org","route","water","medal","value"].forEach(function(k){s["s_"+k]=v.reduce(function(a,x){return a+x["s_"+k];},0)/v.length;});return s;}
+  function summary(id){var v=db.reviews.filter(function(x){return x.race_id===id&&x.status!=="rejected";});if(!v.length)return null;var s={n:v.length,again_pct:Math.round(v.filter(function(x){return x.again;}).length/v.length*100)};["all","org","route","water","medal","value"].forEach(function(k){s["s_"+k]=v.reduce(function(a,x){return a+x["s_"+k];},0)/v.length;});return s;}
   function err(m){var e=new Error(m);e.message=m;return e;}
   return{
     mode:"demo",
@@ -417,10 +417,10 @@ setTimeout(async function(){try{staff=u?!!chk(await sb.rpc("is_staff")):false;}c
     login:async function(email){user={id:"demo-"+email,email:email};try{sessionStorage.setItem(KEY+"-u",JSON.stringify(user));}catch(e){}return"in";},
     logout:async function(){user=null;try{sessionStorage.removeItem(KEY+"-u");}catch(e){}},
     races:async function(){return wait(db.races.filter(function(r){return r.status==="approved";}).sort(function(a,b){return a.date_start<b.date_start?-1:1;}).map(function(r){return Object.assign({},r,{sum:summary(r.id)});}));},
-    reviews:async function(id){return wait(db.reviews.filter(function(x){return x.race_id===id&&(x.status==="approved"||(user&&x.user_id===user.id)||user);}).filter(function(x){return x.status==="approved"||(user&&x.user_id===user.id);}).sort(function(a,b){return a.created_at<b.created_at?1:-1;}).map(rvView));},
+    reviews:async function(id){return wait(db.reviews.filter(function(x){return x.race_id===id&&x.status!=="rejected";}).sort(function(a,b){return a.created_at<b.created_at?1:-1;}).map(function(x){var v=rvView(x);if(x.status!=="approved")v.t=null;v.mine=!!(user&&x.user_id===user.id);return v;}));},
     myReviews:async function(){if(!user)return[];return wait(db.reviews.filter(function(x){return x.user_id===user.id;}).map(function(x){var v=rvView(x);v.race=(db.races.find(function(r){return r.id===x.race_id;})||{}).name;return v;}));},
     myRequests:async function(){if(!user)return[];return wait(db.races.filter(function(r){return r.created_by===user.id&&r.status!=="approved";}));},
-    addReview:async function(o){if(!user)throw err("Log masuk dulu");if(db.reviews.some(function(x){return x.race_id===o.race_id&&x.user_id===user.id;}))throw err("duplicate key");db.reviews.push(Object.assign({id:"r"+Date.now(),user_id:user.id,status:"pending",reply:null,created_at:new Date().toISOString()},o));save();return wait();},
+    addReview:async function(o){if(!user)throw err("Log masuk dulu");if(db.reviews.some(function(x){return x.race_id===o.race_id&&x.user_id===user.id;}))throw err("duplicate key");db.reviews.push(Object.assign({id:"r"+Date.now(),user_id:user.id,status:o.body?"pending":"approved",reply:null,created_at:new Date().toISOString()},o));save();return wait();},
     requestRace:async function(o){db.races.push(Object.assign({id:"q"+Date.now(),status:"pending",created_by:user.id,created_at:new Date().toISOString()},o));save();return wait();},
     queue:async function(){var rn=function(id){return(db.races.find(function(r){return r.id===id;})||{}).name;};return wait({races:db.races.filter(function(r){return r.status==="pending";}),reviews:db.reviews.filter(function(x){return x.status==="pending";}).map(function(x){var v=rvView(x);v.race=rn(x.race_id);return v;}),
       claims:db.claims.filter(function(c){return c.status==="pending";}).map(function(c){return Object.assign({race:rn(c.race_id)},c);}),
@@ -468,12 +468,12 @@ function tips(r){
   return '<h3 class="h">'+tr("Tips race ni","Tips for this race")+'</h3><div class="tips">'+t.map(function(x,i){return"<div><i>0"+(i+1)+"</i><span>"+esc(x)+"</span></div>";}).join("")+"</div>";
 }
 function reviewsBlock(r){
-  var live=curReviews.filter(function(x){return x.status==="approved";}),n=live.length,s=r.sum;
+  var live=curReviews,n=live.length,s=r.sum;
   var hist=[5,4,3,2,1].map(function(k){var c=live.filter(function(x){return x.s.all===k;}).length;return"<div><span>"+k+"</span><i><b style=\"width:"+(n?c/n*100:0)+"%\"></b></i><span>"+c+"</span></div>";}).join("");
   var crit=KEYS.map(function(k){var v=s?s["s_"+k[0]]:0;return"<div><span>"+t(k[1],k[2])+"</span><i><b style=\"width:"+(v/5*100)+"%\"></b></i><em>"+(v?(+v).toFixed(1):"–")+"</em></div>";}).join("");
   var rs=curReviews.slice();if(sortBy==="hi")rs.sort(function(a,b){return b.s.all-a.s.all;});else if(sortBy==="lo")rs.sort(function(a,b){return a.s.all-b.s.all;});
-  var cards=rs.map(function(x){return '<div class="rv"><div class="who"><span class="av">'+esc(x.n[0])+"</span><span><b>"+esc(x.n)+"</b><span>"+esc(x.c)+" · "+ago(x.d)+'</span></span></div><div class="line">'+stars(x.s.all)+(x.a?'<span class="yes">'+t("Nak join lagi","Would run again")+'</span>':"")+(x.status!=="approved"?'<span class="pend">'+t("Menunggu semakan","Awaiting review")+'</span>':"")+"</div>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.org?'<div class="reply org"><b>'+t("Balasan penganjur","Organiser reply")+' · '+esc(r.organizer_name||"")+"</b>"+esc(x.org)+"</div>":"")+(x.rep?'<div class="reply"><b>'+t("Balasan SihatLab","Reply from SihatLab")+'</b>'+esc(x.rep)+"</div>":"")+
-   (x.status==="approved"?'<button class="rp" data-report="'+esc(x.id)+'">'+t("Lapor","Report")+'</button>'+(isOrg(r)?'<button class="rp" data-orgreply="'+esc(x.id)+'">'+(x.org?t("Ubah balasan penganjur","Edit organiser reply"):t("Balas sebagai penganjur","Reply as organiser"))+"</button>":""):"")+"</div>";}).join("");
+  var cards=rs.map(function(x){return '<div class="rv"><div class="who"><span class="av">'+esc(x.n[0])+"</span><span><b>"+esc(x.n)+"</b><span>"+esc(x.c)+" · "+ago(x.d)+'</span></span></div><div class="line">'+stars(x.s.all)+(x.a?'<span class="yes">'+t("Nak join lagi","Would run again")+'</span>':"")+(x.status!=="approved"?'<span class="pend">'+t("Ayat sedang disemak","Text being checked")+'</span>':"")+"</div>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.org?'<div class="reply org"><b>'+t("Balasan penganjur","Organiser reply")+' · '+esc(r.organizer_name||"")+"</b>"+esc(x.org)+"</div>":"")+(x.rep?'<div class="reply"><b>'+t("Balasan SihatLab","Reply from SihatLab")+'</b>'+esc(x.rep)+"</div>":"")+
+   ('<button class="rp" data-report="'+esc(x.id)+'">'+t("Lapor","Report")+'</button>'+(x.status==="approved"&&isOrg(r)?'<button class="rp" data-orgreply="'+esc(x.id)+'">'+(x.org?t("Ubah balasan penganjur","Edit organiser reply"):t("Balas sebagai penganjur","Reply as organiser"))+"</button>":""))+"</div>";}).join("");
   return '<div class="sum"><div class="avg"><b>'+(s?(+s.s_all).toFixed(1):"–")+"</b>"+stars(s&&+s.s_all)+"<span>"+(s?s.n:0)+t(" ulasan"," reviews")+'</span></div><div class="hist">'+hist+'</div></div><div class="crit">'+crit+'</div><div class="again"><b>'+(s?s.again_pct:0)+'%</b> '+t("nak join lagi","would run it again")+'</div>'+
    '<div class="rv-head"><h3>'+t("Ulasan","Reviews")+'</h3><div class="sort"><button data-s="new" class="'+(sortBy==="new"?"on":"")+'">'+t("Terbaru","Newest")+'</button><button data-s="hi" class="'+(sortBy==="hi"?"on":"")+'">'+t("Tertinggi","Highest")+'</button><button data-s="lo" class="'+(sortBy==="lo"?"on":"")+'">'+t("Terendah","Lowest")+'</button></div></div>'+
    (cards||'<p class="empty" style="padding:16px 0">'+t("Belum ada ulasan. Kau join race ni? Jadi orang pertama rate.","No reviews yet. Did you run it? Be the first to rate it.")+'</p>')+
@@ -481,7 +481,7 @@ function reviewsBlock(r){
 }
 function raceView(r){
   var gm=r.lat!=null?"https://www.google.com/maps/dir/?api=1&destination="+r.lat+","+r.lng:null,canRate=started(r);
-  var mine=api.user()&&curReviews.some(function(x){return x.user_id===api.user().id;});
+  var mine=api.user()&&curReviews.some(function(x){return x.mine||x.user_id===api.user().id;});
   var first=isOrg(r)?'<span class="off">'+t("Kau penganjur","You organise this")+'</span>':canRate?(mine?'<span class="off">'+t("Dah rate ✓","Rated ✓")+'</span>':'<button class="w" id="write">'+t("★ Tulis ulasan","★ Write a review")+'</button>'):'<span class="off">'+t("Rate lepas race","Rate after the race")+'</span>';
   return '<div class="place"><button class="back" id="back">'+t("← Semua race","← All races")+'</button><h2>'+esc(r.name)+'</h2><div class="meta mono"><span>'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+"</span><span>"+esc(r.place)+", "+esc(r.state)+'</span></div><div class="tags">'+r.cats.map(function(c){return"<span>"+esc(c)+"</span>";}).join("")+"</div>"+
    (r.organizer_name?'<span class="orgline">✓ '+t("Penganjur disahkan","Verified organiser")+': '+esc(r.organizer_name)+"</span>":"")+
@@ -523,7 +523,7 @@ async function openAcct(){
   document.getElementById("aemail").textContent=api.user().email;
   var box=document.getElementById("amine");box.innerHTML='<p class="note">'+t("Memuatkan…","Loading…")+'</p>';dlg("dacct");
   var rv=await api.myReviews(),rq=await api.myRequests(),cl=await api.myClaims();
-  var ST={approved:t("Keluar","Live"),pending:t("Menunggu semakan","Awaiting review"),rejected:t("Ditolak","Rejected")};
+  var ST={approved:t("Keluar","Live"),pending:t("Bintang dah keluar, ayat disemak","Stars live, text being checked"),rejected:t("Ditolak","Rejected")};
   box.innerHTML='<h3 class="h" style="margin-top:0">'+t("Ulasan kau","Your reviews")+'</h3>'+(rv.length?rv.map(function(x){return'<div class="mine">'+esc(x.race)+" · "+stars(x.s.all)+'<span class="badge">'+ST[x.status]+"</span></div>";}).join(""):'<p class="note">'+t("Belum ada.","None yet.")+'</p>')+
    (rq.length?'<h3 class="h">'+t("Race yang kau minta","Races you requested")+'</h3>'+rq.map(function(r){return'<div class="mine">'+esc(r.name)+'<span class="badge">'+ST[r.status]+"</span></div>";}).join(""):"")+
    (cl.length?'<h3 class="h">'+t("Page penganjur","Organiser pages")+'</h3>'+cl.map(function(c){return'<div class="mine">'+esc(c.race)+" · "+esc(c.org_name)+'<span class="badge">'+({approved:t("Disahkan","Verified"),pending:t("Menunggu pengesahan","Awaiting verification"),rejected:t("Ditolak","Rejected")}[c.status])+"</span></div>";}).join(""):"");
@@ -532,11 +532,11 @@ async function openStaff(){
   var box=document.getElementById("squeue");box.innerHTML='<p class="note">Memuatkan…</p>';dlg("dstaff");
   var qq=await api.queue();
   var rh=qq.races.map(function(r){return'<div class="qi" data-race="'+esc(r.id)+'"><span class="t">'+esc(r.name)+'</span><span class="m">'+fmtDate(r)+(r.flagoff?" · "+r.flagoff:"")+" · "+esc(r.place)+", "+esc(r.state)+" · "+r.cats.join("/")+"</span>"+(r.url?'<a class="m" href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.url)+"</a>":'<span class="m">Takde link</span>')+'<div class="ll"><input placeholder="Latitude" data-f="lat" inputmode="decimal" aria-label="Latitude"><input placeholder="Longitude" data-f="lng" inputmode="decimal" aria-label="Longitude"></div><textarea rows="2" data-f="note" placeholder="Nota ringkas (pilihan)" aria-label="Nota"></textarea><div class="b"><button class="y" data-act="race-ok">Lulus</button><button class="n" data-act="race-no">Tolak</button></div></div>';}).join("");
-  var vh=qq.reviews.map(function(x){return'<div class="qi" data-rv="'+esc(x.id)+'"><span class="t">'+esc(x.race)+" · "+esc(x.n)+" · "+stars(x.s.all)+'</span><span class="m">'+esc(x.c)+(x.proof?' · <a href="'+esc(x.proof)+'" target="_blank" rel="noopener">bukti</a>':" · takde bukti")+"</span>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+'<textarea rows="2" data-f="reply" placeholder="Balasan SihatLab (pilihan)" aria-label="Balasan"></textarea><div class="b"><button class="y" data-act="rv-ok">Lulus</button><button class="n" data-act="rv-no">Tolak</button></div></div>';}).join("");
+  var vh=qq.reviews.map(function(x){return'<div class="qi" data-rv="'+esc(x.id)+'"><span class="t">'+esc(x.race)+" · "+esc(x.n)+" · "+stars(x.s.all)+'</span><span class="m">'+esc(x.c)+(x.proof?' · <a href="'+esc(x.proof)+'" target="_blank" rel="noopener">bukti</a>':" · takde bukti")+"</span>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+'<textarea rows="2" data-f="reply" placeholder="Balasan SihatLab (pilihan)" aria-label="Balasan"></textarea><div class="b"><button class="y" data-act="rv-ok">Lulus ayat</button><button data-act="rv-strip">Buang ayat, kekal bintang</button><button class="n" data-act="rv-no">Tolak semua</button></div></div>';}).join("");
   var RS={fitnah:"Tuduhan tanpa bukti",serang:"Serang / kesat",peribadi:"Maklumat peribadi",palsu:"Palsu / tak join",spam:"Spam",lain:"Lain-lain"};
   var ph=qq.reports.map(function(x){return'<div class="qi" data-rep="'+esc(x.id)+'" data-revid="'+esc(x.review_id)+'"><span class="t">'+esc(x.race)+" · ulasan "+esc(x.n)+'</span><span class="m">Sebab: '+esc(RS[x.reason]||x.reason)+(x.rstatus!=="approved"?" · ulasan dah tersembunyi":"")+"</span>"+(x.t?"<p>"+esc(x.t)+"</p>":"")+(x.note?'<p class="m">Nota pelapor: '+esc(x.note)+"</p>":"")+'<div class="b"><button class="n" data-act="rep-hide">Sembunyi ulasan</button><button data-act="rep-keep">Abaikan, ulasan okey</button></div></div>';}).join("");
   var ch=qq.claims.map(function(c){return'<div class="qi" data-claim="'+esc(c.id)+'" data-race="'+esc(c.race_id)+'" data-user="'+esc(c.user_id)+'" data-org="'+esc(c.org_name)+'"><span class="t">'+esc(c.race)+" · "+esc(c.org_name)+'</span><span class="m">'+esc(c.role)+" · "+esc(c.contact)+"</span>"+(c.proof?'<a class="m" href="'+esc(c.proof)+'" target="_blank" rel="noopener">'+esc(c.proof)+"</a>":'<span class="m">Takde link bukti</span>')+'<p class="note">Sahkan dulu: hubungi kontak rasmi di laman penganjur, bukan kontak yang dia bagi.</p><div class="b"><button class="y" data-act="claim-ok">Sahkan penganjur</button><button class="n" data-act="claim-no">Tolak</button></div></div>';}).join("");
-  box.innerHTML=(ph?'<h3 class="h" style="margin-top:0">Aduan ('+qq.reports.length+')</h3><div class="q">'+ph+"</div>":"")+(ch?'<h3 class="h">Claim penganjur ('+qq.claims.length+')</h3><div class="q">'+ch+"</div>":"")+'<h3 class="h"'+(ph||ch?"":' style="margin-top:0"')+'>Race baru ('+qq.races.length+')</h3><div class="q">'+(rh||'<p class="note" style="padding:10px 0">Takde.</p>')+'</div><h3 class="h">Ulasan ('+qq.reviews.length+')</h3><div class="q">'+(vh||'<p class="note" style="padding:10px 0">Takde.</p>')+"</div>";
+  box.innerHTML=(ph?'<h3 class="h" style="margin-top:0">Aduan ('+qq.reports.length+')</h3><div class="q">'+ph+"</div>":"")+(ch?'<h3 class="h">Claim penganjur ('+qq.claims.length+')</h3><div class="q">'+ch+"</div>":"")+'<h3 class="h"'+(ph||ch?"":' style="margin-top:0"')+'>Race baru ('+qq.races.length+')</h3><div class="q">'+(rh||'<p class="note" style="padding:10px 0">Takde.</p>')+'</div><h3 class="h">Ayat ulasan ('+qq.reviews.length+')</h3><div class="q">'+(vh||'<p class="note" style="padding:10px 0">Takde.</p>')+"</div>";
 }
 document.getElementById("squeue").addEventListener("click",async function(e){
   var b=e.target.closest("[data-act]");if(!b)return;var it=b.closest(".qi"),act=b.dataset.act,val=function(f){var el=it.querySelector('[data-f="'+f+'"]');return el?el.value.trim():"";};
@@ -545,12 +545,13 @@ document.getElementById("squeue").addEventListener("click",async function(e){
     if(act==="race-ok"){var lat=parseFloat(val("lat")),lng=parseFloat(val("lng"));if(isNaN(lat)||isNaN(lng)){toast("Isi koordinat dulu supaya ada pin");b.disabled=false;return;}var o={status:"approved",lat:lat,lng:lng};if(val("note"))o.note=val("note");await api.updateRace(it.dataset.race,o);}
     if(act==="race-no")await api.updateRace(it.dataset.race,{status:"rejected"});
     if(act==="rv-ok"){var o2={status:"approved"};if(val("reply"))o2.reply=val("reply");await api.updateReview(it.dataset.rv,o2);}
+    if(act==="rv-strip")await api.updateReview(it.dataset.rv,{status:"approved",body:null});
     if(act==="rv-no")await api.updateReview(it.dataset.rv,{status:"rejected"});
     if(act==="rep-hide"){await api.updateReview(it.dataset.revid,{status:"rejected"});await api.updateReport(it.dataset.rep,{status:"done"});}
     if(act==="rep-keep")await api.updateReport(it.dataset.rep,{status:"done"});
     if(act==="claim-ok"){await api.updateRace(it.dataset.race,{organizer_id:it.dataset.user,organizer_name:it.dataset.org});await api.updateClaim(it.dataset.claim,{status:"approved"});}
     if(act==="claim-no")await api.updateClaim(it.dataset.claim,{status:"rejected"});
-    it.remove();toast({"race-ok":"Race dilulus","rv-ok":"Ulasan dilulus","claim-ok":"Penganjur disahkan","rep-hide":"Ulasan disembunyikan","rep-keep":"Aduan ditutup"}[act]||"Ditolak");await load();refreshHeader();
+    it.remove();toast({"race-ok":"Race dilulus","rv-ok":"Ayat dilulus","rv-strip":"Ayat dibuang, bintang kekal","claim-ok":"Penganjur disahkan","rep-hide":"Ulasan disembunyikan","rep-keep":"Aduan ditutup"}[act]||"Ditolak");await load();refreshHeader();
   }catch(er){toast("Gagal: "+er.message);b.disabled=false;}
 });
 
@@ -604,7 +605,7 @@ document.getElementById("wf").addEventListener("submit",async function(e){
   var o={race_id:sel,display_name:f.name.value.trim(),cat:f.cat.value,s_all:draft.all,again:f.again.value==="1",body:f.body.value.trim()||null,proof:proof||null};
   KEYS.forEach(function(k){o["s_"+k[0]]=draft[k[0]]||draft.all;});
   var btn=f.querySelector(".sub");btn.disabled=true;
-  try{await api.addReview(o);document.getElementById("dlg").close();toast(t("Terima kasih. Ulasan kau disemak dulu.","Thanks. Your review will be checked first."));render();refreshHeader();}
+  try{await api.addReview(o);document.getElementById("dlg").close();toast(o.body?t("Terima kasih! Rating kau dah keluar. Ayat keluar lepas kami semak.","Thanks! Your rating is live. The text shows after we check it."):t("Terima kasih! Rating kau dah keluar.","Thanks! Your rating is live."));render();refreshHeader();}
   catch(er){showErr("werr",/duplicate|unique/i.test(er.message)?t("Kau dah rate race ni.","You already rated this race."):t("Tak dapat hantar. Cuba lagi.","Couldn't send. Try again."));}
   btn.disabled=false;
 });
