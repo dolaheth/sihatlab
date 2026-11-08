@@ -131,6 +131,17 @@ section{padding:88px 0;border-bottom:1px solid var(--ink)}
 .creds div{padding:12px 12px 12px 0;border-bottom:1px solid var(--line);font-size:14px}
 .creds b{display:block;font:700 20px var(--mono);letter-spacing:-.02em}
 .coach .lnk{display:inline-block;margin-top:18px;font:700 12px var(--mono);text-transform:uppercase}
+.lineup{border:1px solid var(--ink);border-top:0;background:#fff}
+.lu-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--ink)}
+.lu-head a{font:500 12px var(--mono);text-transform:uppercase}
+.lu-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);min-height:56px}
+.lu-row:last-child{border-bottom:0}
+.lu-row:hover{background:var(--paper)}
+.lu-row .n{font:700 18px var(--mono)}
+.lu-row .nm{font-weight:800;line-height:1.25}
+.lu-row .nm small{display:block;font-weight:400;color:var(--grey);font-size:13px}
+.lu-row .st{border:1px solid var(--ink);padding:4px 8px;white-space:nowrap}
+.lu-row .st.soon{background:var(--volt)}
 @media (max-width:860px){.coach{grid-template-columns:1fr}.coach .pic{min-height:300px}.coach .body{padding:24px 20px}}
 
 /* proof */
@@ -277,8 +288,14 @@ footer a{color:#fff}
           <div><b>18:47</b><span data-en="5K personal best">PB 5K</span></div>
           <div><b>1:27</b><span data-en="Half marathon personal best">PB half marathon</span></div>
         </div>
-        <a class="lnk" href="kelas.html#coach" data-en="More about the coach →">Lagi pasal coach →</a>
+        <a class="lnk" href="coach.html#dollah" data-en="More about the coach →">Lagi pasal coach →</a>
       </div>
+    </div>
+    <div class="lineup">
+      <div class="lu-head"><span class="mono" data-en="Coach line-up">Line up coach</span><a href="coach.html" data-en="All coaches →">Semua coach →</a></div>
+      <a class="lu-row" href="coach.html#dollah"><span class="n">01</span><span class="nm">Coach Dollah<small data-en="Founder · Running">Founder · Lari</small></span><span class="st mono" data-en="Run 30 class">Kelas Run 30</span></a>
+      <a class="lu-row" href="coach.html#aidy"><span class="n">02</span><span class="nm">Coach Aidy<small>Strength &amp; conditioning</small></span><span class="st mono soon" data-en="Sessions soon">Sesi nanti</span></a>
+      <a class="lu-row" href="coach.html"><span class="n">03</span><span class="nm"><span data-en="Next coach">Coach seterusnya</span><small data-en="Coach, nutritionist or physio">Coach, nutritionist atau physio</small></span><span class="st mono" data-en="Soon">Nanti</span></a>
     </div>
     <div class="proof" style="margin-top:32px">
       <div><b>4.6/5</b><span data-en="average rating from 19 students">purata rating dari 19 peserta</span></div>
@@ -297,7 +314,7 @@ footer a{color:#fff}
 </section>
 
 <footer>
-  <div class="wrap"><img src="logo-white.png" alt="SihatLab" style="height:22px"><span><a href="kelas.html" data-en="Class">Kelas</a> · <a href="race.html">Race</a> · <a href="kalkulator.html" data-en="Calculators">Kalkulator</a> · <a href="terma.html" data-en="Terms">Terma</a> · <a href="privasi.html" data-en="Privacy">Privasi</a> · <a href="refund.html" data-en="Refund policy">Polisi bayaran balik</a></span><span>© 2026 SIHAT LAB SERVICE (TR0352367-D)</span></div>
+  <div class="wrap"><img src="logo-white.png" alt="SihatLab" style="height:22px"><span><a href="kelas.html" data-en="Class">Kelas</a> · <a href="coach.html">Coach</a> · <a href="race.html">Race</a> · <a href="kalkulator.html" data-en="Calculators">Kalkulator</a> · <a href="terma.html" data-en="Terms">Terma</a> · <a href="privasi.html" data-en="Privacy">Privasi</a> · <a href="refund.html" data-en="Refund policy">Polisi bayaran balik</a></span><span>© 2026 SIHAT LAB SERVICE (TR0352367-D)</span></div>
 </footer>
 
 <script>
