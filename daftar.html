@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daftar Kelas Lari SihatLab · Run 30</title>
+<meta name="description" content="Kelas lari online untuk beginner. Start dari jalan kaki sampai lari 30 minit non-stop. Live setiap Ahad 9 malam, coach World Athletics Level 1.">
+<!-- Ads landing page: not for search, kelas.html is the SEO page. -->
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Kelas Lari SihatLab (Run 30)">
+<meta property="og:description" content="Tak pernah lari? Start sini. Kelas live online, setiap Ahad 9 malam.">
+<meta property="og:image" content="https://sihatlab.com.my/og.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Ads landing page. One goal per view: pay (or join the waitlist while payment is closed). No nav links out. Same editorial look as kelas.html. */
+:root{
+  --black:#000;--ink:#111;--grey:#6E6E73;--paper:#F4F4F1;--white:#fff;--volt:#C8F31D;--line:#1111112b;--soft:#B5B5B5;
+  --body:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;border-radius:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:84px}
+h1,h2,h3,p{margin:0}
+h1,h2{font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9}
+h2{font-size:clamp(34px,6vw,58px)}
+h1 em,h2 em{font-style:italic;color:#000;background:var(--volt);padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero h1 em,.guar h2 em,.close h2 em{background:none;padding:0;color:var(--volt)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:72px;border-top:1px solid var(--ink)}
+.eyebrow{font:500 12px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--grey)}
+.mono{font-family:var(--mono)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 24px;border:0;border-radius:2px;font:800 17px/1.2 var(--body);text-decoration:none;cursor:pointer}
+.btn-v{background:var(--volt);color:#000}
+.btn-v:hover{background:#d8ff3a}
+.btn-o{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-b{background:var(--ink);color:#fff}
+.btn:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,.lang button:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+
+/* top bar: logo + language only */
+.top{background:var(--black);border-bottom:1px solid #ffffff22}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+.top img{height:22px;width:auto;display:block}
+.lang{display:flex;border:1px solid #ffffff55}
+.lang button{min-width:44px;min-height:44px;background:transparent;color:#fff;border:0;font:500 12px var(--mono);cursor:pointer}
+.lang button[aria-pressed="true"]{background:#fff;color:#000}
+
+/* hero */
+.hero{background:var(--black);color:#fff;border-top:0;padding-block:36px 0}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:40px;align-items:end}
+.hero .txt{display:flex;flex-direction:column;gap:18px;padding-bottom:48px}
+.hero .eyebrow{color:var(--soft)}
+.hero h1{font-size:clamp(50px,9vw,104px);line-height:.86}
+.hero .sub{color:#C7C7CC;font-size:18px;max-width:520px}
+.price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;font-family:var(--mono)}
+.price b{font-size:44px;letter-spacing:-.04em;color:var(--volt)}
+.price s{color:#8E8E93;font-size:20px}
+.price .tag{font-size:12px;text-transform:uppercase;letter-spacing:.05em;background:var(--volt);color:#000;padding:3px 7px}
+.hero .btn{width:100%;max-width:420px;font-size:18px}
+.micro{font:500 12px/1.5 var(--mono);color:#A0A0A0;text-transform:uppercase;letter-spacing:.04em}
+.micro a{color:#fff}
+.hero .ph{align-self:stretch;min-height:520px;background:url(hero.jpg) center 30%/cover no-repeat}
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:1fr;gap:0}
+  .hero .txt{padding-bottom:32px}
+  .hero .ph{min-height:0;aspect-ratio:4/3;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+}
+
+/* proof strip */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink)}
+.kpis div{padding:18px 14px 18px 0;border-right:1px solid var(--line)}
+.kpis div:last-child{border-right:0}
+.kpis b{display:block;font:700 30px/1 var(--mono);letter-spacing:-.03em}
+.kpis span{display:block;margin-top:8px;font-size:13px;color:var(--grey);line-height:1.35}
+.proof{padding-block:0;background:var(--white)}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis div:nth-child(2){border-right:0}.kpis div:nth-child(-n+2){border-bottom:1px solid var(--line)}.kpis div:nth-child(odd){padding-left:0}.kpis div:nth-child(even){padding-left:14px}}
+
+/* index rows */
+.rows{margin-top:36px;border-top:1px solid var(--ink)}
+.row{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:4px 18px;padding:18px 0;border-bottom:1px solid #1111111f}
+.row .n{grid-row:1/span 2;font:700 26px/1 var(--mono);letter-spacing:-.04em}
+.row h3{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.row p{grid-column:2;color:var(--grey);font-size:15px}
+.row .d{grid-column:3;grid-row:1;font:700 13px var(--mono);white-space:nowrap;align-self:start}
+.row.hi .d{background:var(--volt);padding:0 6px}
+@media (max-width:560px){.row{grid-template-columns:36px minmax(0,1fr)}.row .n{font-size:20px}.row .d{grid-column:2;grid-row:auto;justify-self:start}}
+
+/* quotes */
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:36px;border-top:1px solid var(--ink)}
+.quotes figure{margin:0;padding:22px 20px 22px 0;border-right:1px solid var(--line)}
+.quotes figure:last-child{border-right:0}
+.quotes figure+figure{padding-left:20px}
+.quotes blockquote{margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;line-height:1.3}
+.quotes figcaption{margin-top:12px;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--grey)}
+.src{margin-top:18px;font:500 12px var(--mono);color:var(--grey)}
+@media (max-width:760px){.quotes{grid-template-columns:1fr}.quotes figure,.quotes figure+figure{padding:20px 0;border-right:0;border-bottom:1px solid var(--line)}}
+
+/* coach */
+.coach{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:start}
+.coach figure{margin:0}
+.coach img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 20%}
+.coach figcaption{margin-top:8px;font:500 12px var(--mono);color:var(--grey)}
+.coach .lead{margin-top:18px;font-size:18px}
+.creds{margin-top:24px;border-top:1px solid var(--ink)}
+.creds p{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #1111111f;font-size:15px}
+.creds b{font-family:var(--mono);white-space:nowrap}
+@media (max-width:760px){.coach{grid-template-columns:1fr;gap:24px}}
+
+/* offers */
+.offers{margin-top:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.offer{background:var(--white);border:1px solid var(--line);padding:28px;display:flex;flex-direction:column;gap:14px}
+.offer.main{border:2px solid var(--ink);order:-1}
+.offer .eyebrow{color:var(--ink)}
+.offer h3{font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1}
+.offer .price b{color:var(--ink);font-size:40px}
+.offer .price s{color:var(--grey)}
+.offer ul{margin:0;padding:0;list-style:none;border-top:1px solid #1111111f}
+.offer li{padding:9px 0 9px 22px;border-bottom:1px solid #1111111f;font-size:15px;position:relative}
+.offer li::before{content:"";position:absolute;left:0;top:16px;width:10px;height:10px;background:var(--volt);border:1px solid var(--ink)}
+.offer .btn{margin-top:auto}
+.offer[hidden]{display:none}
+/* e-book add-on (order bump) on the Bab 0 card */
+.bump{display:flex;gap:12px;align-items:flex-start;padding:14px;border:2px dashed var(--ink);background:#FAFFE0;cursor:pointer;font-size:15px;line-height:1.4}
+.bump input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:#111}
+.bump b{font-family:var(--mono)}
+.bump small{display:block;color:var(--grey);font-size:13px;margin-top:4px}
+.nudge{font-size:14px;border-left:4px solid var(--volt);padding:4px 0 4px 12px}
+.nudge button{background:none;border:0;padding:0;font:700 14px var(--body);text-decoration:underline;cursor:pointer;color:var(--ink);min-height:32px}
+/* "do the maths" comparison */
+.calc{margin-top:28px;background:var(--white);border:1px solid var(--line);padding:24px 28px}
+.calc h3{font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
+.calc table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+.calc td{padding:11px 0;border-bottom:1px solid #1111111f;vertical-align:top}
+.calc td:last-child{text-align:right;font:700 16px var(--mono);white-space:nowrap;padding-left:12px}
+.calc tr.best td{font-weight:800;border-bottom:2px solid var(--ink)}
+.calc tr.best td:last-child{background:var(--volt);padding-right:6px}
+.calc p{margin-top:14px;font-weight:700}
+.calc p small{display:block;font-weight:400;color:var(--grey);font-size:13px;margin-top:6px}
+@media (max-width:760px){.offers{grid-template-columns:1fr}}
+
+/* guarantee */
+.guar{background:var(--ink);color:#fff}
+.guar h2{max-width:760px}
+.guar p{margin-top:18px;color:#C7C7CC;max-width:640px}
+.guar a{color:var(--volt)}
+
+/* faq */
+.faq{margin-top:32px;border-top:1px solid var(--ink)}
+.faq details{border-bottom:1px solid #1111111f}
+.faq summary{list-style:none;cursor:pointer;padding:18px 36px 18px 0;font-weight:700;font-size:17px;position:relative;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:14px;font:700 22px var(--mono)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 0 18px;color:var(--grey);max-width:760px}
+
+/* close */
+.close{background:var(--black);color:#fff;text-align:left}
+.close p{margin-top:16px;color:#C7C7CC;max-width:560px}
+.close .btn{margin-top:28px;width:100%;max-width:420px}
+
+footer{background:var(--black);color:#8E8E93;font-size:13px;padding:24px 0;border-top:1px solid #ffffff22}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between}
+footer a{color:#C7C7CC}
+
+/* sticky CTA (mobile and desktop, hidden while the hero or an offer button is on screen) */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--black);border-top:1px solid #ffffff33;transform:translateY(110%);transition:transform .3s ease;padding-bottom:env(safe-area-inset-bottom,0px)}
+.sticky.show{transform:none}
+.sticky .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px}
+.sticky p{color:#C7C7CC;font-size:14px;line-height:1.3}
+.sticky p b{color:var(--volt);font:700 20px var(--mono)}
+.sticky .btn{min-height:48px;padding:12px 20px;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sticky{transition:none}}
+
+/* waitlist dialog (used only while CHECKOUT links are empty) */
+.wl{border:1px solid var(--ink);padding:0;width:min(460px,calc(100vw - 32px));max-height:calc(100vh - 32px);color:var(--ink);background:var(--white)}
+.wl::backdrop{background:rgba(0,0,0,.6)}
+.wl form{padding:28px 22px 22px;position:relative}
+.wl .body,.wl .done{display:flex;flex-direction:column;gap:12px}
+.wl [hidden]{display:none!important}
+.wl h3{font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1}
+.wl .note{color:var(--grey);font-size:15px}
+.wl label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--grey)}
+.wl input:not([type=checkbox]),.wl select{border:1px solid #8E8E93;border-radius:2px;padding:12px 14px;font:500 16px var(--body);color:var(--ink);background:#fff;width:100%;min-height:48px}
+.wl label.ok{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;font-size:13px}
+.wl label.ok input{margin-top:3px;width:20px;height:20px;accent-color:var(--ink)}
+.wl a{color:inherit}
+.wl .x{position:absolute;top:6px;right:6px;width:44px;height:44px;border:0;background:transparent;font-size:26px;cursor:pointer}
+.wl .msg{min-height:1.2em;color:#C4281C;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <img src="logo-white.png" alt="SihatLab">
+  <div class="lang" role="group" aria-label="Bahasa / Language">
+    <button type="button" data-l="ms" aria-pressed="true" lang="ms">BM</button>
+    <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
+  </div>
+</div></div>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="txt">
+      <p class="eyebrow" id="h-eye"></p>
+      <h1 id="h-title"></h1>
+      <p class="sub" id="h-sub"></p>
+      <div class="price" id="h-price"></div>
+      <a class="btn btn-v" href="#pilih" data-cta="hero" id="h-btn"></a>
+      <p class="micro" id="h-micro"></p>
+    </div>
+    <div class="ph" role="img" aria-label="Coach Dollah berlari dalam half marathon / Coach Dollah running a half marathon"></div>
+  </div>
+</header>
+
+<section class="proof" aria-label="Bukti / Proof">
+  <div class="wrap">
+    <div class="kpis">
+      <div><b>4.6/5</b><span data-en="average class rating">purata rating kelas</span></div>
+      <div><b>84%</b><span data-en="gave 5/5 for “I’d come back”">bagi 5/5 untuk “nak datang lagi”</span></div>
+      <div><b>25–50</b><span data-en="age range of past students">umur peserta kelas lepas</span></div>
+      <div><b>WA L1</b><span data-en="World Athletics certified coach">coach bertauliah World Athletics</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow" data-en="Sound familiar?">Pernah rasa macam ni?</p>
+    <h2 style="margin-top:12px" data-en="Week one, all hyped.<br>Week three, <em>you’ve quit.</em>">Minggu pertama semangat.<br>Minggu ketiga, <em>dah berhenti.</em></h2>
+    <div class="rows">
+      <div class="row"><span class="n">01</span><h3 data-en="Two weeks in and your knees hurt.">Lari dua minggu, lutut dah sakit.</h3><p data-en="Usually you added distance too fast. Tendons adapt slower than your heart.">Selalunya sebab naik jarak terlalu cepat. Tendon lambat adapt berbanding jantung.</p></div>
+      <div class="row"><span class="n">02</span><h3 data-en="Every run leaves you gasping.">Setiap kali lari, semput.</h3><p data-en="You go too hard every time, so it feels pointless and you stop.">Setiap kali lari laju sangat, rasa sia-sia, lepas tu berhenti.</p></div>
+      <div class="row"><span class="n">03</span><h3 data-en="No idea where to start.">Tak tahu nak start dari mana.</h3><p data-en="Which shoes? How far? How many times a week? Everyone says something different.">Kasut apa? Berapa jauh? Seminggu berapa kali? Semua orang cakap lain.</p></div>
+    </div>
+    <p style="margin-top:28px;font-size:20px;font-weight:700;max-width:680px" data-en="You’re not lazy. You just don’t have a plan. In this class we build one together: start slow, measure, add a little at a time.">Korang bukan malas. Korang cuma takde pelan. Dalam kelas ni kita susun sama-sama: start perlahan, ukur, naik sikit-sikit.</p>
+  </div>
+</section>
+
+<section style="background:var(--white)">
+  <div class="wrap">
+    <p class="eyebrow" id="g-eye"></p>
+    <h2 style="margin-top:12px" id="g-title"></h2>
+    <div class="rows" id="g-rows"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow" data-en="From past classes">Kelas sebelum ni</p>
+    <h2 style="margin-top:12px" data-en="What students said.">Kata peserta.</h2>
+    <div class="quotes">
+      <figure><blockquote>“I got to know how I can improve my endurance using MAF. So that I can plan my training.”</blockquote><figcaption>Husna, 29</figcaption></figure>
+      <figure><blockquote>“The knowledge and explanations! Very well explained.”</blockquote><figcaption data-en="Amira, 33 · came twice">Amira, 33 · datang dua kali</figcaption></figure>
+      <figure><blockquote>“Practical session. Great class!”</blockquote><figcaption data-en="Aisyah, 40 · came twice">Aisyah, 40 · datang dua kali</figcaption></figure>
+    </div>
+    <p class="src" data-en="From 19 feedback forms, in-person classes on 3 and 24 May 2026.">Dari 19 borang feedback, kelas fizikal 3 Mei dan 24 Mei 2026.</p>
+  </div>
+</section>
+
+<section style="background:var(--white)">
+  <div class="wrap coach">
+    <figure><img src="finish.jpg" alt="Coach Dollah menulis pelan latihan atas papan / Coach Dollah writing a training plan on the board" loading="lazy" width="800" height="1000"><figcaption data-en="Coach Dollah walking through a training plan">Coach Dollah terangkan pelan latihan</figcaption></figure>
+    <div>
+      <p class="eyebrow" data-en="Your coach">Coach korang</p>
+      <h2 style="margin-top:12px" data-en="Certified coach,<br><em>not an influencer.</em>">Coach bertauliah,<br><em>bukan influencer.</em></h2>
+      <p class="lead" data-en="I’ve played sport since primary school and started running seriously in 2022. Now I focus on one thing: helping normal people start running the right way, without getting hurt.">Aku bersukan dari sekolah rendah, start lari serius tahun 2022. Sekarang aku fokus satu benda je: tolong orang biasa start lari dengan betul, tanpa cedera.</p>
+      <div class="creds">
+        <p><span>World Athletics</span><b>Level 1</b></p>
+        <p><span data-en="Sports Science, National Coaching Academy (AKK)">Sains Sukan, Akademi Kejurulatihan Kebangsaan (AKK)</span><b data-en="Level 1">Tahap 1</b></p>
+        <p><span data-en="Ex-coach, Damansara Running Club">Bekas coach Damansara Running Club</span><b>DRC</b></p>
+        <p><span data-en="5K personal best">PB 5K</span><b>18:47</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pilih">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Pick one">Pilih satu</p>
+    <h2 style="margin-top:12px" data-en="Try one class,<br>or <em>go all in.</em>">Cuba satu kelas,<br>atau <em>terus ambil semua.</em></h2>
+    <div class="offers">
+      <div class="offer" id="o-bab0">
+        <p class="eyebrow" id="o0-eye"></p>
+        <h3 data-en="First class · Chapter 0">Kelas pertama · Bab 0</h3>
+        <div class="price" id="o0-price"></div>
+        <ul id="o0-list"></ul>
+        <label class="bump"><input type="checkbox" id="bump"><span id="bump-txt"></span></label>
+        <p class="nudge" id="nudge" hidden></p>
+        <button type="button" class="btn btn-o" data-buy="bab0" id="o0-btn"></button>
+      </div>
+      <div class="offer" id="o-bundle">
+        <p class="eyebrow" id="o1-eye"></p>
+        <h3 data-en="8-class bundle">Bundle 8 kelas</h3>
+        <div class="price" id="o1-price"></div>
+        <ul id="o1-list"></ul>
+        <button type="button" class="btn btn-o" data-buy="bundle" id="o1-btn"></button>
+      </div>
+    </div>
+    <div class="calc" id="calc"></div>
+    <p class="micro" style="color:var(--grey);margin-top:16px" id="pay-note"></p>
+  </div>
+</section>
+
+<section class="guar">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#A0A0A0" data-en="Bundle guarantee">Jaminan bundle</p>
+    <h2 style="margin-top:12px" data-en="Do the work. No improvement?<br><em>100% back.</em>">Buat kerja. Tak improve?<br><em>Duit balik 100%.</em></h2>
+    <p data-en="Attend the 8 classes, hand in the homework, take the tests in week 1 and week 12. If neither your MAF pace nor your 5K time is better, I refund the full bundle price. Bundle only. <a href='kelas.html#terma'>Full terms</a>.">Hadir 8 kelas, hantar homework, buat ujian minggu 1 dan minggu 12. Kalau pace MAF dan masa 5K dua-dua tak lebih baik, aku pulangkan harga bundle penuh. Bundle je. <a href="kelas.html#terma">Terma penuh</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow" data-en="Before you sign up">Sebelum daftar</p>
+    <h2 style="margin-top:12px" data-en="Usual questions.">Soalan biasa.</h2>
+    <div class="faq">
+      <details><summary data-en="I’ve never run at all. Can I join?">Aku tak pernah lari langsung. Boleh join?</summary><p data-en="Absolutely. Chapter 0 is built for people who’ve never been active. We start with brisk walking, then run-walk.">Boleh sangat. Bab 0 memang untuk yang tak pernah active. Kita start dengan jalan laju, lepas tu lari-jalan.</p></details>
+      <details><summary data-en="I’m overweight. Is this for me?">Aku overweight. Sesuai ke?</summary><p data-en="Yes. Don’t wait to lose weight first. We build up slowly so your knees have time to adapt.">Sesuai. Tak perlu tunggu kurus dulu. Kita naik sikit-sikit supaya lutut sempat adapt.</p></details>
+      <details><summary data-en="I’m busy. How much time does it take?">Aku busy. Kena luang masa berapa lama?</summary><p data-en="One live class a week. Your own training starts at 3 sessions a week, 20 to 30 minutes each.">Kelas live sekali seminggu. Training sendiri start 3 kali seminggu, 20 ke 30 minit je.</p></details>
+      <details><summary data-en="Do I need a heart rate watch?">Kena ada jam heart rate?</summary><p data-en="No. I also teach the talk test, which needs no watch.">Tak wajib. Aku ajar talk test sekali, takde jam pun boleh.</p></details>
+      <details><summary data-en="What if I miss the live class?">Kalau terlepas kelas live?</summary><p data-en="Bundle students get replays of every class for 30 days. A walk-in ticket can move to another chapter once, with 24 hours’ notice.">Peserta bundle dapat rakaman setiap kelas, 30 hari. Tiket walk-in boleh tukar ke Bab lain sekali, bagitahu 24 jam awal.</p></details>
+      <details><summary data-en="I have a heart condition or high blood pressure.">Aku ada masalah jantung atau darah tinggi.</summary><p data-en="Fill in the health screening form when you sign up. If you answer “yes” to anything, get your doctor’s OK before you start training.">Isi borang saringan kesihatan masa daftar. Kalau ada jawapan “ya”, dapatkan pengesahan doktor dulu sebelum start training.</p></details>
+      <details><summary data-en="How do I pay?">Macam mana nak bayar?</summary><p id="faq-pay"></p></details>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2 id="c-title"></h2>
+    <p data-en="Don’t wait until you’re fit. Start with a brisk walk, and we’ll sort out the rest together.">Tak perlu tunggu fit. Start dengan jalan laju, yang lain kita susun sama-sama.</p>
+    <a class="btn btn-v" href="#pilih" data-cta="close" id="c-btn"></a>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <span>© 2026 SIHAT LAB SERVICE (TR0352367-D)</span>
+  <span><a href="terma.html" data-en="Terms">Terma</a> · <a href="privasi.html" data-en="Privacy">Privasi</a> · <a href="refund.html" data-en="Refund policy">Polisi bayaran balik</a></span>
+</div></footer>
+
+<div class="sticky" id="sticky" aria-hidden="true"><div class="wrap">
+  <p id="s-txt"></p>
+  <a class="btn btn-v" href="#pilih" tabindex="-1" data-cta="sticky" id="s-btn"></a>
+</div></div>
+
+<dialog class="wl" id="wl" aria-labelledby="wltitle">
+  <form id="wlform" novalidate>
+    <button type="button" class="x" id="wlclose" aria-label="Tutup / Close">×</button>
+    <div class="body" id="wlbody">
+      <p class="eyebrow" data-en="Waitlist">Senarai menunggu</p>
+      <h3 id="wltitle" data-en="Save my spot">Simpan tempat aku</h3>
+      <p class="note" data-en="Payment isn’t open yet. Leave your details and we’ll send you the payment link when it opens.">Bayaran belum buka. Tinggal maklumat, kami hantar link bayaran bila dah buka.</p>
+      <label><span data-en="Full name">Nama penuh</span><input name="nama" required autocomplete="name"></label>
+      <label><span data-en="WhatsApp number">No. WhatsApp</span><input name="wa" type="tel" required autocomplete="tel" placeholder="012-345 6789"></label>
+      <label><span data-en="Email">Emel</span><input name="emel" type="email" required autocomplete="email"></label>
+      <label><span data-en="Which class?">Kelas mana?</span><select name="pakej" id="wlpakej"></select></label>
+      <label class="ok"><input type="checkbox" name="setuju" required><span data-en="I agree SihatLab may keep these details to contact me about the class, as set out in the <a href='privasi.html' target='_blank'>privacy notice</a>.">Aku setuju SihatLab simpan maklumat ni untuk hubungi aku pasal kelas, ikut <a href="privasi.html" target="_blank">notis privasi</a>.</span></label>
+      <button class="btn btn-v" type="submit" data-en="Save my spot">Simpan tempat aku</button>
+      <p class="msg" id="wlmsg" role="status"></p>
+    </div>
+    <div class="done" id="wldone" hidden>
+      <p class="eyebrow" data-en="Done">Siap</p>
+      <h3 data-en="You’re on the list.">Nama korang dah masuk senarai.</h3>
+      <p class="note" data-en="We’ll send the payment link to your email and WhatsApp when it opens. Meanwhile, start with a brisk walk.">Kami hantar link bayaran ke emel dan WhatsApp korang bila dah buka. Sementara tu, start dengan jalan laju dulu.</p>
+      <button type="button" class="btn btn-b" id="wlok" data-en="Close">Tutup</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  // ===== SETTINGS: change these for each cohort / when payment opens =====
+  // CHECKOUT: payment page link for each offer. Empty = payment closed, buttons open the waitlist instead.
+  // The page adds the ad's utm_* / fbclid to the link, so CHIP or the website checkout can see which ad sold.
+  // bab0_ebook = Bab 0 + e-book add-on in one payment (RM19 + RM29).
+  var CHECKOUT={bab0:'', bab0_ebook:'', bundle:''};
+  // META PIXEL: paste the Pixel ID from Events Manager. Empty = no Meta tracking at all.
+  var PIXEL_ID='';
+  var OFFER={
+    bab0:{price:19, was:39, date:'2026-11-22'},              // after this date the Bab 0 offer hides itself
+    bundle:{price:199, early:149, earlyUntil:'2026-11-21'},  // early bird price shows up to and including earlyUntil
+    walkin:39,                                               // one walk-in class, used in the comparison table
+    ebook:{price:29}                                         // add-on for Bab 0 (the page says: upgrade within 7 days and everything paid comes off)
+  };
+  var WAITLIST={action:'https://docs.google.com/forms/d/e/1FAIpQLSfjZzEK5MKtEj4Y80t98e0xWKH8G5O32Jsm-eT9D7MZt7lZkA/formResponse', ids:{nama:'entry.1124285446', wa:'entry.269752014', emel:'entry.1277302905', pakej:'entry.2092179361', kod:'entry.1101144078'}};
+  // =====================================================================
+
+  function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  var today=ymd(new Date()), qs=new URLSearchParams(location.search);
+  var EBD=+OFFER.bundle.earlyUntil.slice(8)+' Nov';
+  var early=today<=OFFER.bundle.earlyUntil, bundlePrice=early?OFFER.bundle.early:OFFER.bundle.price;
+  var bab0Open=today<=OFFER.bab0.date;
+  // Which offer the hero sells: ?o=bundle for bundle ads, default Bab 0 while it's still open.
+  var V=(qs.get('o')==='bundle'||!bab0Open)?'bundle':'bab0';
+  var addon=false; // e-book add-on ticked on the Bab 0 card
+  var EB=OFFER.ebook.price, B0=OFFER.bab0.price;
+  function ckey(k){return k==='bab0'&&addon?'bab0_ebook':k;}
+  var payOpen=function(k){return !!CHECKOUT[ckey(k)];};
+
+  var T={
+    ms:{
+      bab0:{eye:'Kelas lari online · Ahad 22 Nov · 9 malam',title:'Tak pernah lari?<br><em>Start sini.</em>',
+        sub:'Kelas live pertama untuk orang yang tak pernah lari langsung. Kita start dari jalan kaki, sampai korang boleh lari 30 minit non-stop.',
+        btn:'Daftar kelas pertama',tag:'Promo kelas pertama'},
+      bundle:{eye:'Run 30 · 8 kelas live · Ahad 9 malam',title:'Lari ikut pelan.<br><em>Tanpa injury.</em>',
+        sub:'8 kelas live, dari jalan kaki sampai 5K pertama dan seterusnya. Progress diukur minggu 1 dan minggu 12, bukan teka.',
+        btn:'Daftar bundle 8 kelas',tag:'Early bird sampai '+EBD},
+      micro:function(o){return o?'Bayar FPX, DuitNow QR atau kad · PDF Pelan Mula Lari terus masuk emel':'Bayaran belum buka · masuk senarai menunggu, kami hantar link bayaran';},
+      gEye:{bab0:'Dalam kelas pertama',bundle:'8 kelas, satu pelan'},
+      gTitle:{bab0:'Apa korang <em>dapat.</em>',bundle:'Apa korang <em>belajar.</em>'},
+      gBab0:[['Saringan kesihatan','Tahu dulu badan korang ok untuk start, sebelum lari langkah pertama.'],['Mitos lari','Kasut mahal, lutut rosak, kena kurus dulu. Kita betulkan satu-satu.'],['Ujian bercakap','Cara tahu laju mana yang betul, tanpa jam.'],['Pelan 3 tahap','Dari jalan laju, ke lari-jalan, ke lari 30 minit. Korang bawa balik pelan dia.'],['PDF Pelan Mula Lari','Dapat terus lepas daftar, boleh start minggu ni jugak.']],
+      babs:[['Mula dari kosong','22 Nov'],['Kasut dan gear','29 Nov'],['Zon heart rate','6 Dis'],['Ujian MAF','13 Dis'],['Pace dan VDOT','20 Dis'],['Susun latihan','3 Jan'],['Makan untuk lari','10 Jan'],['Injury dan race','17 Jan']],
+      o0eye:'Cuba dulu',o0list:['1 kelas live: Bab 0, mula dari kosong','Ahad 22 Nov, 9 malam, online','PDF Pelan Mula Lari','Suka? Upgrade ke bundle dalam 7 hari, bayaran korang ditolak'],
+      bump:'<span><b>+RM'+EB+'</b> Tambah e-book Nota Running 2026<small>PDF 55 muka: zon heart rate, MAF, VDOT, susun latihan, makan dan injury. Peserta bundle dapat free.</small></span>',
+      nudge:function(d){return 'Bab 0 + e-book dah RM'+(B0+EB)+'. Tambah RM'+d+' je, dapat 8 kelas, e-book pun termasuk. <button type="button" data-to="bundle">Tukar ke bundle</button>';},
+      calcT:'Kira sendiri',
+      calcRows:function(b){return [['Walk-in 8 kelas satu-satu + e-book','RM'+(8*OFFER.walkin+EB)],['Bab 0 + e-book, lepas tu walk-in 7 kelas lagi','RM'+(B0+EB+7*OFFER.walkin)],['Bundle: 8 kelas + e-book + rakaman + jaminan','RM'+b]];},
+      calcSave:function(s,per,e){return 'Kalau memang nak habiskan 8 kelas, bundle jimat RM'+s+'. Satu kelas jadi RM'+per+' je.'+(e?'<small>Harga early bird RM'+OFFER.bundle.early+' sampai '+EBD+' je, lepas tu RM'+OFFER.bundle.price+'.</small>':'');},
+      o1eye:function(e){return e?'Paling berbaloi · early bird sampai '+EBD:'Paling berbaloi';},
+      o1list:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','E-book Nota Running 2026','Form-check report dari video lari korang','Tracker progress dan sijil','Jaminan duit balik 100%'],
+      buy:function(k,o){return (o?'Bayar ':'Simpan tempat · ')+'RM'+value(ckey(k));},
+      payNote:function(o){return o?'Bayaran selamat melalui CHIP · FPX, DuitNow QR atau kad':'Bayaran belum buka · tekan butang untuk masuk senarai menunggu';},
+      faqPay:function(o){return o?'Tekan butang bayar, pilih FPX, DuitNow QR atau kad. Resit dan PDF masuk emel, link group WhatsApp keluar lepas bayar.':'Bayaran online belum buka. Masuk senarai menunggu, kami hantar link bayaran ke emel dan WhatsApp korang bila dah buka.';},
+      cTitle:{bab0:'Ahad ni,<br><em>jom start lari.</em>',bundle:'8 minggu.<br><em>Satu pelan.</em>'},
+      cBtn:'Aku nak join',
+      sTxt:function(k){return k==='bab0'?'<b>RM'+OFFER.bab0.price+'</b> · Kelas pertama, Ahad 22 Nov':'<b>RM'+bundlePrice+'</b> · Bundle 8 kelas';},
+      sBtn:'Daftar',
+      wl:{bab0:'Kelas pertama Bab 0 · RM'+B0,bab0_ebook:'Bab 0 + e-book Nota Running · RM'+(B0+EB),bundle:'Bundle 8 kelas · RM'+bundlePrice},
+      need:'Isi nama, WhatsApp, emel dan tick persetujuan dulu.',fail:'Tak dapat hantar. Cuba lagi.'
+    },
+    en:{
+      bab0:{eye:'Online running class · Sun 22 Nov · 9pm',title:'Never run before?<br><em>Start here.</em>',
+        sub:'A first live class for people who have never run at all. We start with walking, until you can run 30 minutes non-stop.',
+        btn:'Book the first class',tag:'First-class promo'},
+      bundle:{eye:'Run 30 · 8 live classes · Sundays 9pm',title:'Run by a plan.<br><em>No injuries.</em>',
+        sub:'8 live classes, from walking to your first 5K and beyond. Progress measured in week 1 and week 12, not guessed.',
+        btn:'Book the 8-class bundle',tag:'Early bird until '+EBD},
+      micro:function(o){return o?'Pay by FPX, DuitNow QR or card · Start Running Plan PDF straight to your email':'Payment not open yet · join the waitlist and we’ll send you the link';},
+      gEye:{bab0:'In the first class',bundle:'8 classes, one plan'},
+      gTitle:{bab0:'What you <em>get.</em>',bundle:'What you <em>learn.</em>'},
+      gBab0:[['Health screening','Know your body is ready before your first step.'],['Running myths','Expensive shoes, ruined knees, lose weight first. We clear them up one by one.'],['The talk test','How to find the right pace without a watch.'],['A 3-stage plan','From brisk walking, to run-walk, to running 30 minutes. You take the plan home.'],['Start Running Plan PDF','Yours as soon as you sign up, so you can start this week.']],
+      babs:[['Starting from zero','22 Nov'],['Shoes and gear','29 Nov'],['Heart rate zones','6 Dec'],['The MAF test','13 Dec'],['Pace and VDOT','20 Dec'],['Planning your week','3 Jan'],['Eating for running','10 Jan'],['Injuries and race day','17 Jan']],
+      o0eye:'Try it first',o0list:['1 live class: Chapter 0, starting from zero','Sunday 22 Nov, 9pm, online','Start Running Plan PDF','Like it? Upgrade to the bundle within 7 days, what you paid comes off'],
+      bump:'<span><b>+RM'+EB+'</b> Add the Nota Running 2026 ebook<small>55-page PDF: heart rate zones, MAF, VDOT, planning, food and injuries. Free for bundle students.</small></span>',
+      nudge:function(d){return 'Chapter 0 + ebook is already RM'+(B0+EB)+'. Add just RM'+d+' and you get all 8 classes, ebook included. <button type="button" data-to="bundle">Switch to the bundle</button>';},
+      calcT:'Do the maths',
+      calcRows:function(b){return [['8 walk-in classes + ebook','RM'+(8*OFFER.walkin+EB)],['Chapter 0 + ebook, then 7 more walk-ins','RM'+(B0+EB+7*OFFER.walkin)],['Bundle: 8 classes + ebook + replays + guarantee','RM'+b]];},
+      calcSave:function(s,per,e){return 'If you plan to do all 8 classes, the bundle saves you RM'+s+'. That’s just RM'+per+' a class.'+(e?'<small>The early bird price of RM'+OFFER.bundle.early+' ends on '+EBD+', then it’s RM'+OFFER.bundle.price+'.</small>':'');},
+      o1eye:function(e){return e?'Best value · early bird until '+EBD:'Best value';},
+      o1list:['8 live classes, Chapters 0 to 7','Replays of every class for 30 days','Nota Running 2026 ebook','Form-check report from your running video','Progress tracker and certificate','100% money-back guarantee'],
+      buy:function(k,o){return (o?'Pay ':'Save my spot · ')+'RM'+value(ckey(k));},
+      payNote:function(o){return o?'Secure payment through CHIP · FPX, DuitNow QR or card':'Payment not open yet · tap the button to join the waitlist';},
+      faqPay:function(o){return o?'Tap the pay button and choose FPX, DuitNow QR or card. Your receipt and PDF go to your email, and the WhatsApp group link shows up after payment.':'Online payment isn’t open yet. Join the waitlist and we’ll send the payment link to your email and WhatsApp when it opens.';},
+      cTitle:{bab0:'This Sunday,<br><em>let’s start running.</em>',bundle:'8 weeks.<br><em>One plan.</em>'},
+      cBtn:'I’m in',
+      sTxt:function(k){return k==='bab0'?'<b>RM'+OFFER.bab0.price+'</b> · First class, Sun 22 Nov':'<b>RM'+bundlePrice+'</b> · 8-class bundle';},
+      sBtn:'Book',
+      wl:{bab0:'First class, Chapter 0 · RM'+B0,bab0_ebook:'Chapter 0 + Nota Running ebook · RM'+(B0+EB),bundle:'8-class bundle · RM'+bundlePrice},
+      need:'Fill in your name, WhatsApp, email and tick the consent box first.',fail:'Couldn’t send. Please try again.'
+    }
+  };
+
+  // ---- Meta Pixel (only when PIXEL_ID is set) ----
+  function fbq(){if(window.fbq)window.fbq.apply(null,arguments);}
+  if(PIXEL_ID){
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init',PIXEL_ID); window.fbq('track','PageView');
+  }
+  function value(k){return k==='bundle'?bundlePrice:k==='bab0_ebook'?B0+EB:B0;}
+  fbq('track','ViewContent',{content_name:V,content_ids:[V],content_type:'product',value:value(V),currency:'MYR'});
+
+  // ---- render ----
+  var L='ms', tr=document.querySelectorAll('[data-en]'), $=function(id){return document.getElementById(id);};
+  tr.forEach(function(e){e.setAttribute('data-ms',e.innerHTML);});
+  function priceHtml(k,t){
+    if(k==='bab0')return '<b>RM'+OFFER.bab0.price+'</b><s>RM'+OFFER.bab0.was+'</s><span class="tag">'+t.bab0.tag+'</span>';
+    return '<b>RM'+bundlePrice+'</b>'+(early?'<s>RM'+OFFER.bundle.price+'</s><span class="tag">'+t.bundle.tag+'</span>':'');
+  }
+  function li(a){return a.map(function(s){return '<li>'+s+'</li>';}).join('');}
+  function render(){
+    var t=T[L], h=t[V], o=payOpen(V);
+    $('h-eye').textContent=h.eye; $('h-title').innerHTML=h.title; $('h-sub').textContent=h.sub;
+    $('h-price').innerHTML=priceHtml(V,t); $('h-btn').textContent=h.btn; $('h-micro').textContent=t.micro(o);
+    $('g-eye').textContent=t.gEye[V]; $('g-title').innerHTML=t.gTitle[V];
+    $('g-rows').innerHTML=V==='bab0'
+      ?t.gBab0.map(function(r,i){return '<div class="row"><span class="n">0'+(i+1)+'</span><h3>'+r[0]+'</h3><p>'+r[1]+'</p></div>';}).join('')
+      :t.babs.map(function(b,i){return '<div class="row'+(i===0?' hi':'')+'"><span class="n">0'+i+'</span><h3>'+b[0]+'</h3><span class="d">'+b[1]+'</span></div>';}).join('');
+    $('o-bab0').hidden=!bab0Open;
+    $('o0-eye').textContent=t.o0eye; $('o0-price').innerHTML=priceHtml('bab0',t); $('o0-list').innerHTML=li(t.o0list); $('o0-btn').textContent=t.buy('bab0',payOpen('bab0'));
+    $('bump-txt').innerHTML=t.bump; $('bump').checked=addon;
+    $('nudge').hidden=!addon; $('nudge').innerHTML=t.nudge(bundlePrice-B0-EB);
+    var rows=t.calcRows(bundlePrice), save=B0+EB+7*OFFER.walkin-bundlePrice, per=(bundlePrice/8).toFixed(2).replace(/\.00$/,'');
+    $('calc').innerHTML='<h3>'+t.calcT+'</h3><table>'+rows.map(function(r,i){return '<tr'+(i===2?' class="best"':'')+'><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join('')+'</table><p>'+t.calcSave(save,per,early)+'</p>';
+    $('o1-eye').textContent=t.o1eye(early); $('o1-price').innerHTML=priceHtml('bundle',t); $('o1-list').innerHTML=li(t.o1list); $('o1-btn').textContent=t.buy('bundle',payOpen('bundle'));
+    // The offer the ad promised gets the strong button.
+    ['bab0','bundle'].forEach(function(k){var on=k===V;$(k==='bab0'?'o-bab0':'o-bundle').classList.toggle('main',on);var b=$(k==='bab0'?'o0-btn':'o1-btn');b.classList.toggle('btn-v',on);b.classList.toggle('btn-o',!on);});
+    $('pay-note').textContent=t.payNote(payOpen(V)); $('faq-pay').textContent=t.faqPay(payOpen(V));
+    $('c-title').innerHTML=t.cTitle[V]; $('c-btn').textContent=t.cBtn;
+    $('s-txt').innerHTML=t.sTxt(V); $('s-btn').textContent=t.sBtn;
+    var sel=$('wlpakej'), v=sel.value; sel.innerHTML='';
+    (bab0Open?['bab0','bab0_ebook','bundle']:['bundle']).forEach(function(k){var op=document.createElement('option');op.value=k;op.textContent=t.wl[k];sel.appendChild(op);});
+    if(v)sel.value=v;
+  }
+  function setLang(l){
+    L=l==='en'?'en':'ms'; document.documentElement.lang=L;
+    tr.forEach(function(e){e.innerHTML=e.getAttribute('data-'+L);});
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===L);});
+    render();
+    try{localStorage.setItem('sihatlab-lang',L);}catch(e){}
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
+  var start='ms'; try{start=qs.get('lang')||localStorage.getItem('sihatlab-lang')||'ms';}catch(e){}
+  setLang(start);
+
+  // ---- buy: checkout link if open, else waitlist ----
+  function withAdParams(url){
+    var u=new URL(url,location.href);
+    qs.forEach(function(val,key){if(/^utm_|^fbclid$/.test(key)&&!u.searchParams.has(key))u.searchParams.set(key,val);});
+    return u.toString();
+  }
+  var dlg=$('wl'), wf=$('wlform');
+  function buy(k){
+    var c=ckey(k);
+    if(payOpen(k)){
+      fbq('track','InitiateCheckout',{content_ids:[c],content_type:'product',value:value(c),currency:'MYR'});
+      location.href=withAdParams(CHECKOUT[c]); return;
+    }
+    $('wlpakej').value=c; $('wlbody').hidden=false; $('wldone').hidden=true; $('wlmsg').textContent='';
+    if(dlg.showModal)dlg.showModal(); else dlg.setAttribute('open','');
+  }
+  document.querySelectorAll('[data-buy]').forEach(function(b){b.addEventListener('click',function(){buy(b.dataset.buy);});});
+  // Hero / close / sticky buttons: the bundle buys straight away (one tap less); Bab 0 scrolls to the offers so people see the e-book add-on and the comparison.
+  document.querySelectorAll('[data-cta]').forEach(function(a){a.addEventListener('click',function(e){if(V==='bundle'){e.preventDefault();buy(V);}});});
+  $('bump').addEventListener('change',function(){addon=this.checked;render();});
+  $('nudge').addEventListener('click',function(e){if(e.target.dataset.to)buy('bundle');});
+  function closeWl(){if(dlg.close)dlg.close(); else dlg.removeAttribute('open');}
+  $('wlclose').addEventListener('click',closeWl); $('wlok').addEventListener('click',closeWl);
+  dlg.addEventListener('click',function(e){if(e.target===dlg)closeWl();});
+  wf.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!wf.nama.value.trim()||!wf.wa.value.trim()||!wf.emel.value.trim()||!wf.setuju.checked){$('wlmsg').textContent=T[L].need;return;}
+    var sel=$('wlpakej'), body=new URLSearchParams(), src=['utm_source','utm_campaign','utm_content'].map(function(k){return qs.get(k);}).filter(Boolean).join('/');
+    body.append(WAITLIST.ids.nama,wf.nama.value.trim()); body.append(WAITLIST.ids.wa,wf.wa.value.trim());
+    body.append(WAITLIST.ids.emel,wf.emel.value.trim()); body.append(WAITLIST.ids.pakej,sel.options[sel.selectedIndex].text);
+    // No club code field here; the code column carries where the lead came from (e.g. facebook/cohort1/ad2).
+    body.append(WAITLIST.ids.kod,src?'IKLAN '+src:'daftar.html');
+    var btn=wf.querySelector('[type=submit]'); btn.disabled=true;
+    fetch(WAITLIST.action,{method:'POST',mode:'no-cors',body:body}).then(function(){
+      fbq('track','Lead',{content_ids:[sel.value],value:value(sel.value),currency:'MYR'});
+      $('wlbody').hidden=true; $('wldone').hidden=false; wf.reset();
+    }).catch(function(){$('wlmsg').textContent=T[L].fail;}).then(function(){btn.disabled=false;});
+  });
+
+  // ---- sticky bar: hidden while the hero, the offers or the closing CTA are on screen ----
+  var bar=$('sticky'), barBtn=$('s-btn'), vis={};
+  var watch=[$('hero'),$('pilih'),document.querySelector('.close')];
+  function sync(){var on=!watch.some(function(el){return vis[el.id||el.className];});bar.classList.toggle('show',on);bar.setAttribute('aria-hidden',on?'false':'true');barBtn.tabIndex=on?0:-1;}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id||e.target.className]=e.isIntersecting;});sync();});
+    watch.forEach(function(el){vis[el.id||el.className]=false;io.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>
