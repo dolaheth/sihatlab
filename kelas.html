@@ -622,8 +622,10 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
         <figure class="tzs"><a href="teaser-1.jpg" target="_blank" rel="noopener"><img src="teaser-1.jpg" alt="Slide Bab 0: empat mitos yang buat orang tak mula lari" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · Myths vs facts">Bab 0 · Mitos vs fakta</figcaption></figure>
         <figure class="tzs"><a href="teaser-2.jpg" target="_blank" rel="noopener"><img src="teaser-2.jpg" alt="Slide Bab 0: ujian bercakap, boleh nyanyi, ayat penuh, 2 hingga 3 perkataan" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · The talk test">Bab 0 · Ujian bercakap</figcaption></figure>
         <figure class="tzs"><a href="teaser-3.jpg" target="_blank" rel="noopener"><img src="teaser-3.jpg" alt="Slide Bab 0: tiga tahap dari jalan laju ke lari 30 minit" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · Three stages">Bab 0 · Tiga tahap</figcaption></figure>
+        <figure class="tzs"><a href="teaser-6.jpg" target="_blank" rel="noopener"><img src="teaser-6.jpg" alt="Slide Bab 0: kenapa latihan kekuatan penting bila berusia, carta jisim otot dan 4 latihan di rumah" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 0 · Strength as you age">Bab 0 · Strength ikut usia</figcaption></figure>
         <figure class="tzs"><a href="teaser-4.jpg" target="_blank" rel="noopener"><img src="teaser-4.jpg" alt="Slide Bab 3: formula MAF 180 tolak umur" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 3 · The MAF formula">Bab 3 · Formula MAF</figcaption></figure>
         <figure class="tzs"><a href="teaser-5.jpg" target="_blank" rel="noopener"><img src="teaser-5.jpg" alt="Slide Bab 2: lima zon heart rate" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 2 · Heart rate zones">Bab 2 · Zon heart rate</figcaption></figure>
+        <figure class="tzs"><a href="teaser-7.jpg" target="_blank" rel="noopener"><img src="teaser-7.jpg" alt="Slide Bab 5: beza fartlek, tempo, interval dan repetition" loading="lazy" width="1440" height="810"></a><figcaption data-en="Chapter 5 · Speed work">Bab 5 · Fartlek, tempo, interval</figcaption></figure>
         <div class="tzs tz-end"><p class="k" data-en="And that’s just a peek">Ni baru sikit</p><h3 data-en="Every class has slides like these, plus notes and homework.">Setiap kelas ada slide macam ni, plus nota dan homework.</h3><a class="btn btn-v" href="#harga" data-en="Try Chapter 0 for RM19">Cuba Bab 0, RM19</a></div>
       </div>
       <div class="tz-nav"><button type="button" class="tz-b" data-td="-1" aria-label="Sebelum / Previous">‹</button><div class="tz-dots" id="tzdots"><i></i><i></i><i></i><i></i><i></i><i></i></div><button type="button" class="tz-b" data-td="1" aria-label="Seterusnya / Next">›</button></div>
@@ -1024,7 +1026,10 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
 
 
   // slide teaser carousel
-  var tt=document.getElementById('tztrack'), td=[].slice.call(document.querySelectorAll('#tzdots i'));
+  var tt=document.getElementById('tztrack'), tdBox=document.getElementById('tzdots');
+  // One dot per slide, counted from the track so adding a slide never needs a dot edit.
+  if(tt&&tdBox){tdBox.innerHTML=new Array(tt.querySelectorAll('.tzs').length+1).join('<i></i>');}
+  var td=[].slice.call(document.querySelectorAll('#tzdots i'));
   if(tt){
     var tStep=function(){var f=tt.querySelector('.tzs');return f?f.getBoundingClientRect().width+12:1;};
     var tSync=function(){var i=Math.round(tt.scrollLeft/tStep());td.forEach(function(d,j){d.classList.toggle('on',j===Math.min(i,td.length-1));});};
