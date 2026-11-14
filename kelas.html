@@ -50,9 +50,9 @@ h2{font-family:var(--display);font-size:clamp(34px,5vw,56px);font-weight:700;let
 nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
 nav .links{display:flex;gap:28px;font-size:14px;color:var(--ink)}
-nav .links a{color:inherit;text-decoration:none}
+nav .links a{color:inherit;text-decoration:none;white-space:nowrap}
 nav .btn{padding:8px 16px;font-size:14px}
-@media (max-width:760px){nav .links{display:none}}
+@media (max-width:1080px){nav .links{display:none}}
 
 /* hero */
 .hero{background:var(--black);color:var(--white);position:relative;overflow:hidden;padding-block:0}
@@ -509,7 +509,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
 <nav aria-label="Utama">
   <div class="wrap">
     <a href="index.html" aria-label="SihatLab, laman utama / home"><img class="logo" src="logo-dark.png" alt="SihatLab"></a>
-    <div class="links"><a href="#belajar" data-en="Classes">Kelas</a><a href="#coach">Coach</a><a href="#bukti" data-en="Reviews">Kata peserta</a><a href="#harga" data-en="Pricing">Harga</a><a href="#soalan" data-en="FAQ">Soalan</a><a href="kalkulator.html" data-en="Calculators">Kalkulator</a><a href="race.html" data-en="Races">Race</a></div>
+    <div class="links"><a href="#belajar" data-en="Classes">Kelas</a><a href="#coach">Coach</a><a href="#bukti" data-en="Reviews">Kata peserta</a><a href="#harga" data-en="Pricing">Harga</a><a href="#soalan" data-en="FAQ">Soalan</a></div>
     <div class="navr">
       <a class="calcbtn" href="kalkulator.html" aria-label="Kalkulator VDOT dan heart rate / VDOT and heart rate calculators" title="Kalkulator"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h3.5"/></svg><span class="cl" data-en="Calculator">Kalkulator</span></a>
       <a class="calcbtn racebtn" href="race.html" aria-label="Kalendar race dan rating pelari / Race calendar and runner ratings" title="Race"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg><span class="cl">Race</span></a>
