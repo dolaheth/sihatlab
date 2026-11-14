@@ -240,6 +240,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .proof .kpi .big{background:none;color:var(--volt);-webkit-text-fill-color:var(--volt)}
 .learn .card{border-left:4px solid var(--volt)}
 .tag{background:var(--alert)}
+.slots{margin-top:8px;font:600 13px/1.3 "JetBrains Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:.02em;color:#A0150C}.slots b{font-weight:800}
+.opt.promo .slots{color:var(--volt)}
 .urgent{margin-top:24px;display:flex;gap:12px;align-items:center;background:var(--alert-soft);color:#A0150C;border:1px solid #FFD0CC;border-radius:18px;padding:14px 18px;font-size:15px;font-weight:600}
 .urgent::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--alert);animation:blink 1.4s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}
@@ -718,12 +720,12 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
       <span class="ic" aria-hidden="true">PDF</span>
       <div><h3 data-en="Free for everyone: Start Running Plan">Bonus untuk semua: Pelan Mula Lari</h3><p data-en="A 3-stage plan from brisk walking to running 30 minutes. It’s yours right after payment, so you can start before class.">Pelan 3 tahap dari jalan laju ke lari 30 minit. Dapat terus lepas bayar, boleh start sementara tunggu kelas.</p></div>
     </div>
-    <p class="urgent" data-en="First-class promo: Chapter 0 on Sunday 22 Nov for just RM19 (normally RM39). Bundle early bird RM149 until 21 Nov.">Promo kelas pertama: Bab 0, Ahad 22 Nov, RM19 je (biasa RM39). Bundle early bird RM149 sampai 21 Nov.</p>
+    <p class="urgent" data-en="First-class promo: Chapter 0 on Sunday 22 Nov for just RM19 (normally RM39), first 30 people only. Bundle early bird RM149 until 21 Nov.">Promo kelas pertama: Bab 0, Ahad 22 Nov, RM19 je (biasa RM39), untuk 30 orang pertama. Bundle early bird RM149 sampai 21 Nov.</p>
     <div class="price">
       <div class="opts">
         <button class="opt promo on" id="opt-promo" data-k="promo" type="button">
-          <div><h3><span data-en="First class">Kelas pertama</span><span class="tag tag-v" data-en="Promo">Promo</span></h3><p data-en="Chapter 0 · Sun 22 Nov, 9pm · Starting from zero">Bab 0 · Ahad 22 Nov, 9 malam · Mula dari kosong</p></div>
-          <span class="amt"><span class="was">RM39</span>RM19</span>
+          <div><h3><span data-en="First class">Kelas pertama</span><span class="tag tag-v" data-en="Promo">Promo</span></h3><p data-en="Chapter 0 · Sun 22 Nov, 9pm · Starting from zero">Bab 0 · Ahad 22 Nov, 9 malam · Mula dari kosong</p><p class="slots" id="slots" hidden></p></div>
+          <span class="amt" id="promo-amt"><span class="was">RM39</span>RM19</span>
         </button>
         <button class="opt" id="opt-one" data-k="one" type="button">
           <div><h3 data-en="Walk-in, one chapter">Walk-in, satu Bab</h3><p data-en="1 live class · pick any chapter below">1 kelas live · pilih mana-mana Bab kat bawah</p></div>
@@ -860,7 +862,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
       babs:[['Mula dari kosong','22 Nov'],['Kasut dan gear','29 Nov'],['Zon heart rate','6 Dis'],['Ujian MAF','13 Dis'],['Pace dan VDOT','20 Dis'],['Susun latihan','3 Jan'],['Makan untuk lari','10 Jan'],['Injury dan race','17 Jan']],
       bab:function(n,b){return 'Bab '+n+' · '+b[1]+' · '+b[0];},
       one:function(n,b){return ['1 kelas live: Bab '+n+', '+b[0],'Ahad '+b[1]+', 9 malam','Bonus: PDF Pelan Mula Lari',(n===0?'Promo kelas pertama: RM19, biasa RM39':'Nak sambung? Link upgrade masuk WhatsApp lepas kelas'),'Bayaran walk-in ditolak kalau upgrade ke bundle dalam 7 hari'];},
-      bundle:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','Join lambat? Bab yang terlepas free dalam cohort seterusnya','Bonus: PDF Pelan Mula Lari','E-book Nota Running 2026 (PDF, 55 muka)','Form-check report dari video lari korang','Tracker progress dan sijil penyertaan'],
+      bundle:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','Join lambat? Bab yang terlepas free dalam cohort seterusnya','Bonus: PDF Pelan Mula Lari','E-book Nota Running 2026 (PDF, lebih 80 muka surat)','Form-check report dari video lari korang','Tracker progress dan sijil penyertaan'],
       nameOne:function(n){return n===0?'Kelas pertama · Bab 0 (promo)':'Walk-in · Bab '+n;}, nameBundle:'Bundle 8 kelas (early bird)', nameClub:function(c){return 'Bundle 8 kelas (kod '+c+')';},
       hint:'Ahli kelab larian dapat RM30 off bundle.', empty:'Masukkan kod kelab dulu.',
       ok:function(c){return 'Kod '+c+' diterima. Harga kelab RM169, tapi harga early bird RM149 lagi murah, so korang bayar RM149.';}
@@ -882,11 +884,29 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
   tr.forEach(function(e){e.setAttribute('data-ms',e.innerHTML);});
   var phMs=inp.placeholder;
 
+  // Promo slots (Supabase table promos, row bab0-rm19): "X of 30 left", switches Bab 0 to RM39 when full.
+  var SLOT={left:null,cap:30};
+  function loadSlots(done){
+    fetch('https://ipzdgezezjgveuyihxdu.supabase.co/rest/v1/promos?id=eq.bab0-rm19&select=cap,sold',{headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8'}})
+      .then(function(r){return r.json();}).then(function(a){var p=a&&a[0];if(!p)return;SLOT.cap=p.cap;SLOT.left=Math.max(0,p.cap-p.sold);done();}).catch(function(){});
+  }
+  function slotText(en){
+    if(SLOT.left===null)return '';
+    if(SLOT.left<=0)return en?'All RM19 spots are taken. Chapter 0 is now RM39.':'Slot RM19 dah habis. Bab 0 sekarang RM39.';
+    return en?('<b>'+SLOT.left+' of '+SLOT.cap+'</b> RM19 spots left'):('Tinggal <b>'+SLOT.left+' dari '+SLOT.cap+'</b> slot RM19');
+  }
+  function paintSlots(){
+    var el=document.getElementById('slots'),en=L==='en';if(SLOT.left===null)return;
+    el.hidden=false;el.innerHTML=slotText(en);
+    if(SLOT.left<=0){document.getElementById('promo-amt').textContent='RM39';
+      var st=document.querySelector('#stickycta p');if(st)st.innerHTML=en?'<b>RM39</b> · First class, Sun 22 Nov':'<b>RM39</b> · Kelas pertama, Ahad 22 Nov';}
+  }
   function render(){
     var t=T[L], b=k==='bundle';
     opts.forEach(function(o){var d=o.dataset.k,on=d==='promo'?(k==='one'&&bab===0):d==='one'?(k==='one'&&bab!==0):d===k;o.classList.toggle('on',on);o.setAttribute('aria-pressed',on);});
     document.getElementById('sumname').textContent=b?(club?t.nameClub(club):t.nameBundle):t.nameOne(bab);
-    document.getElementById('total').textContent=b?'RM149':(bab===0?'RM19':'RM39');
+    document.getElementById('total').textContent=b?'RM149':(bab===0&&SLOT.left!==0?'RM19':'RM39');
+    paintSlots();
     ul.innerHTML='';
     (b?t.bundle:t.one(bab,t.babs[bab])).forEach(function(s){var li=document.createElement('li');li.textContent=s;ul.appendChild(li);});
     msg.textContent=msgState==='ok'?t.ok(club):msgState==='err'?t.empty:t.hint;
@@ -1019,6 +1039,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     start=q||localStorage.getItem('sihatlab-lang')||'ms';
   }catch(e){}
   setLang(start);
+  loadSlots(render);
 
   var bar=document.getElementById('stickycta'), barLink=bar.querySelector('a');
   var hero=document.querySelector('.hero'), price=document.getElementById('harga'), closeSec=document.querySelector('.close');

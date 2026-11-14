@@ -154,6 +154,8 @@ section{padding-block:72px;border-top:1px solid var(--ink)}
 .faq summary{list-style:none;cursor:pointer;padding:18px 36px 18px 0;font-weight:700;font-size:17px;position:relative;min-height:44px}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";position:absolute;right:4px;top:14px;font:700 22px var(--mono)}
+.slots{margin-top:8px;font:600 13px/1.3 "JetBrains Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:.02em;color:#A0150C}.slots b{font-weight:800}
+.hero-slots{color:var(--volt);margin-top:10px;font-size:14px}
 .faq details[open] summary::after{content:"–"}
 .faq details p{padding:0 0 18px;color:var(--grey);max-width:760px}
 
@@ -209,6 +211,7 @@ footer a{color:#C7C7CC}
       <h1 id="h-title"></h1>
       <p class="sub" id="h-sub"></p>
       <div class="price" id="h-price"></div>
+      <p class="slots hero-slots" id="h-slots" hidden></p>
       <a class="btn btn-v" href="#pilih" data-cta="hero" id="h-btn"></a>
       <p class="micro" id="h-micro"></p>
     </div>
@@ -287,6 +290,7 @@ footer a{color:#C7C7CC}
         <p class="eyebrow" id="o0-eye"></p>
         <h3 data-en="First class · Chapter 0">Kelas pertama · Bab 0</h3>
         <div class="price" id="o0-price"></div>
+        <p class="slots" id="o0-slots" hidden></p>
         <ul id="o0-list"></ul>
         <label class="bump"><input type="checkbox" id="bump"><span id="bump-txt"></span></label>
         <p class="nudge" id="nudge" hidden></p>
@@ -415,7 +419,7 @@ footer a{color:#C7C7CC}
       gBab0:[['Saringan kesihatan','Tahu dulu badan korang ok untuk start, sebelum lari langkah pertama.'],['Mitos lari','Kasut mahal, lutut rosak, kena kurus dulu. Kita betulkan satu-satu.'],['Ujian bercakap','Cara tahu laju mana yang betul, tanpa jam.'],['Pelan 3 tahap','Dari jalan laju, ke lari-jalan, ke lari 30 minit. Korang bawa balik pelan dia.'],['PDF Pelan Mula Lari','Dapat terus lepas daftar, boleh start minggu ni jugak.']],
       babs:[['Mula dari kosong','22 Nov'],['Kasut dan gear','29 Nov'],['Zon heart rate','6 Dis'],['Ujian MAF','13 Dis'],['Pace dan VDOT','20 Dis'],['Susun latihan','3 Jan'],['Makan untuk lari','10 Jan'],['Injury dan race','17 Jan']],
       o0eye:'Cuba dulu',o0list:['1 kelas live: Bab 0, mula dari kosong','Ahad 22 Nov, 9 malam, online','PDF Pelan Mula Lari','Suka? Upgrade ke bundle dalam 7 hari, bayaran korang ditolak'],
-      bump:'<span><b>+RM'+EB+'</b> Tambah e-book Nota Running 2026<small>PDF 55 muka: zon heart rate, MAF, VDOT, susun latihan, makan dan injury. Peserta bundle dapat free.</small></span>',
+      bump:'<span><b>+RM'+EB+'</b> Tambah e-book Nota Running 2026<small>PDF lebih 80 muka surat: zon heart rate, MAF, VDOT, susun latihan, makan dan injury. Peserta bundle dapat free.</small></span>',
       nudge:function(d){return 'Bab 0 + e-book dah RM'+(B0+EB)+'. Tambah RM'+d+' je, dapat 8 kelas, e-book pun termasuk. <button type="button" data-to="bundle">Tukar ke bundle</button>';},
       calcT:'Kira sendiri',
       calcRows:function(b){return [['Walk-in 8 kelas satu-satu + e-book','RM'+(8*OFFER.walkin+EB)],['Bab 0 + e-book, lepas tu walk-in 7 kelas lagi','RM'+(B0+EB+7*OFFER.walkin)],['Bundle: 8 kelas + e-book + rakaman + jaminan','RM'+b]];},
@@ -445,7 +449,7 @@ footer a{color:#C7C7CC}
       gBab0:[['Health screening','Know your body is ready before your first step.'],['Running myths','Expensive shoes, ruined knees, lose weight first. We clear them up one by one.'],['The talk test','How to find the right pace without a watch.'],['A 3-stage plan','From brisk walking, to run-walk, to running 30 minutes. You take the plan home.'],['Start Running Plan PDF','Yours as soon as you sign up, so you can start this week.']],
       babs:[['Starting from zero','22 Nov'],['Shoes and gear','29 Nov'],['Heart rate zones','6 Dec'],['The MAF test','13 Dec'],['Pace and VDOT','20 Dec'],['Planning your week','3 Jan'],['Eating for running','10 Jan'],['Injuries and race day','17 Jan']],
       o0eye:'Try it first',o0list:['1 live class: Chapter 0, starting from zero','Sunday 22 Nov, 9pm, online','Start Running Plan PDF','Like it? Upgrade to the bundle within 7 days, what you paid comes off'],
-      bump:'<span><b>+RM'+EB+'</b> Add the Nota Running 2026 ebook<small>55-page PDF: heart rate zones, MAF, VDOT, planning, food and injuries. Free for bundle students.</small></span>',
+      bump:'<span><b>+RM'+EB+'</b> Add the Nota Running 2026 ebook<small>80+ page PDF: heart rate zones, MAF, VDOT, planning, food and injuries. Free for bundle students.</small></span>',
       nudge:function(d){return 'Chapter 0 + ebook is already RM'+(B0+EB)+'. Add just RM'+d+' and you get all 8 classes, ebook included. <button type="button" data-to="bundle">Switch to the bundle</button>';},
       calcT:'Do the maths',
       calcRows:function(b){return [['8 walk-in classes + ebook','RM'+(8*OFFER.walkin+EB)],['Chapter 0 + ebook, then 7 more walk-ins','RM'+(B0+EB+7*OFFER.walkin)],['Bundle: 8 classes + ebook + replays + guarantee','RM'+b]];},
@@ -477,11 +481,24 @@ footer a{color:#C7C7CC}
   var L='ms', tr=document.querySelectorAll('[data-en]'), $=function(id){return document.getElementById(id);};
   tr.forEach(function(e){e.setAttribute('data-ms',e.innerHTML);});
   function priceHtml(k,t){
-    if(k==='bab0')return '<b>RM'+OFFER.bab0.price+'</b><s>RM'+OFFER.bab0.was+'</s><span class="tag">'+t.bab0.tag+'</span>';
+    if(k==='bab0')return '<b>RM'+OFFER.bab0.price+'</b>'+(OFFER.bab0.was?'<s>RM'+OFFER.bab0.was+'</s><span class="tag">'+t.bab0.tag+'</span>':'');
     return '<b>RM'+bundlePrice+'</b>'+(early?'<s>RM'+OFFER.bundle.price+'</s><span class="tag">'+t.bundle.tag+'</span>':'');
   }
   function li(a){return a.map(function(s){return '<li>'+s+'</li>';}).join('');}
+  // Promo slots (Supabase table promos, row bab0-rm19): "X of 30 left", switches Bab 0 to RM39 when full.
+  var SLOT={left:null,cap:30};
+  function loadSlots(done){
+    fetch('https://ipzdgezezjgveuyihxdu.supabase.co/rest/v1/promos?id=eq.bab0-rm19&select=cap,sold',{headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwemRnZXplempndmV1eWloeGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODc4ODQsImV4cCI6MjEwOTQ2Mzg4NH0.R3UuOZdDJWUe1aO1hThtSfEoqm7QCNYFnH7e6KmG_U8'}})
+      .then(function(r){return r.json();}).then(function(a){var p=a&&a[0];if(!p)return;SLOT.cap=p.cap;SLOT.left=Math.max(0,p.cap-p.sold);done();}).catch(function(){});
+  }
+  function slotText(en){
+    if(SLOT.left===null)return '';
+    if(SLOT.left<=0)return en?'All RM19 spots are taken. Chapter 0 is now RM39.':'Slot RM19 dah habis. Bab 0 sekarang RM39.';
+    return en?('<b>'+SLOT.left+' of '+SLOT.cap+'</b> RM19 spots left'):('Tinggal <b>'+SLOT.left+' dari '+SLOT.cap+'</b> slot RM19');
+  }
   function render(){
+    if(SLOT.left!==null){$('o0-slots').hidden=false;$('o0-slots').innerHTML=slotText(L==='en');$('h-slots').hidden=V!=='bab0';$('h-slots').innerHTML=slotText(L==='en');
+      if(SLOT.left<=0&&OFFER.bab0.was){OFFER.bab0.price=OFFER.bab0.was;OFFER.bab0.was=null;B0=OFFER.bab0.price;}}
     var t=T[L], h=t[V], o=payOpen(V);
     $('h-eye').textContent=h.eye; $('h-title').innerHTML=h.title; $('h-sub').textContent=h.sub;
     $('h-price').innerHTML=priceHtml(V,t); $('h-btn').textContent=h.btn; $('h-micro').textContent=t.micro(o);
@@ -515,6 +532,7 @@ footer a{color:#C7C7CC}
   document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
   var start='ms'; try{start=qs.get('lang')||localStorage.getItem('sihatlab-lang')||'ms';}catch(e){}
   setLang(start);
+  loadSlots(render);
 
   // ---- buy: checkout link if open, else waitlist ----
   function withAdParams(url){
