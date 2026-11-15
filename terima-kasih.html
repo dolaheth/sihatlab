@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Terima kasih · SihatLab</title>
+<!-- CHIP payment links redirect here after a successful payment (?p=bab0 | bab0_ebook | bundle). Not for search. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--ink:#111;--grey:#6E6E73;--paper:#F4F4F1;--volt:#C8F31D;--line:#1111112b;
+  --body:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;color-scheme:light}
+*{box-sizing:border-box;border-radius:0}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{background:#000;border-bottom:1px solid #ffffff22}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+.top img{height:22px;display:block}
+.lang{display:flex;border:1px solid #ffffff55}
+.lang button{min-width:44px;min-height:44px;background:transparent;color:#fff;border:0;font:500 12px var(--mono);cursor:pointer}
+.lang button[aria-pressed="true"]{background:#fff;color:#000}
+.hero{background:#000;color:#fff;padding:40px 0 44px}
+.eyebrow{font:500 12px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#A0A0A0}
+h1{margin-top:14px;font-size:clamp(44px,9vw,84px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.88}
+h1 em{font-style:italic;color:var(--volt)}
+.hero p.sub{margin-top:18px;color:#C7C7CC;font-size:18px;max-width:560px}
+.order{margin-top:22px;display:inline-flex;gap:12px;flex-wrap:wrap;font:700 14px var(--mono);border:1px solid #ffffff44;padding:10px 14px}
+.order b{color:var(--volt)}
+main{padding:40px 0 64px}
+.steps{border-top:1px solid var(--ink)}
+.step{display:grid;grid-template-columns:52px minmax(0,1fr);gap:4px 16px;padding:22px 0;border-bottom:1px solid #1111111f}
+.step .n{grid-row:1/span 3;font:700 26px/1 var(--mono);letter-spacing:-.04em}
+.step h3{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.step p{color:var(--grey);font-size:15px}
+.step[hidden]{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:10px;padding:12px 20px;border-radius:2px;font:800 16px var(--body);text-decoration:none;justify-self:start}
+.btn[hidden]{display:none}
+.btn-v{background:var(--volt);color:#000}
+.btn-o{border:1px solid var(--ink);color:var(--ink)}
+.btn:focus-visible,.lang button:focus-visible{outline:3px solid #0071E3;outline-offset:2px}
+.note{margin-top:28px;font-size:14px;color:var(--grey)}
+.note a{color:var(--ink)}
+footer{background:#000;color:#8E8E93;font-size:13px;padding:22px 0}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+footer a{color:#C7C7CC}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <a href="index.html"><img src="logo-white.png" alt="SihatLab"></a>
+  <div class="lang" role="group" aria-label="Bahasa / Language">
+    <button type="button" data-l="ms" aria-pressed="true" lang="ms">BM</button>
+    <button type="button" data-l="en" aria-pressed="false" lang="en">EN</button>
+  </div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow" data-en="Payment received">Bayaran diterima</p>
+  <h1 data-en="Welcome.<br><em>Let’s start running.</em>">Terima kasih.<br><em>Jom start lari.</em></h1>
+  <p class="sub" data-en="Your receipt is on its way to your email from CHIP. Here’s what to do next.">Resit dari CHIP dah masuk emel korang. Ni langkah seterusnya.</p>
+  <p class="order" id="order"></p>
+</div></header>
+
+<main><div class="wrap">
+  <div class="steps">
+    <div class="step" id="s-wa">
+      <span class="n">01</span>
+      <h3 data-en="Join the class WhatsApp group">Masuk group WhatsApp kelas</h3>
+      <p id="wa-txt"></p>
+      <a class="btn btn-v" id="wa-btn" href="#" target="_blank" rel="noopener" hidden data-en="Join the WhatsApp group">Masuk group WhatsApp</a>
+    </div>
+    <div class="step">
+      <span class="n">02</span>
+      <h3 data-en="Download your Start Running Plan">Download Pelan Mula Lari</h3>
+      <p data-en="A 3-stage plan from brisk walking to running 30 minutes. You can start this week, before class.">Pelan 3 tahap dari jalan laju ke lari 30 minit. Boleh start minggu ni jugak, sebelum kelas.</p>
+      <a class="btn btn-o" href="pelan-mula-lari.pdf" download data-en="Download PDF (1.4 MB)">Download PDF (1.4 MB)</a>
+    </div>
+    <div class="step" id="s-ebook" hidden>
+      <span class="n">03</span>
+      <h3 data-en="Your Nota Running ebook">E-book Nota Running korang</h3>
+      <p data-en="We’ll email the ebook PDF to the address you paid with, within 24 hours. Not there? Check your spam folder, then WhatsApp us.">Kami emel PDF e-book ke alamat emel yang korang guna masa bayar, dalam 24 jam. Takde? Check folder spam, lepas tu WhatsApp kami.</p>
+    </div>
+    <div class="step">
+      <span class="n" id="n-class">03</span>
+      <h3 id="class-h"></h3>
+      <p id="class-p"></p>
+    </div>
+    <div class="step" id="s-up" hidden>
+      <span class="n" id="n-up">04</span>
+      <h3 data-en="Like it? Upgrade within 7 days">Suka? Upgrade dalam 7 hari</h3>
+      <p data-en="After class we’ll WhatsApp you an upgrade link to the 8-class bundle, with what you paid today taken off.">Lepas kelas, kami WhatsApp link upgrade ke bundle 8 kelas, dan bayaran korang hari ni ditolak.</p>
+    </div>
+  </div>
+  <p class="note" data-en="Questions? Reply to your receipt email or check the <a href='kelas.html#soalan'>FAQ</a>. Refunds follow our <a href='refund.html'>refund policy</a>.">Ada soalan? Reply emel resit korang atau tengok <a href="kelas.html#soalan">soalan lazim</a>. Bayaran balik ikut <a href="refund.html">polisi bayaran balik</a>.</p>
+</div></main>
+
+<footer><div class="wrap">
+  <span>© 2026 SIHAT LAB SERVICE (TR0352367-D)</span>
+  <span><a href="terma.html" data-en="Terms">Terma</a> · <a href="privasi.html" data-en="Privacy">Privasi</a> · <a href="refund.html" data-en="Refund policy">Polisi bayaran balik</a></span>
+</div></footer>
+
+<script>
+(function(){
+  // ===== SETTINGS =====
+  // WA_GROUP: WhatsApp group invite link for the cohort. Empty = page says we'll WhatsApp the link within 24 hours.
+  var WA_GROUP='https://chat.whatsapp.com/JIx6dVNRkSnDpdbPj8MQVU';
+  var PIXEL_ID='2672334146548437';
+  // What each CHIP link (?p=) sold. Values feed the Meta Purchase event.
+  var P={
+    bab0:{value:19, ms:'Kelas pertama · Bab 0', en:'First class · Chapter 0', ebook:false, upgrade:true},
+    bab0_ebook:{value:48, ms:'Bab 0 + e-book Nota Running', en:'Chapter 0 + Nota Running ebook', ebook:true, upgrade:true},
+    bundle:{value:149, ms:'Bundle 8 kelas', en:'8-class bundle', ebook:true, upgrade:false}
+  };
+  // ====================
+
+  var qs=new URLSearchParams(location.search), key=qs.get('p'), item=P[key]||null;
+  var L='ms', tr=document.querySelectorAll('[data-en]'), $=function(id){return document.getElementById(id);};
+  tr.forEach(function(e){e.setAttribute('data-ms',e.innerHTML);});
+
+  // Meta Pixel: PageView always, Purchase once per order type per day (a refresh doesn't count twice). Disclosed in privasi.html section 4.
+  if(PIXEL_ID){
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init',PIXEL_ID); fbq('track','PageView');
+    if(item){
+      var d=new Date(), k='sl-purchase-'+key+'-'+d.getFullYear()+(d.getMonth()+1)+d.getDate(), seen=false;
+      try{seen=!!localStorage.getItem(k);}catch(e){}
+      if(!seen){
+        fbq('track','Purchase',{value:item.value,currency:'MYR',content_ids:[key],content_type:'product'},{eventID:k});
+        try{localStorage.setItem(k,'1');}catch(e){}
+      }
+    }
+  }
+
+  var T={
+    ms:{waOn:'Semua info kelas, link kelas live dan borang saringan kesihatan dikongsi dalam group ni.',
+        waOff:'Kami WhatsApp link group ke nombor yang korang isi masa bayar, dalam 24 jam. Dalam group tu ada link kelas live dan borang saringan kesihatan.',
+        classH:'Kelas pertama: Ahad 22 Nov, 9 malam', classP:'Online. Link kelas dikongsi dalam group WhatsApp sebelum kelas. Bawa soalan.',
+        order:function(i){return 'Pakej: <b>'+i.ms+'</b> · RM'+i.value;}},
+    en:{waOn:'All class info, the live class link and the health screening form are shared in this group.',
+        waOff:'We’ll WhatsApp the group link to the number you gave at checkout, within 24 hours. The group has the live class link and the health screening form.',
+        classH:'First class: Sunday 22 Nov, 9pm', classP:'Online. The class link is shared in the WhatsApp group before class. Bring your questions.',
+        order:function(i){return 'Package: <b>'+i.en+'</b> · RM'+i.value;}}
+  };
+  function render(){
+    var t=T[L];
+    $('order').innerHTML=item?t.order(item):''; $('order').hidden=!item;
+    $('wa-txt').textContent=WA_GROUP?t.waOn:t.waOff;
+    if(WA_GROUP){$('wa-btn').href=WA_GROUP;$('wa-btn').hidden=false;}
+    $('class-h').textContent=t.classH; $('class-p').textContent=t.classP;
+    var eb=!!(item&&item.ebook), up=!!(item&&item.upgrade);
+    $('s-ebook').hidden=!eb; $('s-up').hidden=!up;
+    $('n-class').textContent=eb?'04':'03'; $('n-up').textContent=eb?'05':'04';
+  }
+  function setLang(l){
+    L=l==='en'?'en':'ms'; document.documentElement.lang=L;
+    tr.forEach(function(e){e.innerHTML=e.getAttribute('data-'+L);});
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===L);});
+    render(); try{localStorage.setItem('sihatlab-lang',L);}catch(e){}
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
+  var start='ms'; try{start=qs.get('lang')||localStorage.getItem('sihatlab-lang')||'ms';}catch(e){}
+  setLang(start);
+})();
+</script>
+</body>
+</html>

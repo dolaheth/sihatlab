@@ -755,7 +755,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
         <ul id="bonus"></ul>
         <div class="total"><span style="color:var(--grey)" data-en="Total">Jumlah</span><b id="total">RM19</b></div>
         <button type="button" class="btn btn-v pay" data-wl="pick" data-en="Save my spot">Simpan tempat aku</button>
-        <p class="secure" data-en="Payment isn’t open yet. Join the waitlist and we’ll send you the payment link when it opens.">Bayaran belum buka. Masuk senarai menunggu dulu, kami hantar link bayaran bila dah buka.</p>
+        <p class="secure" data-en="Chapter 0 and the bundle: pay straight away by FPX or DuitNow QR. Other walk-ins and club codes: join the waitlist and we’ll send your payment link.">Bab 0 dan bundle: bayar terus guna FPX atau DuitNow QR. Walk-in lain dan kod kelab: masuk senarai menunggu, kami hantar link bayaran.</p>
       </aside>
     </div>
     <div class="extras">
@@ -794,7 +794,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
       <details><summary data-en="How do I get the certificate?">Macam mana nak dapat sijil?</summary><p data-en="Bundle students who attend at least 6 of the 8 live classes, and watch the replay of every class they miss, get a signed participation certificate for Kelas Lari SihatLab (Run 42) as a PDF. Joined mid-cohort? It comes once you’ve met the same rule, including the classes you take in the next cohort.">Peserta bundle yang hadir sekurang-kurangnya 6 dari 8 kelas live, dan tengok rakaman untuk setiap kelas yang terlepas, dapat Sijil Penyertaan Kelas Lari SihatLab (Run 42) bertandatangan coach, dalam PDF. Join tengah jalan? Sijil keluar bila dah cukup syarat yang sama, termasuk kelas yang diikut dalam cohort seterusnya.</p></details>
       <details><summary data-en="What if I miss a live class?">Kalau terlepas kelas live?</summary><p data-en="Bundle students get replays of every class for 30 days. A walk-in ticket can move to another chapter once, with 24 hours’ notice.">Peserta bundle dapat rakaman setiap kelas, 30 hari. Tiket walk-in boleh tukar ke Bab lain sekali, bagitahu 24 jam awal.</p></details>
       <details><summary data-en="Can I join the bundle after the cohort has started?">Boleh join bundle bila kelas dah start?</summary><p data-en="Yes. You get the replays of the classes that already happened, and you can join the chapters you missed free in the next cohort, so you still finish the full syllabus with a live class.">Boleh. Korang dapat rakaman kelas yang dah lepas, dan Bab yang terlepas boleh ikut free dalam cohort seterusnya. Jadi korang tetap habis silibus penuh, dengan kelas live.</p></details>
-      <details><summary data-en="How do I pay and get access?">Macam mana nak bayar dan dapat akses?</summary><p data-en="Pay through CHIP: FPX, DuitNow QR or card. Your receipt and bonus PDF go to your email, and the WhatsApp group link shows up after payment.">Bayar guna CHIP: FPX, DuitNow QR atau kad. Resit dan PDF bonus masuk emel, link group WhatsApp keluar lepas bayar.</p></details>
+      <details><summary data-en="How do I pay and get access?">Macam mana nak bayar dan dapat akses?</summary><p data-en="Pay through CHIP: FPX or DuitNow QR. Your receipt goes to your email. Right after payment you get the bonus PDF download and the steps to join the WhatsApp group.">Bayar guna CHIP: FPX atau DuitNow QR. Resit masuk emel. Lepas bayar, korang terus nampak butang download PDF bonus dan langkah masuk group WhatsApp.</p></details>
     </div>
   </div>
 </section>
@@ -954,8 +954,24 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     add('coach',W[L].coach);
     if(v)wsel.value=v;
   }
+  // CHIP payment links (redirect to terima-kasih.html after payment). Bab 0 only while RM19 slots are left, bundle only
+  // during early bird (RM149) and without a club code (the code is needed for affiliate commission). Everything else: waitlist.
+  var PAY={bab0:'https://pay.chip-in.asia/sihatlabbab0', bundle:'https://pay.chip-in.asia/sihatlabbundle', earlyUntil:'2026-11-21'};
+  function payLink(w){
+    var d=new Date(), today=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(w==='bab0'&&!(SLOT.left!==null&&SLOT.left<=0))return PAY.bab0;
+    if(w==='bundle'&&!club&&today<=PAY.earlyUntil)return PAY.bundle;
+    return '';
+  }
   function openWl(which){
-    wsel.value=/^(bab\d|bundle|coach)$/.test(which)?which:(k==='bundle'?'bundle':'bab'+bab);
+    var w=/^(bab\d|bundle|coach)$/.test(which)?which:(k==='bundle'?'bundle':'bab'+bab), link=payLink(w);
+    if(link){
+      var u=new URL(link), q=new URLSearchParams(location.search);
+      q.forEach(function(v,key){if(/^utm_|^fbclid$/.test(key))u.searchParams.set(key,v);});
+      if(window.fbq)fbq('track','InitiateCheckout',{content_ids:[w],content_type:'product',value:w==='bab0'?19:149,currency:'MYR'});
+      location.href=u.toString(); return;
+    }
+    wsel.value=w;
     if(club&&k==='bundle')wf.kod.value=club;
     wbody.hidden=false; wdone.hidden=true; wmsg.textContent='';
     if(dlg.showModal)dlg.showModal(); else dlg.setAttribute('open','');

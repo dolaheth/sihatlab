@@ -381,7 +381,15 @@ footer a{color:#C7C7CC}
   // CHECKOUT: payment page link for each offer. Empty = payment closed, buttons open the waitlist instead.
   // The page adds the ad's utm_* / fbclid to the link, so CHIP or the website checkout can see which ad sold.
   // bab0_ebook = Bab 0 + e-book add-on in one payment (RM19 + RM29).
-  var CHECKOUT={bab0:'', bab0_ebook:'', bundle:''};
+  // *_full = the link for the normal price: Bab 0 once the 30 RM19 slots are gone (RM39 / RM68), bundle after earlyUntil (RM199).
+  // A price with no link falls back to the waitlist, so nobody is sent to a link with the wrong price.
+  // CHIP links redirect to terima-kasih.html?p=<key> after payment (Meta Purchase fires there).
+  var CHECKOUT={
+    bab0:'https://pay.chip-in.asia/sihatlabbab0',             // RM19
+    bab0_ebook:'https://pay.chip-in.asia/sihatlabbab0ebook',  // RM48
+    bundle:'https://pay.chip-in.asia/sihatlabbundle',         // RM149 early bird
+    bab0_full:'', bab0_ebook_full:'', bundle_full:''
+  };
   // META PIXEL: paste the Pixel ID from Events Manager. Empty = no Meta tracking at all.
   var PIXEL_ID='2672334146548437';
   var OFFER={
@@ -401,8 +409,10 @@ footer a{color:#C7C7CC}
   // Which offer the hero sells: ?o=bundle for bundle ads, default Bab 0 while it's still open.
   var V=(qs.get('o')==='bundle'||!bab0Open)?'bundle':'bab0';
   var addon=false; // e-book add-on ticked on the Bab 0 card
-  var EB=OFFER.ebook.price, B0=OFFER.bab0.price;
-  function ckey(k){return k==='bab0'&&addon?'bab0_ebook':k;}
+  var EB=OFFER.ebook.price, B0=OFFER.bab0.price, B0_PROMO=B0;
+  // Which CHECKOUT link a button uses right now (add-on ticked, promo slots full, early bird over).
+  function wkey(k){return k==='bab0'&&addon?'bab0_ebook':k;}
+  function ckey(k){var w=wkey(k);if(k==='bab0'&&B0!==B0_PROMO)w+='_full';if(k==='bundle'&&!early)w+='_full';return w;}
   var payOpen=function(k){return !!CHECKOUT[ckey(k)];};
 
   var T={
@@ -413,7 +423,7 @@ footer a{color:#C7C7CC}
       bundle:{eye:'Run 42 · 8 kelas live · Ahad 9 malam',title:'Lari ikut pelan.<br><em>Tanpa injury.</em>',
         sub:'8 kelas live, dari jalan kaki sampai 5K pertama dan seterusnya. Progress diukur minggu 1 dan minggu 12, bukan teka.',
         btn:'Daftar bundle 8 kelas',tag:'Early bird sampai '+EBD},
-      micro:function(o){return o?'Bayar FPX, DuitNow QR atau kad · PDF Pelan Mula Lari terus masuk emel':'Bayaran belum buka · masuk senarai menunggu, kami hantar link bayaran';},
+      micro:function(o){return o?'Bayar FPX atau DuitNow QR · PDF Pelan Mula Lari terus lepas bayar':'Bayaran belum buka · masuk senarai menunggu, kami hantar link bayaran';},
       gEye:{bab0:'Dalam kelas pertama',bundle:'8 kelas, satu pelan'},
       gTitle:{bab0:'Apa korang <em>dapat.</em>',bundle:'Apa korang <em>belajar.</em>'},
       gBab0:[['Saringan kesihatan','Tahu dulu badan korang ok untuk start, sebelum lari langkah pertama.'],['Mitos lari','Kasut mahal, lutut rosak, kena kurus dulu. Kita betulkan satu-satu.'],['Ujian bercakap','Cara tahu laju mana yang betul, tanpa jam.'],['Pelan 3 tahap','Dari jalan laju, ke lari-jalan, ke lari 30 minit. Korang bawa balik pelan dia.'],['PDF Pelan Mula Lari','Dapat terus lepas daftar, boleh start minggu ni jugak.']],
@@ -427,8 +437,8 @@ footer a{color:#C7C7CC}
       o1eye:function(e){return e?'Paling berbaloi · early bird sampai '+EBD:'Paling berbaloi';},
       o1list:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','E-book Nota Running 2026','Form-check report dari video lari korang','Tracker progress dan sijil','Jaminan duit balik 100%'],
       buy:function(k,o){return (o?'Bayar ':'Simpan tempat · ')+'RM'+value(ckey(k));},
-      payNote:function(o){return o?'Bayaran selamat melalui CHIP · FPX, DuitNow QR atau kad':'Bayaran belum buka · tekan butang untuk masuk senarai menunggu';},
-      faqPay:function(o){return o?'Tekan butang bayar, pilih FPX, DuitNow QR atau kad. Resit dan PDF masuk emel, link group WhatsApp keluar lepas bayar.':'Bayaran online belum buka. Masuk senarai menunggu, kami hantar link bayaran ke emel dan WhatsApp korang bila dah buka.';},
+      payNote:function(o){return o?'Bayaran selamat melalui CHIP · FPX atau DuitNow QR':'Bayaran belum buka · tekan butang untuk masuk senarai menunggu';},
+      faqPay:function(o){return o?'Tekan butang bayar, pilih FPX atau DuitNow QR. Resit masuk emel. Lepas bayar, korang terus nampak butang download PDF dan langkah masuk group WhatsApp.':'Bayaran online belum buka. Masuk senarai menunggu, kami hantar link bayaran ke emel dan WhatsApp korang bila dah buka.';},
       cTitle:{bab0:'Ahad ni,<br><em>jom start lari.</em>',bundle:'8 minggu.<br><em>Satu pelan.</em>'},
       cBtn:'Aku nak join',
       sTxt:function(k){return k==='bab0'?'<b>RM'+OFFER.bab0.price+'</b> · Kelas pertama, Ahad 22 Nov':'<b>RM'+bundlePrice+'</b> · Bundle 8 kelas';},
@@ -443,7 +453,7 @@ footer a{color:#C7C7CC}
       bundle:{eye:'Run 42 · 8 live classes · Sundays 9pm',title:'Run by a plan.<br><em>No injuries.</em>',
         sub:'8 live classes, from walking to your first 5K and beyond. Progress measured in week 1 and week 12, not guessed.',
         btn:'Book the 8-class bundle',tag:'Early bird until '+EBD},
-      micro:function(o){return o?'Pay by FPX, DuitNow QR or card · Start Running Plan PDF straight to your email':'Payment not open yet · join the waitlist and we’ll send you the link';},
+      micro:function(o){return o?'Pay by FPX or DuitNow QR · Start Running Plan PDF right after payment':'Payment not open yet · join the waitlist and we’ll send you the link';},
       gEye:{bab0:'In the first class',bundle:'8 classes, one plan'},
       gTitle:{bab0:'What you <em>get.</em>',bundle:'What you <em>learn.</em>'},
       gBab0:[['Health screening','Know your body is ready before your first step.'],['Running myths','Expensive shoes, ruined knees, lose weight first. We clear them up one by one.'],['The talk test','How to find the right pace without a watch.'],['A 3-stage plan','From brisk walking, to run-walk, to running 30 minutes. You take the plan home.'],['Start Running Plan PDF','Yours as soon as you sign up, so you can start this week.']],
@@ -457,8 +467,8 @@ footer a{color:#C7C7CC}
       o1eye:function(e){return e?'Best value · early bird until '+EBD:'Best value';},
       o1list:['8 live classes, Chapters 0 to 7','Replays of every class for 30 days','Nota Running 2026 ebook','Form-check report from your running video','Progress tracker and certificate','100% money-back guarantee'],
       buy:function(k,o){return (o?'Pay ':'Save my spot · ')+'RM'+value(ckey(k));},
-      payNote:function(o){return o?'Secure payment through CHIP · FPX, DuitNow QR or card':'Payment not open yet · tap the button to join the waitlist';},
-      faqPay:function(o){return o?'Tap the pay button and choose FPX, DuitNow QR or card. Your receipt and PDF go to your email, and the WhatsApp group link shows up after payment.':'Online payment isn’t open yet. Join the waitlist and we’ll send the payment link to your email and WhatsApp when it opens.';},
+      payNote:function(o){return o?'Secure payment through CHIP · FPX or DuitNow QR':'Payment not open yet · tap the button to join the waitlist';},
+      faqPay:function(o){return o?'Tap the pay button and choose FPX or DuitNow QR. Your receipt goes to your email. Right after payment you get the PDF download and the steps to join the WhatsApp group.':'Online payment isn’t open yet. Join the waitlist and we’ll send the payment link to your email and WhatsApp when it opens.';},
       cTitle:{bab0:'This Sunday,<br><em>let’s start running.</em>',bundle:'8 weeks.<br><em>One plan.</em>'},
       cBtn:'I’m in',
       sTxt:function(k){return k==='bab0'?'<b>RM'+OFFER.bab0.price+'</b> · First class, Sun 22 Nov':'<b>RM'+bundlePrice+'</b> · 8-class bundle';},
@@ -474,7 +484,7 @@ footer a{color:#C7C7CC}
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     window.fbq('init',PIXEL_ID); window.fbq('track','PageView');
   }
-  function value(k){return k==='bundle'?bundlePrice:k==='bab0_ebook'?B0+EB:B0;}
+  function value(k){return k.indexOf('bundle')===0?bundlePrice:k.indexOf('bab0_ebook')===0?B0+EB:B0;}
   fbq('track','ViewContent',{content_name:V,content_ids:[V],content_type:'product',value:value(V),currency:'MYR'});
 
   // ---- render ----
@@ -547,7 +557,7 @@ footer a{color:#C7C7CC}
       fbq('track','InitiateCheckout',{content_ids:[c],content_type:'product',value:value(c),currency:'MYR'});
       location.href=withAdParams(CHECKOUT[c]); return;
     }
-    $('wlpakej').value=c; $('wlbody').hidden=false; $('wldone').hidden=true; $('wlmsg').textContent='';
+    $('wlpakej').value=wkey(k); $('wlbody').hidden=false; $('wldone').hidden=true; $('wlmsg').textContent='';
     if(dlg.showModal)dlg.showModal(); else dlg.setAttribute('open','');
   }
   document.querySelectorAll('[data-buy]').forEach(function(b){b.addEventListener('click',function(){buy(b.dataset.buy);});});
