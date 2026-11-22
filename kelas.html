@@ -755,7 +755,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
         <ul id="bonus"></ul>
         <div class="total"><span style="color:var(--grey)" data-en="Total">Jumlah</span><b id="total">RM19</b></div>
         <button type="button" class="btn btn-v pay" data-wl="pick" data-en="Sign up">Daftar</button>
-        <p class="secure" data-en="Chapter 0 and the bundle: pay straight away by FPX or DuitNow QR. Other walk-ins: join the waitlist and we’ll send your payment link.">Bab 0 dan bundle: bayar terus guna FPX atau DuitNow QR. Walk-in lain: masuk senarai menunggu, kami hantar link bayaran.</p>
+        <p class="secure" data-en="Pay straight away by FPX or DuitNow QR. Your receipt comes from CHIP by email.">Bayar terus guna FPX atau DuitNow QR. Resit dari CHIP masuk emel.</p>
       </aside>
     </div>
     <div class="extras">
@@ -959,7 +959,10 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
   // CHIP payment links (redirect to terima-kasih.html after payment). Bab 0 only while RM19 slots are left.
   // Bundle: RM199 link, or the RM149 link with a valid discount code (PAY.codes, upper case). Everything else: waitlist.
   // Note: the code is checked in the browser, so treat it as a soft discount, not a secret.
-  var PAY={bab0:'https://pay.chip-in.asia/sihatlabbab0', bundle149:'https://pay.chip-in.asia/sihatlabbundle', bundle199:'https://pay.chip-in.asia/sihatlabbundle199', codes:['RUN42']};
+  var PAY={bab0:'https://pay.chip-in.asia/sihatlabbab0', bundle149:'https://pay.chip-in.asia/sihatlabbundle', bundle199:'https://pay.chip-in.asia/sihatlabbundle199', codes:['RUN42'],
+    // Walk-in RM39 per chapter (sihatlabbab1..7). Sold only up to and including the class date.
+    walk:['','https://pay.chip-in.asia/sihatlabbab1','https://pay.chip-in.asia/sihatlabbab2','https://pay.chip-in.asia/sihatlabbab3','https://pay.chip-in.asia/sihatlabbab4','https://pay.chip-in.asia/sihatlabbab5','https://pay.chip-in.asia/sihatlabbab6','https://pay.chip-in.asia/sihatlabbab7'],
+    dates:['2026-11-22','2026-11-29','2026-12-06','2026-12-13','2026-12-20','2027-01-03','2027-01-10','2027-01-17']};
   function bundlePrice(){return club?149:199;}
   function paintBundle(){
     var a=document.querySelector('#opt-bundle .amt'), tg=document.querySelector('#opt-bundle .tag');
@@ -969,6 +972,8 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
   function payLink(w){
     if(w==='bab0'&&!(SLOT.left!==null&&SLOT.left<=0))return PAY.bab0;
     if(w==='bundle')return club?PAY.bundle149:PAY.bundle199;
+    var m=/^bab([1-7])$/.exec(w);
+    if(m){var d=new Date(),today=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(today<=PAY.dates[+m[1]])return PAY.walk[+m[1]];}
     return '';
   }
   function openWl(which){
@@ -976,7 +981,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     if(link){
       var u=new URL(link), q=new URLSearchParams(location.search);
       q.forEach(function(v,key){if(/^utm_|^fbclid$/.test(key))u.searchParams.set(key,v);});
-      if(window.fbq)fbq('track','InitiateCheckout',{content_ids:[w],content_type:'product',value:w==='bab0'?19:bundlePrice(),currency:'MYR'});
+      if(window.fbq)fbq('track','InitiateCheckout',{content_ids:[w],content_type:'product',value:w==='bab0'?19:w==='bundle'?bundlePrice():39,currency:'MYR'});
       location.href=u.toString(); return;
     }
     wsel.value=w;

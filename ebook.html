@@ -291,7 +291,7 @@ dialog .x{justify-self:end;border:0;background:none;font-size:26px;line-height:1
 (function(){
   // ===== SETTINGS =====
   // CHECKOUT: CHIP payment link for the RM39 e-book. Empty = payment closed, buttons open the waitlist.
-  var CHECKOUT='';
+  var CHECKOUT='https://pay.chip-in.asia/sihatlabebook'; // RM39, redirects to terima-kasih.html?p=ebook
   var WAITLIST={action:'https://docs.google.com/forms/d/e/1FAIpQLSfjZzEK5MKtEj4Y80t98e0xWKH8G5O32Jsm-eT9D7MZt7lZkA/formResponse', ids:{nama:'entry.1124285446', wa:'entry.269752014', emel:'entry.1277302905', pakej:'entry.2092179361', kod:'entry.1101144078'}};
   // ====================
   var L='ms', tr=document.querySelectorAll('[data-en]');
@@ -301,7 +301,7 @@ dialog .x{justify-self:end;border:0;background:none;font-size:26px;line-height:1
     tr.forEach(function(e){e.innerHTML=e.getAttribute('data-'+L);});
     document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===L);});
     var tag=document.querySelector('.book .tag'); if(tag)tag.textContent=L==='en'?'80+ pages':'80+ muka surat';
-    if(CHECKOUT)document.getElementById('paynote').textContent=L==='en'?'Secure payment through CHIP · FPX, DuitNow QR or card':'Bayaran selamat melalui CHIP · FPX, DuitNow QR atau kad';
+    if(CHECKOUT)document.getElementById('paynote').textContent=L==='en'?'Secure payment through CHIP · FPX or DuitNow QR · download link by email':'Bayaran selamat melalui CHIP · FPX atau DuitNow QR · link download masuk emel';
     try{localStorage.setItem('sihatlab-lang',L);}catch(e){}
   }
   document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l);});});
@@ -310,7 +310,7 @@ dialog .x{justify-self:end;border:0;background:none;font-size:26px;line-height:1
 
   var dlg=document.getElementById('wl'), f=document.getElementById('wlf'), msg=document.getElementById('wlmsg');
   document.querySelectorAll('[data-buy]').forEach(function(b){b.addEventListener('click',function(){
-    if(CHECKOUT){location.href=CHECKOUT;return;}
+    if(CHECKOUT){var u=new URL(CHECKOUT);new URLSearchParams(location.search).forEach(function(v,k){if(/^utm_|^fbclid$/.test(k))u.searchParams.set(k,v);});location.href=u.toString();return;}
     if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');
   });});
   document.getElementById('wlx').addEventListener('click',function(){dlg.close?dlg.close():dlg.removeAttribute('open');});

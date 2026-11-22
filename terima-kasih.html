@@ -90,7 +90,7 @@ footer a{color:#C7C7CC}
       <h3 data-en="Your Nota Running ebook">E-book Nota Running korang</h3>
       <p data-en="The ebook download link is on its way to the email you paid with, usually within a few minutes (subject: “E-book Nota Running 2026 korang”). Not there? Check your spam folder, then ask in the WhatsApp group.">Link download e-book dihantar automatik ke emel yang korang guna masa bayar, biasanya dalam beberapa minit (tajuk: “E-book Nota Running 2026 korang”). Takde? Check folder spam, lepas tu tanya dalam group WhatsApp.</p>
     </div>
-    <div class="step">
+    <div class="step" id="s-class">
       <span class="n" id="n-class">03</span>
       <h3 id="class-h"></h3>
       <p id="class-p"></p>
@@ -117,11 +117,16 @@ footer a{color:#C7C7CC}
   var PIXEL_ID='2672334146548437';
   // What each CHIP link (?p=) sold. Values feed the Meta Purchase event.
   var P={
-    bab0:{value:19, ms:'Kelas pertama · Bab 0', en:'First class · Chapter 0', ebook:false, upgrade:true},
-    bab0_ebook:{value:48, ms:'Bab 0 + e-book Nota Running', en:'Chapter 0 + Nota Running ebook', ebook:true, upgrade:true},
+    bab0:{value:19, ms:'Kelas pertama · Bab 0', en:'First class · Chapter 0', ebook:false, upgrade:true, bab:0},
+    bab0_ebook:{value:48, ms:'Bab 0 + e-book Nota Running', en:'Chapter 0 + Nota Running ebook', ebook:true, upgrade:true, bab:0},
     bundle:{value:149, ms:'Bundle 8 kelas', en:'8-class bundle', ebook:true, upgrade:false},
-    bundle199:{value:199, ms:'Bundle 8 kelas', en:'8-class bundle', ebook:true, upgrade:false}
+    bundle199:{value:199, ms:'Bundle 8 kelas', en:'8-class bundle', ebook:true, upgrade:false},
+    ebook:{value:39, ms:'E-book Nota Running 2026', en:'Nota Running 2026 ebook', ebook:true, upgrade:false, noClass:true}
   };
+  // Walk-ins: ?p=bab1 ... ?p=bab7 (RM39 each)
+  for(var wn=1;wn<=7;wn++)P['bab'+wn]={value:39, ms:'Walk-in Bab '+wn, en:'Walk-in Chapter '+wn, ebook:false, upgrade:true, bab:wn};
+  // Class dates (same as kelas.html)
+  var SCHED=[['2026-11-22','Ahad 22 Nov','Sunday 22 Nov'],['2026-11-29','Ahad 29 Nov','Sunday 29 Nov'],['2026-12-06','Ahad 6 Dis','Sunday 6 Dec'],['2026-12-13','Ahad 13 Dis','Sunday 13 Dec'],['2026-12-20','Ahad 20 Dis','Sunday 20 Dec'],['2027-01-03','Ahad 3 Jan','Sunday 3 Jan'],['2027-01-10','Ahad 10 Jan','Sunday 10 Jan'],['2027-01-17','Ahad 17 Jan','Sunday 17 Jan']];
   // ====================
 
   var qs=new URLSearchParams(location.search), key=qs.get('p'), item=P[key]||null;
@@ -145,11 +150,11 @@ footer a{color:#C7C7CC}
   var T={
     ms:{waOn:'Semua info kelas, link kelas live dan borang saringan kesihatan dikongsi dalam group ni.',
         waOff:'Kami WhatsApp link group ke nombor yang korang isi masa bayar, dalam 24 jam. Dalam group tu ada link kelas live dan borang saringan kesihatan.',
-        classH:'Kelas pertama: Ahad 22 Nov, 9-10.30 malam', classP:'Online. 9 sampai 10 kelas, 10 sampai 10.30 sesi soal jawab. Link kelas dikongsi dalam group WhatsApp sebelum kelas. Bawa soalan.',
+        classH:function(mine,n,d){return (mine?'Kelas korang: ':'Kelas seterusnya: ')+'Bab '+n+' · '+d+', 9-10.30 malam';}, classP:'Online. 9 sampai 10 kelas, 10 sampai 10.30 sesi soal jawab. Link kelas dikongsi dalam group WhatsApp sebelum kelas. Bawa soalan.',
         order:function(i){return 'Pakej: <b>'+i.ms+'</b> · RM'+i.value;}},
     en:{waOn:'All class info, the live class link and the health screening form are shared in this group.',
         waOff:'We’ll WhatsApp the group link to the number you gave at checkout, within 24 hours. The group has the live class link and the health screening form.',
-        classH:'First class: Sunday 22 Nov, 9-10:30pm', classP:'Online. Class from 9 to 10, Q&A from 10 to 10:30. The class link is shared in the WhatsApp group before class. Bring your questions.',
+        classH:function(mine,n,d){return (mine?'Your class: ':'Next class: ')+'Chapter '+n+' · '+d+', 9-10:30pm';}, classP:'Online. Class from 9 to 10, Q&A from 10 to 10:30. The class link is shared in the WhatsApp group before class. Bring your questions.',
         order:function(i){return 'Package: <b>'+i.en+'</b> · RM'+i.value;}}
   };
   function render(){
@@ -157,10 +162,14 @@ footer a{color:#C7C7CC}
     $('order').innerHTML=item?t.order(item):''; $('order').hidden=!item;
     $('wa-txt').textContent=WA_GROUP?t.waOn:t.waOff;
     if(WA_GROUP){$('wa-btn').href=WA_GROUP;$('wa-btn').hidden=false;}
-    $('class-h').textContent=t.classH; $('class-p').textContent=t.classP;
+    var d=new Date(), today=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var mine=!!(item&&typeof item.bab==='number'), n=mine?item.bab:-1;
+    if(!mine){for(var i=0;i<SCHED.length;i++){if(SCHED[i][0]>=today){n=i;break;}}}
+    var noClass=!!(item&&item.noClass)||n<0;
+    if(!noClass){$('class-h').textContent=t.classH(mine,n,SCHED[n][L==='en'?2:1]); $('class-p').textContent=t.classP;}
     var eb=!!(item&&item.ebook), up=!!(item&&item.upgrade);
-    $('s-ebook').hidden=!eb; $('s-up').hidden=!up;
-    $('n-class').textContent=eb?'04':'03'; $('n-up').textContent=eb?'05':'04';
+    $('s-ebook').hidden=!eb; $('s-up').hidden=!up; $('s-class').hidden=noClass; $('s-wa').hidden=!!(item&&item.noClass);
+    var k=0; document.querySelectorAll('.steps .step').forEach(function(st){if(!st.hidden){k++;var e=st.querySelector('.n');if(e)e.textContent=(k<10?'0':'')+k;}});
   }
   function setLang(l){
     L=l==='en'?'en':'ms'; document.documentElement.lang=L;
