@@ -722,7 +722,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
       <span class="ic" aria-hidden="true">PDF</span>
       <div><h3 data-en="Free for everyone: Start Running Plan">Bonus untuk semua: Pelan Mula Lari</h3><p data-en="A 3-stage plan from brisk walking to running 30 minutes. It’s yours right after payment, so you can start before class.">Pelan 3 tahap dari jalan laju ke lari 30 minit. Dapat terus lepas bayar, boleh start sementara tunggu kelas.</p></div>
     </div>
-    <p class="urgent" data-en="First-class promo: Chapter 0 on Sunday 22 Nov for just RM19 (normally RM39), first 30 people only. Bundle early bird RM149 until 21 Nov.">Promo kelas pertama: Bab 0, Ahad 22 Nov, RM19 je (biasa RM39), untuk 30 orang pertama. Bundle early bird RM149 sampai 21 Nov.</p>
+    <p class="urgent" data-en="First-class promo: Chapter 0 on Sunday 22 Nov for just RM19 (normally RM39), first 30 people only. Bundle RM199, or RM149 with a discount code.">Promo kelas pertama: Bab 0, Ahad 22 Nov, RM19 je (biasa RM39), untuk 30 orang pertama. Bundle RM199, atau RM149 dengan kod diskaun.</p>
     <div class="price">
       <div class="opts">
         <button class="opt promo on" id="opt-promo" data-k="promo" type="button">
@@ -739,12 +739,12 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
           <p class="credit" data-en="Walked in and want the rest? I’ll WhatsApp you an upgrade link after class, with what you paid for the walk-in taken off. Valid for 7 days.">Dah walk-in dan nak sambung? Aku WhatsApp link upgrade lepas kelas, bayaran walk-in kau dah ditolak. Sah 7 hari.</p>
         </div>
         <button class="opt" id="opt-bundle" data-k="bundle" type="button">
-          <div><h3><span data-en="8-class bundle">Bundle 8 kelas</span><span class="tag" data-en="Early bird · until 21 Nov">Early bird · sampai 21 Nov</span></h3><p data-en="Chapters 0–7, 30-day replays, every bonus">Bab 0–7, rakaman 30 hari, semua bonus</p></div>
-          <span class="amt"><span class="was">RM199</span>RM149</span>
+          <div><h3><span data-en="8-class bundle">Bundle 8 kelas</span><span class="tag" hidden></span></h3><p data-en="Chapters 0–7, 30-day replays, every bonus">Bab 0–7, rakaman 30 hari, semua bonus</p></div>
+          <span class="amt">RM199</span>
         </button>
         <p class="credit late" data-en="Joining after it starts? You can still buy the bundle. Any chapters you missed, you join free in the next cohort to finish the syllabus.">Join lepas kelas dah start? Boleh je ambil bundle. Bab yang terlepas, korang ikut free dalam cohort seterusnya sampai habis silibus.</p>
         <div class="code">
-          <input id="clubcode" placeholder="Kod kelab (contoh KLRUNNERS)" data-ph-en="Club code (e.g. KLRUNNERS)" aria-label="Kod kelab / Club code">
+          <input id="clubcode" placeholder="Kod diskaun" data-ph-en="Discount code" aria-label="Kod diskaun / Discount code" autocapitalize="characters">
           <button class="btn btn-b" id="apply" type="button" data-en="Apply">Guna</button>
         </div>
         <p id="codemsg"></p>
@@ -755,7 +755,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
         <ul id="bonus"></ul>
         <div class="total"><span style="color:var(--grey)" data-en="Total">Jumlah</span><b id="total">RM19</b></div>
         <button type="button" class="btn btn-v pay" data-wl="pick" data-en="Sign up">Daftar</button>
-        <p class="secure" data-en="Chapter 0 and the bundle: pay straight away by FPX or DuitNow QR. Other walk-ins and club codes: join the waitlist and we’ll send your payment link.">Bab 0 dan bundle: bayar terus guna FPX atau DuitNow QR. Walk-in lain dan kod kelab: masuk senarai menunggu, kami hantar link bayaran.</p>
+        <p class="secure" data-en="Chapter 0 and the bundle: pay straight away by FPX or DuitNow QR. Other walk-ins: join the waitlist and we’ll send your payment link.">Bab 0 dan bundle: bayar terus guna FPX atau DuitNow QR. Walk-in lain: masuk senarai menunggu, kami hantar link bayaran.</p>
       </aside>
     </div>
     <div class="extras">
@@ -865,18 +865,18 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
       bab:function(n,b){return 'Bab '+n+' · '+b[1]+' · '+b[0];},
       one:function(n,b){return ['1 kelas live: Bab '+n+', '+b[0],'Ahad '+b[1]+', 9-10.30 malam','Bonus: E-book Pelan Mula Lari (free)',(n===0?'Promo kelas pertama: RM19, biasa RM39':'Nak sambung? Link upgrade masuk WhatsApp lepas kelas'),'Bayaran walk-in ditolak kalau upgrade ke bundle dalam 7 hari'];},
       bundle:['8 kelas live, Bab 0 sampai 7','Rakaman setiap kelas, 30 hari','Join lambat? Bab yang terlepas free dalam cohort seterusnya','Bonus: E-book Pelan Mula Lari (free)','E-book Nota Running 2026 (PDF, lebih 80 muka surat)','Form-check report dari video lari korang','Tracker progress dan sijil penyertaan'],
-      nameOne:function(n){return n===0?'Kelas pertama · Bab 0 (promo)':'Walk-in · Bab '+n;}, nameBundle:'Bundle 8 kelas (early bird)', nameClub:function(c){return 'Bundle 8 kelas (kod '+c+')';},
-      hint:'Ahli kelab larian dapat RM30 off bundle.', empty:'Masukkan kod kelab dulu.',
-      ok:function(c){return 'Kod '+c+' diterima. Harga kelab RM169, tapi harga early bird RM149 lagi murah, so korang bayar RM149.';}
+      nameOne:function(n){return n===0?'Kelas pertama · Bab 0 (promo)':'Walk-in · Bab '+n;}, nameBundle:'Bundle 8 kelas', nameClub:function(c){return 'Bundle 8 kelas (kod '+c+')';},
+      hint:'Ada kod diskaun? Bundle jadi RM149.', empty:'Masukkan kod diskaun dulu.', bad:'Kod tu tak sah. Semak ejaan, atau tanya dalam group WhatsApp.',
+      ok:function(c){return 'Kod '+c+' diterima. Bundle RM149, bukan RM199.';}
     },
     en:{
       babs:[['Starting from zero','22 Nov'],['Shoes and gear','29 Nov'],['Heart rate zones','6 Dec'],['The MAF test','13 Dec'],['Pace and VDOT','20 Dec'],['Planning your week','3 Jan'],['Eating for running','10 Jan'],['Injuries and race day','17 Jan']],
       bab:function(n,b){return 'Ch. '+n+' · '+b[1]+' · '+b[0];},
       one:function(n,b){return ['1 live class: Chapter '+n+', '+b[0],'Sunday '+b[1]+', 9-10:30pm','Bonus: Start Running Plan e-book (free)',(n===0?'First-class promo: RM19, normally RM39':'Want the rest? An upgrade link comes by WhatsApp after class'),'Your walk-in fee comes off if you upgrade to the bundle within 7 days'];},
       bundle:['8 live classes, Chapters 0 to 7','Replays of every class for 30 days','Joined late? Missed chapters are free in the next cohort','Bonus: Start Running Plan e-book (free)','Nota Running 2026 ebook (PDF, 55 pages)','Form-check report from your running video','Progress tracker and participation certificate'],
-      nameOne:function(n){return n===0?'First class · Chapter 0 (promo)':'Walk-in · Chapter '+n;}, nameBundle:'8-class bundle (early bird)', nameClub:function(c){return '8-class bundle (code '+c+')';},
-      hint:'Running club members get RM30 off the bundle.', empty:'Enter your club code first.',
-      ok:function(c){return 'Code '+c+' accepted. The club price is RM169, but the early bird price of RM149 is lower, so you pay RM149.';}
+      nameOne:function(n){return n===0?'First class · Chapter 0 (promo)':'Walk-in · Chapter '+n;}, nameBundle:'8-class bundle', nameClub:function(c){return '8-class bundle (code '+c+')';},
+      hint:'Got a discount code? The bundle drops to RM149.', empty:'Enter your discount code first.', bad:'That code isn’t valid. Check the spelling, or ask in the WhatsApp group.',
+      ok:function(c){return 'Code '+c+' accepted. The bundle is RM149 instead of RM199.';}
     }
   };
   var L='ms', k='one', club='', msgState='hint', bab=0, sel=document.getElementById('bab');
@@ -907,12 +907,13 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     var t=T[L], b=k==='bundle';
     opts.forEach(function(o){var d=o.dataset.k,on=d==='promo'?(k==='one'&&bab===0):d==='one'?(k==='one'&&bab!==0):d===k;o.classList.toggle('on',on);o.setAttribute('aria-pressed',on);});
     document.getElementById('sumname').textContent=b?(club?t.nameClub(club):t.nameBundle):t.nameOne(bab);
-    document.getElementById('total').textContent=b?'RM149':(bab===0&&SLOT.left!==0?'RM19':'RM39');
+    document.getElementById('total').textContent=b?'RM'+bundlePrice():(bab===0&&SLOT.left!==0?'RM19':'RM39');
+    paintBundle();
     paintSlots();
     ul.innerHTML='';
     (b?t.bundle:t.one(bab,t.babs[bab])).forEach(function(s){var li=document.createElement('li');li.textContent=s;ul.appendChild(li);});
-    msg.textContent=msgState==='ok'?t.ok(club):msgState==='err'?t.empty:t.hint;
-    msg.className=msgState==='hint'?'':msgState;
+    msg.textContent=msgState==='ok'?t.ok(club):msgState==='err'?t.empty:msgState==='bad'?t.bad:t.hint;
+    msg.className=msgState==='hint'?'':msgState==='ok'?'ok':'err';
   }
   function setLang(l){
     L=l==='en'?'en':'ms';
@@ -935,16 +936,17 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
   document.getElementById('apply').addEventListener('click',function(){
     var v=inp.value.trim().toUpperCase();
     if(!v){msgState='err';render();return;}
+    if(PAY.codes.indexOf(v)<0){club='';msgState='bad';render();return;}
     club=v;k='bundle';msgState='ok';render();
   });
-  inp.addEventListener('input',function(){if(msgState==='err'){msgState='hint';render();}});
+  inp.addEventListener('input',function(){if(msgState==='err'||msgState==='bad'){msgState='hint';render();}});
   // Waitlist. Fill WAITLIST.action and the entry ids from the Google Form to switch it on.
   var WAITLIST={action:'https://docs.google.com/forms/d/e/1FAIpQLSfjZzEK5MKtEj4Y80t98e0xWKH8G5O32Jsm-eT9D7MZt7lZkA/formResponse', ids:{nama:'entry.1124285446', wa:'entry.269752014', emel:'entry.1277302905', pakej:'entry.2092179361', kod:'entry.1101144078'}};
   var dlg=document.getElementById('wl'), wf=document.getElementById('wlform'), wsel=document.getElementById('wlpakej');
   var wbody=document.getElementById('wlbody'), wdone=document.getElementById('wldone'), wmsg=document.getElementById('wlmsg');
-  var W={ms:{bundle:'Bundle 8 kelas · RM149',coach:'Coaching 1-1 (daftar minat)',walk:function(n,b){return 'Walk-in Bab '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
+  var W={ms:{bundle:'Bundle 8 kelas · RM199',coach:'Coaching 1-1 (daftar minat)',walk:function(n,b){return 'Walk-in Bab '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
              need:'Isi nama, WhatsApp, emel dan tick persetujuan dulu.',off:'Borang belum disambung lagi. Cuba sekejap lagi.',fail:'Tak dapat hantar. Cuba lagi.'},
-         en:{bundle:'8-class bundle · RM149',coach:'1-on-1 coaching (register interest)',walk:function(n,b){return 'Walk-in Ch. '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
+         en:{bundle:'8-class bundle · RM199',coach:'1-on-1 coaching (register interest)',walk:function(n,b){return 'Walk-in Ch. '+n+' · '+b[1]+' · '+(n===0?'RM19 (promo)':'RM39');},
              need:'Fill in your name, WhatsApp, email and tick the consent box first.',off:'The form isn’t connected yet. Please try again later.',fail:'Couldn’t send. Please try again.'}};
   function fillPakej(){
     var v=wsel.value; wsel.innerHTML='';
@@ -954,13 +956,19 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     add('coach',W[L].coach);
     if(v)wsel.value=v;
   }
-  // CHIP payment links (redirect to terima-kasih.html after payment). Bab 0 only while RM19 slots are left, bundle only
-  // during early bird (RM149) and without a club code (the code is needed for affiliate commission). Everything else: waitlist.
-  var PAY={bab0:'https://pay.chip-in.asia/sihatlabbab0', bundle:'https://pay.chip-in.asia/sihatlabbundle', earlyUntil:'2026-11-21'};
+  // CHIP payment links (redirect to terima-kasih.html after payment). Bab 0 only while RM19 slots are left.
+  // Bundle: RM199 link, or the RM149 link with a valid discount code (PAY.codes, upper case). Everything else: waitlist.
+  // Note: the code is checked in the browser, so treat it as a soft discount, not a secret.
+  var PAY={bab0:'https://pay.chip-in.asia/sihatlabbab0', bundle149:'https://pay.chip-in.asia/sihatlabbundle', bundle199:'https://pay.chip-in.asia/sihatlabbundle199', codes:['RUN42']};
+  function bundlePrice(){return club?149:199;}
+  function paintBundle(){
+    var a=document.querySelector('#opt-bundle .amt'), tg=document.querySelector('#opt-bundle .tag');
+    if(a)a.innerHTML=club?'<span class="was">RM199</span>RM149':'RM199';
+    if(tg){tg.hidden=!club;tg.className='tag tag-v';tg.textContent=L==='en'?'Code '+club:'Kod '+club;}
+  }
   function payLink(w){
-    var d=new Date(), today=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     if(w==='bab0'&&!(SLOT.left!==null&&SLOT.left<=0))return PAY.bab0;
-    if(w==='bundle'&&!club&&today<=PAY.earlyUntil)return PAY.bundle;
+    if(w==='bundle')return club?PAY.bundle149:PAY.bundle199;
     return '';
   }
   function openWl(which){
@@ -968,7 +976,7 @@ fbq('init','2672334146548437');fbq('track','PageView');fbq('track','ViewContent'
     if(link){
       var u=new URL(link), q=new URLSearchParams(location.search);
       q.forEach(function(v,key){if(/^utm_|^fbclid$/.test(key))u.searchParams.set(key,v);});
-      if(window.fbq)fbq('track','InitiateCheckout',{content_ids:[w],content_type:'product',value:w==='bab0'?19:149,currency:'MYR'});
+      if(window.fbq)fbq('track','InitiateCheckout',{content_ids:[w],content_type:'product',value:w==='bab0'?19:bundlePrice(),currency:'MYR'});
       location.href=u.toString(); return;
     }
     wsel.value=w;
